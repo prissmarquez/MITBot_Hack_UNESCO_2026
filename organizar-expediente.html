@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Organize Your Case File | MILBot</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --fondo: #07091a;
+            --fondo-secundario: #0d1029;
+            --panel: #12172f;
+            --panel-claro: #191f40;
+            --linea: #2b3155;
+
+            --texto: #f5f6ff;
+            --texto-secundario: #9da5c6;
+
+            --cyan: #54e7df;
+            --verde: #caff64;
+            --morado: #806cff;
+            --rosa: #ff5478;
+            --amarillo: #ffd166;
+
+            --fuente: "Inter", sans-serif;
+            --fuente-tecnica: "Space Mono", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            color: var(--texto);
+            background:
+                radial-gradient(
+                    circle at 65% 38%,
+                    rgba(128, 108, 255, 0.14),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--fondo),
+                    var(--fondo-secundario),
+                    #080a18
+                );
+
+            font-family: var(--fuente);
+        }
+
+        button,
+        a,
+        select {
+            font-family: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        select:focus-visible {
+            outline: 2px solid var(--verde);
+            outline-offset: 3px;
+        }
+
+        /* =========================================
+           ENCABEZADO
+        ========================================= */
+
+        .encabezado {
+            width: calc(100% - 48px);
+            max-width: 1240px;
+            height: 76px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            color: var(--texto);
+            text-decoration: none;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .logo-simbolo {
+            width: 37px;
+            height: 37px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--cyan);
+            border: 2px solid var(--cyan);
+            border-radius: 10px;
+
+            font-family: var(--fuente-tecnica);
+            box-shadow: 0 0 18px rgba(84, 231, 223, 0.17);
+        }
+
+        .logo-texto span {
+            color: var(--cyan);
+        }
+
+        .progreso-general {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progreso-general > span {
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+        }
+
+        .barra-general {
+            width: 160px;
+            height: 5px;
+
+            overflow: hidden;
+
+            background: var(--linea);
+            border-radius: 20px;
+        }
+
+        .barra-general span {
+            display: block;
+            width: 65%;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                var(--cyan),
+                var(--verde)
+            );
+
+            border-radius: inherit;
+        }
+
+        .porcentaje {
+            color: var(--cyan) !important;
+        }
+
+        .boton-salir {
+            padding: 9px 14px;
+
+            color: var(--texto-secundario);
+            background: transparent;
+            border: 1px solid var(--linea);
+            border-radius: 8px;
+
+            text-decoration: none;
+            font-size: 10px;
+        }
+
+        .boton-salir:hover {
+            color: var(--rosa);
+            border-color: var(--rosa);
+        }
+
+        /* =========================================
+           CONTENIDO
+        ========================================= */
+
+        .pagina {
+            width: calc(100% - 48px);
+            max-width: 1180px;
+            min-height: calc(100vh - 76px);
+            margin: 0 auto;
+            padding: 36px 0 45px;
+        }
+
+        .cabecera {
+            margin-bottom: 28px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 30px;
+
+            animation: aparecer 0.5s ease both;
+        }
+
+        .etiqueta {
+            display: block;
+            margin-bottom: 8px;
+
+            color: var(--cyan);
+            font-family: var(--fuente-tecnica);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+        }
+
+        .cabecera h1 {
+            font-size: clamp(36px, 4vw, 50px);
+            line-height: 1;
+            letter-spacing: -0.045em;
+        }
+
+        .cabecera h1 span {
+            color: var(--cyan);
+        }
+
+        .instruccion {
+            max-width: 430px;
+
+            color: var(--texto-secundario);
+            font-size: 11px;
+            line-height: 1.65;
+            text-align: right;
+        }
+
+        /* =========================================
+           MENSAJE DE MILBOT
+        ========================================= */
+
+        .mensaje-milbot {
+            margin-bottom: 18px;
+            padding: 13px 15px;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            background: rgba(128, 108, 255, 0.08);
+            border-left: 3px solid var(--morado);
+            border-radius: 4px 11px 11px 4px;
+
+            animation: aparecer 0.55s 0.08s ease both;
+        }
+
+        .milbot-mini {
+            width: 37px;
+            height: 37px;
+
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+
+            color: var(--cyan);
+            background: #0d1128;
+            border: 1px solid var(--cyan);
+            border-radius: 10px;
+
+            font-family: var(--fuente-tecnica);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .mensaje-milbot strong {
+            display: block;
+            margin-bottom: 4px;
+
+            color: var(--cyan);
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+            letter-spacing: 0.1em;
+        }
+
+        .mensaje-milbot p {
+            color: #bec4da;
+            font-size: 10px;
+            line-height: 1.55;
+        }
+
+        /* =========================================
+           EXPEDIENTE
+        ========================================= */
+
+        .expediente {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 13px;
+
+            margin-bottom: 18px;
+
+            animation: aparecer 0.6s 0.12s ease both;
+        }
+
+        .evidencia {
+            position: relative;
+
+            min-height: 290px;
+            padding: 19px;
+
+            display: flex;
+            flex-direction: column;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 25, 52, 0.97),
+                    rgba(9, 13, 31, 0.96)
+                );
+
+            border: 1px solid var(--linea);
+            border-radius: 15px;
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .evidencia:hover {
+            transform: translateY(-4px);
+            border-color: rgba(84, 231, 223, 0.45);
+        }
+
+        .evidencia.debil {
+            border-color: rgba(255, 209, 102, 0.32);
+        }
+
+        .numero-evidencia {
+            position: absolute;
+            top: 17px;
+            right: 17px;
+
+            color: #59617f;
+            font-family: var(--fuente-tecnica);
+            font-size: 9px;
+        }
+
+        .icono-evidencia {
+            width: 45px;
+            height: 45px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--cyan);
+            background: rgba(84, 231, 223, 0.08);
+            border: 1px solid rgba(84, 231, 223, 0.17);
+            border-radius: 12px;
+
+            font-size: 19px;
+        }
+
+        .evidencia h2 {
+            margin: 19px 0 8px;
+            font-size: 17px;
+        }
+
+        .evidencia-descripcion {
+            min-height: 61px;
+
+            color: var(--texto-secundario);
+            font-size: 10px;
+            line-height: 1.55;
+        }
+
+        .categoria {
+            display: inline-block;
+            align-self: flex-start;
+
+            margin-top: 13px;
+            padding: 5px 7px;
+
+            color: var(--cyan);
+            background: rgba(84, 231, 223, 0.07);
+            border-radius: 6px;
+
+            font-family: var(--fuente-tecnica);
+            font-size: 7px;
+            letter-spacing: 0.07em;
+        }
+
+        .relevancia {
+            margin-top: auto;
+            padding-top: 16px;
+        }
+
+        .relevancia-superior {
+            margin-bottom: 7px;
+
+            display: flex;
+            justify-content: space-between;
+
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 7px;
+        }
+
+        .relevancia-superior strong {
+            color: var(--verde);
+        }
+
+        .barra-relevancia {
+            height: 5px;
+
+            overflow: hidden;
+
+            background: var(--linea);
+            border-radius: 20px;
+        }
+
+        .barra-relevancia span {
+            display: block;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                var(--cyan),
+                var(--verde)
+            );
+
+            border-radius: inherit;
+        }
+
+        .aviso-debil {
+            display: none;
+            margin-top: 11px;
+            padding: 8px 9px;
+
+            color: var(--amarillo);
+            background: rgba(255, 209, 102, 0.07);
+            border-left: 3px solid var(--amarillo);
+            border-radius: 3px 7px 7px 3px;
+
+            font-size: 8px;
+            line-height: 1.45;
+        }
+
+        .evidencia.debil .aviso-debil {
+            display: block;
+        }
+
+        /* =========================================
+           CONCLUSIÓN
+        ========================================= */
+
+        .conclusion {
+            padding: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 25, 52, 0.97),
+                    rgba(9, 13, 31, 0.96)
+                );
+
+            border: 1px solid var(--linea);
+            border-radius: 15px;
+
+            animation: aparecer 0.6s 0.18s ease both;
+        }
+
+        .conclusion-superior {
+            margin-bottom: 16px;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .conclusion h2 {
+            margin-bottom: 5px;
+            font-size: 17px;
+        }
+
+        .conclusion-superior p {
+            max-width: 600px;
+
+            color: var(--texto-secundario);
+            font-size: 9px;
+            line-height: 1.55;
+        }
+
+        .estado-expediente {
+            padding: 6px 8px;
+
+            color: var(--verde);
+            background: rgba(202, 255, 100, 0.08);
+            border-radius: 6px;
+
+            font-family: var(--fuente-tecnica);
+            font-size: 7px;
+            white-space: nowrap;
+        }
+
+        .frase {
+            display: grid;
+            grid-template-columns: auto 180px auto 1fr;
+            gap: 9px;
+            align-items: center;
+
+            margin-bottom: 16px;
+            padding: 15px;
+
+            color: #c9cee1;
+            background: #0d1128;
+            border: 1px solid var(--linea);
+            border-radius: 10px;
+
+            font-size: 11px;
+        }
+
+        .frase select {
+            min-height: 38px;
+            padding: 0 10px;
+
+            color: var(--texto);
+            background: var(--panel-claro);
+            border: 1px solid var(--linea);
+            border-radius: 8px;
+
+            font-size: 9px;
+            cursor: pointer;
+        }
+
+        .frase select.seleccionado {
+            border-color: var(--cyan);
+        }
+
+        .resumen-conclusion {
+            display: none;
+            margin-bottom: 16px;
+            padding: 12px 14px;
+
+            color: #d1d5e6;
+            background: rgba(84, 231, 223, 0.055);
+            border-left: 3px solid var(--cyan);
+            border-radius: 4px 9px 9px 4px;
+
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .resumen-conclusion.visible {
+            display: block;
+        }
+
+        .acciones {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .boton-secundario,
+        .boton-principal {
+            min-height: 44px;
+            padding: 0 17px;
+
+            border-radius: 9px;
+
+            font-size: 10px;
+            font-weight: 700;
+            text-decoration: none;
+
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .boton-secundario {
+            display: inline-flex;
+            align-items: center;
+
+            color: var(--texto-secundario);
+            background: transparent;
+            border: 1px solid var(--linea);
+        }
+
+        .boton-secundario:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+
+        .boton-principal {
+            min-width: 205px;
+
+            color: #10131f;
+            background: var(--verde);
+            border: 1px solid var(--verde);
+        }
+
+        .boton-principal:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 25px rgba(202, 255, 100, 0.2);
+        }
+
+        .boton-principal:disabled {
+            color: #6f755c;
+            background: #30362a;
+            border-color: #414936;
+            cursor: not-allowed;
+        }
+
+        /* =========================================
+           MODAL DE RECUPERACIÓN
+        ========================================= */
+
+        .modal-fondo {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+
+            padding: 20px;
+
+            display: none;
+            place-items: center;
+
+            background: rgba(4, 6, 17, 0.84);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-fondo.visible {
+            display: grid;
+        }
+
+        .modal {
+            width: min(470px, 100%);
+            padding: 23px;
+
+            text-align: center;
+
+            background: var(--panel);
+            border: 1px solid var(--linea);
+            border-radius: 16px;
+        }
+
+        .modal-icono {
+            width: 51px;
+            height: 51px;
+            margin: 0 auto 14px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--amarillo);
+            background: rgba(255, 209, 102, 0.08);
+            border-radius: 13px;
+
+            font-size: 21px;
+        }
+
+        .modal h2 {
+            margin-bottom: 8px;
+            font-size: 19px;
+        }
+
+        .modal p {
+            margin-bottom: 17px;
+
+            color: var(--texto-secundario);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           ANIMACIONES Y RESPONSIVE
+        ========================================= */
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(11px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .expediente {
+                grid-template-columns: 1fr;
+            }
+
+            .evidencia {
+                min-height: 235px;
+            }
+
+            .frase {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .cabecera {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .instruccion {
+                text-align: left;
+            }
+
+            .progreso-general {
+                display: none;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .encabezado {
+                width: calc(100% - 30px);
+                height: 66px;
+            }
+
+            .pagina {
+                width: calc(100% - 30px);
+                min-height: calc(100vh - 66px);
+            }
+
+            .cabecera h1 {
+                font-size: 36px;
+            }
+
+            .conclusion-superior,
+            .acciones {
+                flex-direction: column;
+            }
+
+            .estado-expediente,
+            .boton-secundario,
+            .boton-principal {
+                width: 100%;
+            }
+
+            .estado-expediente {
+                text-align: center;
+            }
+
+            .boton-secundario {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         ENCABEZADO
+    ========================================== -->
+
+    <header class="encabezado">
+
+        <a href="index.html" class="logo">
+
+            <span class="logo-simbolo">M</span>
+
+            <span class="logo-texto">
+                MIL<span>Bot</span>
+            </span>
+
+        </a>
+
+        <div class="progreso-general">
+
+            <span>MISSION 01</span>
+
+            <div class="barra-general">
+                <span></span>
+            </div>
+
+            <span class="porcentaje">65%</span>
+
+        </div>
+
+        <a href="infopolis.html" class="boton-salir">
+            Exit mission
+        </a>
+
+    </header>
+
+    <!-- =========================================
+         PÁGINA
+    ========================================== -->
+
+    <main class="pagina">
+
+        <section class="cabecera">
+
+            <div>
+
+                <span class="etiqueta">
+                    STAGE 03 · ORGANIZE
+                </span>
+
+                <h1>
+                    Build your
+                    <span>case file.</span>
+                </h1>
+
+            </div>
+
+            <p class="instruccion">
+                Review the evidence you selected and formulate a
+                preliminary conclusion. You can still go back if
+                you believe any evidence is insufficient.
+            </p>
+
+        </section>
+
+        <section class="mensaje-milbot">
+
+            <span class="milbot-mini">M</span>
+
+            <div>
+
+                <strong>MILBOT</strong>
+
+                <p>
+                    A good conclusion must relate directly to the evidence.
+                    Reactions or comments can guide an investigation, but
+                    they do not always prove a claim.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- Evidencias generadas con JavaScript -->
+
+        <section
+            class="expediente"
+            id="expediente"
+            aria-label="Selected evidence"
+        ></section>
+
+        <!-- Conclusión preliminar -->
+
+        <section class="conclusion">
+
+            <div class="conclusion-superior">
+
+                <div>
+
+                    <h2>
+                        Preliminary conclusion
+                    </h2>
+
+                    <p>
+                        Complete the sentence. This conclusion will be saved
+                        and compared with your final verdict.
+                    </p>
+
+                </div>
+
+                <span class="estado-expediente" id="estadoExpediente">
+                    CASE FILE COMPLETE
+                </span>
+
+            </div>
+
+            <div class="frase">
+
+                <span>
+                    The post appears to be
+                </span>
+
+                <select id="clasificacionPreliminar">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="confiable">
+                        reliable
+                    </option>
+
+                    <option value="dudosa">
+                        questionable
+                    </option>
+
+                    <option value="engañosa">
+                        misleading
+                    </option>
+
+                    <option value="falsa">
+                        false
+                    </option>
+
+                </select>
+
+                <span>
+                    because
+                </span>
+
+                <select id="justificacionPreliminar">
+
+                    <option value="">
+                        Select the main evidence
+                    </option>
+
+                    <option value="fuentes">
+                        it provides no verifiable sources
+                    </option>
+
+                    <option value="imagen">
+                        the image belongs to a different context
+                    </option>
+
+                    <option value="oficial">
+                        it contradicts official information
+                    </option>
+
+                    <option value="viral">
+                        it has many reactions and shares
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div
+                class="resumen-conclusion"
+                id="resumenConclusion"
+            ></div>
+
+            <div class="acciones">
+
+                <a
+                    href="rastrear-evidencias.html"
+                    class="boton-secundario"
+                >
+                    ← Change evidence
+                </a>
+
+                <button
+                    class="boton-principal"
+                    id="botonVeredicto"
+                    type="button"
+                    disabled
+                >
+                    Complete your conclusion
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- =========================================
+         MODAL SI NO HAY EVIDENCIAS
+    ========================================== -->
+
+    <div
+        class="modal-fondo"
+        id="modalFondo"
+        role="dialog"
+        aria-modal="true"
+    >
+
+        <div class="modal">
+
+            <div class="modal-icono">
+                !
+            </div>
+
+            <h2>
+                We could not find your case file
+            </h2>
+
+            <p>
+                To organize the case file, first open the tools
+                and select three pieces of evidence.
+            </p>
+
+            <a
+                href="rastrear-evidencias.html"
+                class="boton-secundario"
+            >
+                Return to investigation
+            </a>
+
+        </div>
+
+    </div>
+
+    <script>
+        const expediente =
+            document.getElementById("expediente");
+
+        const clasificacionPreliminar =
+            document.getElementById(
+                "clasificacionPreliminar"
+            );
+
+        const justificacionPreliminar =
+            document.getElementById(
+                "justificacionPreliminar"
+            );
+
+        const resumenConclusion =
+            document.getElementById(
+                "resumenConclusion"
+            );
+
+        const botonVeredicto =
+            document.getElementById("botonVeredicto");
+
+        const modalFondo =
+            document.getElementById("modalFondo");
+
+        /*
+         * Información disponible para construir
+         * las tarjetas del expediente.
+         */
+
+        const informacionEvidencias = {
+            perfil: {
+                icono: "◎",
+                titulo: "Unofficial account",
+                descripcion:
+                    "The account was created three days ago, is not " +
+                    "verified, and does not belong to an institution.",
+                categoria: "AUTHOR",
+                relevancia: 60,
+                nivel: "Medium"
+            },
+
+            fuente: {
+                icono: "↗",
+                titulo: "No official statement",
+                descripcion:
+                    "The post does not link to any source, and official " +
+                    "channels report that activities will continue as usual.",
+                categoria: "SOURCE",
+                relevancia: 100,
+                nivel: "High"
+            },
+
+            imagen: {
+                icono: "⌗",
+                titulo: "Photograph out of context",
+                descripcion:
+                    "The photograph shows a 2023 storm " +
+                    "that occurred in another city.",
+                categoria: "CONTEXT",
+                relevancia: 100,
+                nivel: "High"
+            },
+
+            comparacion: {
+                icono: "⇄",
+                titulo: "Contradictory official information",
+                descripcion:
+                    "The institutional account announced no cancellation " +
+                    "and confirmed that activities will continue.",
+                categoria: "COMPARISON",
+                relevancia: 100,
+                nivel: "High"
+            },
+
+            comentarios: {
+                icono: "◌",
+                titulo: "Reactions without evidence",
+                descripcion:
+                    "Many users repeat the message but provide no " +
+                    "proof or original sources.",
+                categoria: "REACTIONS",
+                relevancia: 40,
+                nivel: "Low"
+            }
+        };
+
+        /*
+         * Recuperar las evidencias seleccionadas
+         * en la pantalla anterior.
+         */
+
+        let evidenciasSeleccionadas;
+
+        try {
+            evidenciasSeleccionadas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "milbotEvidencias"
+                    )
+                ) || [];
+        } catch (error) {
+            evidenciasSeleccionadas = [];
+        }
+
+        if (evidenciasSeleccionadas.length !== 3) {
+            /*
+             * Datos demostrativos para que la pantalla
+             * pueda visualizarse aunque se abra directamente.
+             *
+             * Si deseas obligar siempre a pasar por la pantalla
+             * anterior, elimina estas tres líneas y muestra
+             * directamente el modal.
+             */
+
+            evidenciasSeleccionadas = [
+                "perfil",
+                "fuente",
+                "imagen"
+            ];
+
+            localStorage.setItem(
+                "milbotEvidencias",
+                JSON.stringify(evidenciasSeleccionadas)
+            );
+        }
+
+        /*
+         * Crear las tarjetas.
+         */
+
+        evidenciasSeleccionadas.forEach(
+            function (id, posicion) {
+                const informacion =
+                    informacionEvidencias[id];
+
+                if (!informacion) {
+                    return;
+                }
+
+                const tarjeta =
+                    document.createElement("article");
+
+                tarjeta.className = "evidencia";
+
+                if (informacion.relevancia < 50) {
+                    tarjeta.classList.add("debil");
+                }
+
+                tarjeta.innerHTML = `
+                    <span class="numero-evidencia">
+                        0${posicion + 1}
+                    </span>
+
+                    <div class="icono-evidencia">
+                        ${informacion.icono}
+                    </div>
+
+                    <h2>
+                        ${informacion.titulo}
+                    </h2>
+
+                    <p class="evidencia-descripcion">
+                        ${informacion.descripcion}
+                    </p>
+
+                    <span class="categoria">
+                        ${informacion.categoria}
+                    </span>
+
+                    <div class="relevancia">
+
+                        <div class="relevancia-superior">
+                            <span>RELEVANCE</span>
+                            <strong>${informacion.nivel}</strong>
+                        </div>
+
+                        <div class="barra-relevancia">
+                            <span
+                                style="width:
+                                ${informacion.relevancia}%"
+                            ></span>
+                        </div>
+
+                    </div>
+
+                    <p class="aviso-debil">
+                        This evidence helps explain how the message
+                        spread, but it does not prove by itself
+                        that the claim is false.
+                    </p>
+                `;
+
+                expediente.appendChild(tarjeta);
+            }
+        );
+
+        /*
+         * Actualizar la conclusión cuando cambien
+         * las dos selecciones.
+         */
+
+        clasificacionPreliminar.addEventListener(
+            "change",
+            actualizarConclusion
+        );
+
+        justificacionPreliminar.addEventListener(
+            "change",
+            actualizarConclusion
+        );
+
+        function actualizarConclusion() {
+            const clasificacion =
+                clasificacionPreliminar.value;
+
+            const justificacion =
+                justificacionPreliminar.value;
+
+            clasificacionPreliminar.classList.toggle(
+                "seleccionado",
+                Boolean(clasificacion)
+            );
+
+            justificacionPreliminar.classList.toggle(
+                "seleccionado",
+                Boolean(justificacion)
+            );
+
+            if (clasificacion && justificacion) {
+                const textoClasificacion =
+                    clasificacionPreliminar
+                        .options[
+                            clasificacionPreliminar.selectedIndex
+                        ]
+                        .text;
+
+                const textoJustificacion =
+                    justificacionPreliminar
+                        .options[
+                            justificacionPreliminar.selectedIndex
+                        ]
+                        .text;
+
+                resumenConclusion.textContent =
+                    "Your preliminary conclusion: The post appears to be " +
+                    textoClasificacion +
+                    " because " +
+                    textoJustificacion +
+                    ".";
+
+                resumenConclusion.classList.add("visible");
+
+                botonVeredicto.disabled = false;
+                botonVeredicto.textContent =
+                    "Issue final verdict →";
+            } else {
+                resumenConclusion.classList.remove("visible");
+
+                botonVeredicto.disabled = true;
+                botonVeredicto.textContent =
+                    "Complete your conclusion";
+            }
+        }
+
+        /*
+         * Guardar la conclusión y avanzar.
+         */
+
+        botonVeredicto.addEventListener("click", function () {
+            const clasificacion =
+                clasificacionPreliminar.value;
+
+            const justificacion =
+                justificacionPreliminar.value;
+
+            if (clasificacion && justificacion) {
+                const conclusion = {
+                    clasificacion: clasificacion,
+                    justificacion: justificacion
+                };
+
+                localStorage.setItem(
+                    "milbotConclusionPreliminar",
+                    JSON.stringify(conclusion)
+                );
+
+                /*
+                 * La siguiente pantalla será el
+                 * veredicto final.
+                 */
+
+                window.location.href =
+                    "veredicto-final.html";
+            }
+        });
+    </script>
+
+</body>
+</html>

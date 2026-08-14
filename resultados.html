@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Mission Results | MILBot</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --fondo: #07091a;
+            --fondo-secundario: #0d1029;
+            --panel: #12172f;
+            --panel-claro: #191f40;
+            --linea: #2b3155;
+
+            --texto: #f5f6ff;
+            --texto-secundario: #9da5c6;
+
+            --cyan: #54e7df;
+            --verde: #caff64;
+            --morado: #806cff;
+            --rosa: #ff5478;
+            --amarillo: #ffd166;
+
+            --color-nivel: var(--verde);
+            --color-nivel-rgb: 202, 255, 100;
+            --porcentaje-puntuacion: 0deg;
+
+            --fuente: "Inter", sans-serif;
+            --fuente-tecnica: "Space Mono", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+
+            color: var(--texto);
+            background:
+                radial-gradient(
+                    circle at 50% 28%,
+                    rgba(128, 108, 255, 0.18),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--fondo),
+                    var(--fondo-secundario),
+                    #080a18
+                );
+
+            font-family: var(--fuente);
+        }
+
+        button,
+        a {
+            font-family: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--verde);
+            outline-offset: 4px;
+        }
+
+        /* =========================================
+           ENCABEZADO
+        ========================================= */
+
+        .encabezado {
+            width: calc(100% - 48px);
+            max-width: 1240px;
+            height: 76px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            color: var(--texto);
+            text-decoration: none;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .logo-simbolo {
+            width: 37px;
+            height: 37px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--cyan);
+            border: 2px solid var(--cyan);
+            border-radius: 10px;
+
+            font-family: var(--fuente-tecnica);
+            box-shadow: 0 0 18px rgba(84, 231, 223, 0.17);
+        }
+
+        .logo-texto span {
+            color: var(--cyan);
+        }
+
+        .mision-finalizada {
+            padding: 7px 10px;
+
+            color: var(--verde);
+            background: rgba(202, 255, 100, 0.08);
+            border-radius: 7px;
+
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+            letter-spacing: 0.08em;
+        }
+
+        .puntos-encabezado {
+            color: var(--color-nivel);
+            font-family: var(--fuente-tecnica);
+            font-size: 10px;
+        }
+
+        /* =========================================
+           PÁGINA
+        ========================================= */
+
+        .pagina {
+            width: calc(100% - 48px);
+            max-width: 1080px;
+            min-height: calc(100vh - 76px);
+            margin: 0 auto;
+            padding: 35px 0 50px;
+        }
+
+        /* =========================================
+           RESULTADO PRINCIPAL
+        ========================================= */
+
+        .resultado-principal {
+            margin-bottom: 17px;
+            padding: 28px;
+
+            display: grid;
+            grid-template-columns: 180px 1fr 190px;
+            gap: 27px;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 25, 52, 0.98),
+                    rgba(9, 13, 31, 0.97)
+                );
+
+            border: 1px solid var(--linea);
+            border-radius: 20px;
+
+            box-shadow: 0 28px 65px rgba(0, 0, 0, 0.26);
+
+            animation: aparecer 0.6s ease both;
+        }
+
+        /* =========================================
+           PUNTUACIÓN CIRCULAR
+        ========================================= */
+
+        .circulo-puntuacion {
+            position: relative;
+
+            width: 160px;
+            height: 160px;
+
+            display: grid;
+            place-items: center;
+
+            background: conic-gradient(
+                var(--color-nivel)
+                var(--porcentaje-puntuacion),
+                var(--linea) 0
+            );
+
+            border-radius: 50%;
+
+            box-shadow: 0 0 28px rgba(
+                var(--color-nivel-rgb),
+                0.12
+            );
+        }
+
+        .circulo-puntuacion::before {
+            content: "";
+
+            position: absolute;
+            inset: 11px;
+
+            background: #10142c;
+            border-radius: 50%;
+        }
+
+        .numero-puntuacion {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .numero-puntuacion strong {
+            font-family: var(--fuente-tecnica);
+            font-size: 42px;
+            line-height: 1;
+        }
+
+        .numero-puntuacion span {
+            margin-top: 5px;
+
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 9px;
+        }
+
+        /* =========================================
+           TEXTO PRINCIPAL
+        ========================================= */
+
+        .etiqueta {
+            display: block;
+            margin-bottom: 8px;
+
+            color: var(--color-nivel);
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+        }
+
+        .contenido-principal h1 {
+            margin-bottom: 10px;
+
+            font-size: clamp(30px, 4vw, 44px);
+            line-height: 1;
+            letter-spacing: -0.045em;
+        }
+
+        .contenido-principal h1 span {
+            color: var(--color-nivel);
+        }
+
+        .contenido-principal p {
+            max-width: 510px;
+
+            color: var(--texto-secundario);
+            font-size: 10px;
+            line-height: 1.65;
+        }
+
+        /* =========================================
+           INSIGNIA
+        ========================================= */
+
+        .insignia {
+            padding: 17px;
+
+            text-align: center;
+
+            background: rgba(
+                var(--color-nivel-rgb),
+                0.055
+            );
+
+            border: 1px solid rgba(
+                var(--color-nivel-rgb),
+                0.2
+            );
+
+            border-radius: 14px;
+        }
+
+        .insignia-icono {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 11px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--color-nivel);
+            background: #0d1128;
+            border: 2px solid var(--color-nivel);
+            border-radius: 50%;
+
+            font-size: 27px;
+
+            box-shadow: 0 0 22px rgba(
+                var(--color-nivel-rgb),
+                0.22
+            );
+        }
+
+        .insignia span {
+            display: block;
+            margin-bottom: 5px;
+
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 7px;
+        }
+
+        .insignia strong {
+            color: var(--color-nivel);
+            font-size: 11px;
+        }
+
+        /* =========================================
+           DESGLOSE
+        ========================================= */
+
+        .desglose {
+            margin-bottom: 17px;
+            padding: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 25, 52, 0.97),
+                    rgba(9, 13, 31, 0.96)
+                );
+
+            border: 1px solid var(--linea);
+            border-radius: 15px;
+
+            animation: aparecer 0.65s 0.08s ease both;
+        }
+
+        .seccion-superior {
+            margin-bottom: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .seccion-superior h2 {
+            font-size: 16px;
+        }
+
+        .seccion-superior span {
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 7px;
+        }
+
+        .criterios {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 9px;
+        }
+
+        .criterio {
+            padding: 12px;
+
+            background: #0d1128;
+            border: 1px solid var(--linea);
+            border-radius: 10px;
+        }
+
+        .criterio-superior {
+            margin-bottom: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .criterio-superior span {
+            color: var(--texto-secundario);
+            font-size: 8px;
+        }
+
+        .criterio-superior strong {
+            color: var(--color-nivel);
+            font-family: var(--fuente-tecnica);
+            font-size: 10px;
+        }
+
+        .barra-criterio {
+            height: 5px;
+
+            overflow: hidden;
+
+            background: var(--linea);
+            border-radius: 20px;
+        }
+
+        .barra-criterio span {
+            display: block;
+            width: 0;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                var(--cyan),
+                var(--color-nivel)
+            );
+
+            border-radius: inherit;
+
+            transition: width 1s ease;
+        }
+
+        .criterio p {
+            margin-top: 8px;
+
+            color: #737b9a;
+            font-size: 7px;
+            line-height: 1.4;
+        }
+
+        /* =========================================
+           APRENDIZAJE
+        ========================================= */
+
+        .zona-aprendizaje {
+            margin-bottom: 17px;
+
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 13px;
+
+            animation: aparecer 0.65s 0.15s ease both;
+        }
+
+        .aprendizaje,
+        .recomendacion {
+            padding: 19px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 25, 52, 0.97),
+                    rgba(9, 13, 31, 0.96)
+                );
+
+            border: 1px solid var(--linea);
+            border-radius: 14px;
+        }
+
+        .aprendizaje > span,
+        .recomendacion > span {
+            display: block;
+            margin-bottom: 7px;
+
+            color: var(--cyan);
+            font-family: var(--fuente-tecnica);
+            font-size: 7px;
+            letter-spacing: 0.1em;
+        }
+
+        .aprendizaje h2,
+        .recomendacion h2 {
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .aprendizaje p,
+        .recomendacion p {
+            color: var(--texto-secundario);
+            font-size: 9px;
+            line-height: 1.65;
+        }
+
+        .aprendizaje-destacado {
+            margin-top: 13px;
+            padding: 11px 13px;
+
+            color: #d0d5e7;
+            background: rgba(84, 231, 223, 0.055);
+            border-left: 3px solid var(--cyan);
+            border-radius: 4px 8px 8px 4px;
+
+            font-size: 9px;
+            line-height: 1.55;
+        }
+
+        .lista-recomendaciones {
+            margin-top: 11px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .recomendacion-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+
+            color: var(--texto-secundario);
+            font-size: 8px;
+            line-height: 1.45;
+        }
+
+        .recomendacion-item i {
+            width: 18px;
+            height: 18px;
+
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+
+            color: #10131f;
+            background: var(--verde);
+            border-radius: 50%;
+
+            font-size: 8px;
+            font-style: normal;
+            font-weight: 800;
+        }
+
+        /* =========================================
+           ACCIONES
+        ========================================= */
+
+        .acciones {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+
+            animation: aparecer 0.65s 0.22s ease both;
+        }
+
+        .boton {
+            min-height: 46px;
+            padding: 0 18px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            font-size: 9px;
+            font-weight: 700;
+            text-decoration: none;
+
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .boton-secundario {
+            color: var(--texto-secundario);
+            background: transparent;
+            border: 1px solid var(--linea);
+        }
+
+        .boton-secundario:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+
+        .boton-principal {
+            color: #10131f;
+            background: var(--verde);
+            border: 1px solid var(--verde);
+        }
+
+        .boton-principal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 25px rgba(202, 255, 100, 0.2);
+        }
+
+        .boton-bloqueado {
+            color: #666d89;
+            background: #242941;
+            border: 1px solid #363c5a;
+
+            cursor: not-allowed;
+        }
+
+        /* =========================================
+           MODAL PARA REINICIAR
+        ========================================= */
+
+        .modal-fondo {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+
+            padding: 20px;
+
+            display: none;
+            place-items: center;
+
+            background: rgba(4, 6, 17, 0.86);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-fondo.visible {
+            display: grid;
+        }
+
+        .modal {
+            width: min(450px, 100%);
+            padding: 23px;
+
+            text-align: center;
+
+            background: var(--panel);
+            border: 1px solid var(--linea);
+            border-radius: 16px;
+        }
+
+        .modal h2 {
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+
+        .modal p {
+            margin-bottom: 17px;
+
+            color: var(--texto-secundario);
+            font-size: 9px;
+            line-height: 1.6;
+        }
+
+        .modal-acciones {
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal-acciones button {
+            min-height: 42px;
+            flex: 1;
+
+            border-radius: 8px;
+
+            font-size: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cancelar {
+            color: var(--texto-secundario);
+            background: transparent;
+            border: 1px solid var(--linea);
+        }
+
+        .confirmar {
+            color: #10131f;
+            background: var(--verde);
+            border: 1px solid var(--verde);
+        }
+
+        /* =========================================
+           ANIMACIONES Y RESPONSIVE
+        ========================================= */
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(11px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .resultado-principal {
+                grid-template-columns: 160px 1fr;
+            }
+
+            .insignia {
+                grid-column: 1 / -1;
+            }
+
+            .criterios {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .encabezado {
+                width: calc(100% - 30px);
+                height: 66px;
+            }
+
+            .mision-finalizada {
+                display: none;
+            }
+
+            .pagina {
+                width: calc(100% - 30px);
+                min-height: calc(100vh - 66px);
+            }
+
+            .resultado-principal {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .circulo-puntuacion {
+                margin: 0 auto;
+            }
+
+            .zona-aprendizaje,
+            .criterios {
+                grid-template-columns: 1fr;
+            }
+
+            .acciones,
+            .modal-acciones {
+                flex-direction: column;
+            }
+
+            .boton,
+            .modal-acciones button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         ENCABEZADO
+    ========================================== -->
+
+    <header class="encabezado">
+
+        <a href="index.html" class="logo">
+
+            <span class="logo-simbolo">M</span>
+
+            <span class="logo-texto">
+                MIL<span>Bot</span>
+            </span>
+
+        </a>
+
+        <span class="mision-finalizada">
+            MISSION 01 COMPLETED
+        </span>
+
+        <span
+            class="puntos-encabezado"
+            id="puntosEncabezado"
+        >
+            000 POINTS
+        </span>
+
+    </header>
+
+    <!-- =========================================
+         RESULTADOS
+    ========================================== -->
+
+    <main class="pagina">
+
+        <section class="resultado-principal">
+
+            <div
+                class="circulo-puntuacion"
+                id="circuloPuntuacion"
+            >
+
+                <div class="numero-puntuacion">
+
+                    <strong id="puntuacionTotal">
+                        0
+                    </strong>
+
+                    <span>/ 100 POINTS</span>
+
+                </div>
+
+            </div>
+
+            <div class="contenido-principal">
+
+                <span class="etiqueta" id="etiquetaNivel">
+                    MISSION COMPLETED
+                </span>
+
+                <h1 id="tituloResultado">
+                    Great work,
+                    <span>detective!</span>
+                </h1>
+
+                <p id="descripcionResultado">
+                    You investigated the post using sources, context,
+                    and evidence before making a decision.
+                </p>
+
+            </div>
+
+            <aside class="insignia">
+
+                <div
+                    class="insignia-icono"
+                    id="insigniaIcono"
+                >
+                    ⌕
+                </div>
+
+                <span>BADGE EARNED</span>
+
+                <strong id="insigniaNombre">
+                    Source Detective
+                </strong>
+
+            </aside>
+
+        </section>
+
+        <!-- =====================================
+             DESGLOSE
+        ====================================== -->
+
+        <section class="desglose">
+
+            <div class="seccion-superior">
+
+                <h2>
+                    Skills breakdown
+                </h2>
+
+                <span>
+                    INVESTIGATION RESULT
+                </span>
+
+            </div>
+
+            <div class="criterios">
+
+                <article
+                    class="criterio"
+                    data-criterio="analisis"
+                >
+                    <div class="criterio-superior">
+                        <span>Initial analysis</span>
+                        <strong id="puntosAnalisis">0/15</strong>
+                    </div>
+
+                    <div class="barra-criterio">
+                        <span id="barraAnalisis"></span>
+                    </div>
+
+                    <p>
+                        Identification of the claim,
+                        emotion, action, and source.
+                    </p>
+                </article>
+
+                <article
+                    class="criterio"
+                    data-criterio="fuente"
+                >
+                    <div class="criterio-superior">
+                        <span>Source identification</span>
+                        <strong id="puntosFuente">0/20</strong>
+                    </div>
+
+                    <div class="barra-criterio">
+                        <span id="barraFuente"></span>
+                    </div>
+
+                    <p>
+                        Recognition of the origin and
+                        institutional channels.
+                    </p>
+                </article>
+
+                <article
+                    class="criterio"
+                    data-criterio="contexto"
+                >
+                    <div class="criterio-superior">
+                        <span>Image context</span>
+                        <strong id="puntosContexto">0/20</strong>
+                    </div>
+
+                    <div class="barra-criterio">
+                        <span id="barraContexto"></span>
+                    </div>
+
+                    <p>
+                        Detection of reused or
+                        out-of-context photographs.
+                    </p>
+                </article>
+
+                <article
+                    class="criterio"
+                    data-criterio="evidencias"
+                >
+                    <div class="criterio-superior">
+                        <span>Evidence selection</span>
+                        <strong id="puntosEvidencias">0/20</strong>
+                    </div>
+
+                    <div class="barra-criterio">
+                        <span id="barraEvidencias"></span>
+                    </div>
+
+                    <p>
+                        Quality and relevance of the case file.
+                    </p>
+                </article>
+
+                <article
+                    class="criterio"
+                    data-criterio="veredicto"
+                >
+                    <div class="criterio-superior">
+                        <span>Final verdict</span>
+                        <strong id="puntosVeredicto">0/15</strong>
+                    </div>
+
+                    <div class="barra-criterio">
+                        <span id="barraVeredicto"></span>
+                    </div>
+
+                    <p>
+                        Evidence-based classification of the content.
+                    </p>
+                </article>
+
+                <article
+                    class="criterio"
+                    data-criterio="accion"
+                >
+                    <div class="criterio-superior">
+                        <span>Responsible action</span>
+                        <strong id="puntosAccion">0/10</strong>
+                    </div>
+
+                    <div class="barra-criterio">
+                        <span id="barraAccion"></span>
+                    </div>
+
+                    <p>
+                        A response that prevents further harm.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================
+             APRENDIZAJE
+        ====================================== -->
+
+        <section class="zona-aprendizaje">
+
+            <article class="aprendizaje">
+
+                <span>MILBOT · FINAL LESSON</span>
+
+                <h2 id="tituloAprendizaje">
+                    Popularity does not replace evidence
+                </h2>
+
+                <p id="textoAprendizaje">
+                    A post does not become true because it has
+                    thousands of reactions. Claims must be compared
+                    with original, current, and independent sources.
+                </p>
+
+                <div class="aprendizaje-destacado">
+                    When a message provokes fear or urgency, apply
+                    P.A.R.A.: Pause, Analyze, Research, and Act.
+                </div>
+
+            </article>
+
+            <article class="recomendacion">
+
+                <span>FOR YOUR NEXT MISSION</span>
+
+                <h2>
+                    Keep strengthening your judgment
+                </h2>
+
+                <p id="textoRecomendacion">
+                    These actions can help you verify a post
+                    more effectively before sharing it.
+                </p>
+
+                <div
+                    class="lista-recomendaciones"
+                    id="listaRecomendaciones"
+                ></div>
+
+            </article>
+
+        </section>
+
+        <!-- =====================================
+             BOTONES
+        ====================================== -->
+
+        <nav class="acciones">
+
+            <button
+                class="boton boton-secundario"
+                id="botonRepetir"
+                type="button"
+            >
+                Repeat mission
+            </button>
+
+            <a
+                href="infopolis.html"
+                class="boton boton-principal"
+            >
+                Return to Infopolis →
+            </a>
+
+            <button
+                class="boton boton-bloqueado"
+                type="button"
+                disabled
+            >
+                Next mission · Coming soon
+            </button>
+
+        </nav>
+
+    </main>
+
+    <!-- =========================================
+         MODAL PARA REINICIAR
+    ========================================== -->
+
+    <div
+        class="modal-fondo"
+        id="modalFondo"
+        role="dialog"
+        aria-modal="true"
+    >
+
+        <div class="modal">
+
+            <h2>
+                Repeat the mission?
+            </h2>
+
+            <p>
+                This mission's answers, evidence, and scores will
+                be deleted so you can start again.
+            </p>
+
+            <div class="modal-acciones">
+
+                <button
+                    class="cancelar"
+                    id="botonCancelar"
+                    type="button"
+                >
+                    Keep result
+                </button>
+
+                <button
+                    class="confirmar"
+                    id="botonConfirmar"
+                    type="button"
+                >
+                    Restart mission
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        /*
+         * Recuperar respuestas almacenadas.
+         */
+
+        let respuestasAnalisis = {};
+        let evidencias = [];
+        let decision = {};
+        let consecuencia = "intermedio";
+
+        try {
+            respuestasAnalisis =
+                JSON.parse(
+                    localStorage.getItem("milbotAnalisis")
+                ) || {};
+
+            evidencias =
+                JSON.parse(
+                    localStorage.getItem("milbotEvidencias")
+                ) || [];
+
+            decision =
+                JSON.parse(
+                    localStorage.getItem(
+                        "milbotDecisionFinal"
+                    )
+                ) || {};
+
+            consecuencia =
+                localStorage.getItem(
+                    "milbotConsecuencia"
+                ) || "intermedio";
+        } catch (error) {
+            respuestasAnalisis = {};
+            evidencias = [];
+            decision = {};
+        }
+
+        /*
+         * Datos de demostración si se abre
+         * directamente resultados.html.
+         */
+
+        if (Object.keys(respuestasAnalisis).length === 0) {
+            respuestasAnalisis = {
+                afirmacion: "suspension",
+                emocion: "miedo",
+                accion: "compartir",
+                fuente: "no"
+            };
+        }
+
+        if (evidencias.length !== 3) {
+            evidencias = [
+                "perfil",
+                "fuente",
+                "imagen"
+            ];
+        }
+
+        if (!decision.veredicto) {
+            decision = {
+                veredicto: "falsa",
+                accion: "corregir"
+            };
+
+            consecuencia = "positivo";
+        }
+
+        /* =========================================
+           1. ANÁLISIS INICIAL: 15 PUNTOS
+        ========================================= */
+
+        const respuestasCorrectas = {
+            afirmacion: "suspension",
+            emocion: "miedo",
+            accion: "compartir",
+            fuente: "no"
+        };
+
+        let cantidadAnalisisCorrecto = 0;
+
+        Object.keys(respuestasCorrectas).forEach(
+            function (pregunta) {
+                if (
+                    respuestasAnalisis[pregunta] ===
+                    respuestasCorrectas[pregunta]
+                ) {
+                    cantidadAnalisisCorrecto++;
+                }
+            }
+        );
+
+        const puntosAnalisis =
+            Math.round(
+                (cantidadAnalisisCorrecto / 4) * 15
+            );
+
+        /* =========================================
+           2. FUENTE: 20 PUNTOS
+        ========================================= */
+
+        let puntosFuente = 0;
+
+        if (
+            evidencias.includes("fuente") ||
+            evidencias.includes("comparacion")
+        ) {
+            puntosFuente = 20;
+        } else if (evidencias.includes("perfil")) {
+            puntosFuente = 10;
+        }
+
+        /* =========================================
+           3. CONTEXTO: 20 PUNTOS
+        ========================================= */
+
+        const puntosContexto =
+            evidencias.includes("imagen") ? 20 : 5;
+
+        /* =========================================
+           4. SELECCIÓN DE EVIDENCIAS: 20 PUNTOS
+        ========================================= */
+
+        const valorEvidencias = {
+            perfil: 4,
+            fuente: 7,
+            imagen: 7,
+            comparacion: 7,
+            comentarios: 2
+        };
+
+        let sumaEvidencias = 0;
+
+        evidencias.forEach(function (id) {
+            sumaEvidencias +=
+                valorEvidencias[id] || 0;
+        });
+
+        const puntosEvidencias =
+            Math.min(20, sumaEvidencias);
+
+        /* =========================================
+           5. VEREDICTO: 15 PUNTOS
+        ========================================= */
+
+        let puntosVeredicto = 0;
+
+        if (decision.veredicto === "falsa") {
+            puntosVeredicto = 15;
+        } else if (decision.veredicto === "engañosa") {
+            puntosVeredicto = 10;
+        } else if (decision.veredicto === "dudosa") {
+            puntosVeredicto = 5;
+        }
+
+        /* =========================================
+           6. ACCIÓN RESPONSABLE: 10 PUNTOS
+        ========================================= */
+
+        let puntosAccion = 0;
+
+        if (decision.accion === "corregir") {
+            puntosAccion = 10;
+        } else if (decision.accion === "reportar") {
+            puntosAccion = 5;
+        } else if (decision.accion === "ignorar") {
+            puntosAccion = 3;
+        }
+
+        /*
+         * Puntuación total.
+         */
+
+        const puntuacionTotal =
+            puntosAnalisis +
+            puntosFuente +
+            puntosContexto +
+            puntosEvidencias +
+            puntosVeredicto +
+            puntosAccion;
+
+        localStorage.setItem(
+            "milbotPuntuacionFinal",
+            String(puntuacionTotal)
+        );
+
+        /* =========================================
+           NIVEL, COLOR E INSIGNIA
+        ========================================= */
+
+        let nivel;
+
+        if (puntuacionTotal >= 90) {
+            nivel = {
+                etiqueta: "OUTSTANDING INVESTIGATION",
+                titulo:
+                    'Excellent work, <span>detective!</span>',
+                descripcion:
+                    "You applied the P.A.R.A. method, selected relevant " +
+                    "evidence, and made a responsible decision " +
+                    "when facing misinformation.",
+                insignia: "Source Detective",
+                icono: "⌕",
+                color: "#caff64",
+                rgb: "202, 255, 100"
+            };
+        } else if (puntuacionTotal >= 70) {
+            nivel = {
+                etiqueta: "INVESTIGATION COMPLETED",
+                titulo:
+                    'Good work, <span>investigator!</span>',
+                descripcion:
+                    "You analyzed the content and gathered sufficient " +
+                    "evidence. You can still strengthen some of your " +
+                    "verification decisions.",
+                insignia: "Digital Analyst",
+                icono: "◎",
+                color: "#54e7df",
+                rgb: "84, 231, 223"
+            };
+        } else {
+            nivel = {
+                etiqueta: "MISSION COMPLETED",
+                titulo:
+                    'Keep practicing, <span>detective.</span>',
+                descripcion:
+                    "You completed the investigation. Review the " +
+                    "recommendations to better recognize sources, " +
+                    "context, and responsible actions.",
+                insignia: "Verification Apprentice",
+                icono: "◇",
+                color: "#ffd166",
+                rgb: "255, 209, 102"
+            };
+        }
+
+        document.documentElement.style.setProperty(
+            "--color-nivel",
+            nivel.color
+        );
+
+        document.documentElement.style.setProperty(
+            "--color-nivel-rgb",
+            nivel.rgb
+        );
+
+        document.documentElement.style.setProperty(
+            "--porcentaje-puntuacion",
+            puntuacionTotal * 3.6 + "deg"
+        );
+
+        /* =========================================
+           COLOCAR INFORMACIÓN
+        ========================================= */
+
+        document.getElementById(
+            "puntuacionTotal"
+        ).textContent = puntuacionTotal;
+
+        document.getElementById(
+            "puntosEncabezado"
+        ).textContent =
+            String(puntuacionTotal).padStart(3, "0") +
+            " POINTS";
+
+        document.getElementById(
+            "etiquetaNivel"
+        ).textContent = nivel.etiqueta;
+
+        document.getElementById(
+            "tituloResultado"
+        ).innerHTML = nivel.titulo;
+
+        document.getElementById(
+            "descripcionResultado"
+        ).textContent = nivel.descripcion;
+
+        document.getElementById(
+            "insigniaIcono"
+        ).textContent = nivel.icono;
+
+        document.getElementById(
+            "insigniaNombre"
+        ).textContent = nivel.insignia;
+
+        /*
+         * Valores y barras.
+         */
+
+        const criterios = [
+            {
+                puntos: puntosAnalisis,
+                maximo: 15,
+                texto: "puntosAnalisis",
+                barra: "barraAnalisis"
+            },
+            {
+                puntos: puntosFuente,
+                maximo: 20,
+                texto: "puntosFuente",
+                barra: "barraFuente"
+            },
+            {
+                puntos: puntosContexto,
+                maximo: 20,
+                texto: "puntosContexto",
+                barra: "barraContexto"
+            },
+            {
+                puntos: puntosEvidencias,
+                maximo: 20,
+                texto: "puntosEvidencias",
+                barra: "barraEvidencias"
+            },
+            {
+                puntos: puntosVeredicto,
+                maximo: 15,
+                texto: "puntosVeredicto",
+                barra: "barraVeredicto"
+            },
+            {
+                puntos: puntosAccion,
+                maximo: 10,
+                texto: "puntosAccion",
+                barra: "barraAccion"
+            }
+        ];
+
+        criterios.forEach(function (criterio) {
+            document.getElementById(
+                criterio.texto
+            ).textContent =
+                criterio.puntos +
+                "/" +
+                criterio.maximo;
+
+            setTimeout(function () {
+                document.getElementById(
+                    criterio.barra
+                ).style.width =
+                    (
+                        criterio.puntos /
+                        criterio.maximo
+                    ) *
+                    100 +
+                    "%";
+            }, 500);
+        });
+
+        /* =========================================
+           RECOMENDACIONES PERSONALIZADAS
+        ========================================= */
+
+        const recomendaciones = [];
+
+        if (puntosAnalisis < 15) {
+            recomendaciones.push(
+                "Identify exactly what the message claims " +
+                "before you begin verifying it."
+            );
+        }
+
+        if (puntosFuente < 20) {
+            recomendaciones.push(
+                "Find the original statement and check whether the " +
+                "account actually belongs to the institution."
+            );
+        }
+
+        if (puntosContexto < 20) {
+            recomendaciones.push(
+                "Perform a reverse image search and verify the " +
+                "date and location of the images."
+            );
+        }
+
+        if (puntosEvidencias < 17) {
+            recomendaciones.push(
+                "Prioritize direct evidence over reactions, " +
+                "comments, or popularity."
+            );
+        }
+
+        if (puntosVeredicto < 15) {
+            recomendaciones.push(
+                "Compare the main claim with the official source " +
+                "before classifying the content."
+            );
+        }
+
+        if (puntosAccion < 10) {
+            recomendaciones.push(
+                "In addition to not sharing, provide a respectful " +
+                "correction with verifiable evidence."
+            );
+        }
+
+        if (recomendaciones.length === 0) {
+            recomendaciones.push(
+                "Continue applying P.A.R.A. to social media posts, " +
+                "assignments, and AI-generated answers."
+            );
+
+            recomendaciones.push(
+                "Help other people verify information without " +
+                "ridiculing them or creating conflict."
+            );
+
+            recomendaciones.push(
+                "Maintain a critical attitude even toward " +
+                "posts that look professional."
+            );
+        }
+
+        const listaRecomendaciones =
+            document.getElementById(
+                "listaRecomendaciones"
+            );
+
+        recomendaciones
+            .slice(0, 3)
+            .forEach(function (texto) {
+                const elemento =
+                    document.createElement("div");
+
+                elemento.className =
+                    "recomendacion-item";
+
+                elemento.innerHTML = `
+                    <i>✓</i>
+                    <span>${texto}</span>
+                `;
+
+                listaRecomendaciones.appendChild(
+                    elemento
+                );
+            });
+
+        /*
+         * Ajustar aprendizaje según la consecuencia.
+         */
+
+        if (consecuencia === "negativo") {
+            document.getElementById(
+                "tituloAprendizaje"
+            ).textContent =
+                "Sharing is also a decision";
+
+            document.getElementById(
+                "textoAprendizaje"
+            ).textContent =
+                "When we share a post without verifying it, we also " +
+                "participate in its spread and in the consequences " +
+                "it may cause.";
+        } else if (consecuencia === "intermedio") {
+            document.getElementById(
+                "tituloAprendizaje"
+            ).textContent =
+                "Not sharing helps, but correcting can help more";
+
+            document.getElementById(
+                "textoAprendizaje"
+            ).textContent =
+                "Stopping its momentum prevents the rumor from spreading. " +
+                "When sufficient evidence exists, we can also direct " +
+                "other people toward the original source.";
+        }
+
+        /* =========================================
+           REPETIR MISIÓN
+        ========================================= */
+
+        const modalFondo =
+            document.getElementById("modalFondo");
+
+        document.getElementById(
+            "botonRepetir"
+        ).addEventListener("click", function () {
+            modalFondo.classList.add("visible");
+        });
+
+        document.getElementById(
+            "botonCancelar"
+        ).addEventListener("click", function () {
+            modalFondo.classList.remove("visible");
+        });
+
+        document.getElementById(
+            "botonConfirmar"
+        ).addEventListener("click", function () {
+            const clavesMision = [
+                "milbotAnalisis",
+                "milbotPuntosAnalisis",
+                "milbotEvidencias",
+                "milbotPuntosEvidencias",
+                "milbotHerramientasAbiertas",
+                "milbotConclusionPreliminar",
+                "milbotDecisionFinal",
+                "milbotPuntosVeredicto",
+                "milbotPuntosAccion",
+                "milbotConsecuencia",
+                "milbotNieblaFinal",
+                "milbotPuntuacionFinal"
+            ];
+
+            clavesMision.forEach(function (clave) {
+                localStorage.removeItem(clave);
+            });
+
+            window.location.href =
+                "mision-plaza-viral.html";
+        });
+
+        modalFondo.addEventListener("click", function (evento) {
+            if (evento.target === modalFondo) {
+                modalFondo.classList.remove("visible");
+            }
+        });
+    </script>
+
+</body>
+</html>

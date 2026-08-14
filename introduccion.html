@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Introduction | MILBot: Verification Mission</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        /* ==============================
+           VARIABLES
+        ============================== */
+
+        :root {
+            --fondo: #07091a;
+            --fondo-secundario: #0d1029;
+            --panel: #131833;
+            --panel-claro: #191f40;
+            --linea: #2b3155;
+
+            --texto: #f5f6ff;
+            --texto-secundario: #9da5c6;
+
+            --cyan: #54e7df;
+            --verde: #caff64;
+            --morado: #806cff;
+            --rojo: #ff5478;
+
+            --fuente-principal: "Inter", sans-serif;
+            --fuente-tecnica: "Space Mono", monospace;
+        }
+
+        /* ==============================
+           CONFIGURACIÓN GENERAL
+        ============================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+
+            color: var(--texto);
+            background:
+                radial-gradient(
+                    circle at 70% 35%,
+                    rgba(128, 108, 255, 0.18),
+                    transparent 32%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--fondo),
+                    var(--fondo-secundario),
+                    #080a18
+                );
+
+            font-family: var(--fuente-principal);
+        }
+
+        button,
+        a {
+            font-family: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--verde);
+            outline-offset: 4px;
+        }
+
+        /* ==============================
+           ENCABEZADO
+        ============================== */
+
+        .encabezado {
+            position: relative;
+            z-index: 20;
+
+            width: calc(100% - 48px);
+            max-width: 1240px;
+            height: 76px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            color: var(--texto);
+            text-decoration: none;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .logo-simbolo {
+            width: 37px;
+            height: 37px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--cyan);
+            border: 2px solid var(--cyan);
+            border-radius: 10px;
+
+            font-family: var(--fuente-tecnica);
+            box-shadow: 0 0 18px rgba(84, 231, 223, 0.17);
+        }
+
+        .logo-texto span {
+            color: var(--cyan);
+        }
+
+        .encabezado-derecha {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .progreso-texto {
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 10px;
+            letter-spacing: 0.08em;
+        }
+
+        .boton-omitir {
+            padding: 9px 14px;
+
+            color: var(--texto-secundario);
+            background: transparent;
+            border: 1px solid var(--linea);
+            border-radius: 8px;
+
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .boton-omitir:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+
+        /* ==============================
+           CONTENEDOR PRINCIPAL
+        ============================== */
+
+        .introduccion {
+            width: calc(100% - 48px);
+            max-width: 1180px;
+            min-height: calc(100vh - 76px);
+            margin: 0 auto;
+            padding: 42px 0 38px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==============================
+           PROGRESO DE ESCENAS
+        ============================== */
+
+        .progreso {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 30px;
+        }
+
+        .progreso-linea {
+            position: relative;
+
+            height: 4px;
+            flex: 1;
+            max-width: 340px;
+
+            overflow: hidden;
+
+            background: var(--linea);
+            border-radius: 100px;
+        }
+
+        .progreso-relleno {
+            width: 33.33%;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                var(--cyan),
+                var(--verde)
+            );
+
+            border-radius: inherit;
+            box-shadow: 0 0 12px rgba(84, 231, 223, 0.4);
+
+            transition: width 0.45s ease;
+        }
+
+        .progreso-numero {
+            color: var(--cyan);
+            font-family: var(--fuente-tecnica);
+            font-size: 10px;
+        }
+
+        /* ==============================
+           ESCENA
+        ============================== */
+
+        .escena {
+            flex: 1;
+
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .escena.oculta {
+            display: none;
+        }
+
+        .escena.activa {
+            animation: aparecer 0.55s ease both;
+        }
+
+        /* ==============================
+           INFORMACIÓN NARRATIVA
+        ============================== */
+
+        .contenido {
+            position: relative;
+            z-index: 5;
+        }
+
+        .etiqueta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 20px;
+
+            color: var(--cyan);
+            font-family: var(--fuente-tecnica);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+        }
+
+        .etiqueta::before {
+            content: "";
+
+            width: 7px;
+            height: 7px;
+
+            background: var(--verde);
+            border-radius: 50%;
+            box-shadow: 0 0 9px var(--verde);
+        }
+
+        .etiqueta.alerta {
+            color: var(--rojo);
+        }
+
+        .etiqueta.alerta::before {
+            background: var(--rojo);
+            box-shadow: 0 0 9px var(--rojo);
+        }
+
+        .titulo {
+            max-width: 660px;
+            margin-bottom: 23px;
+
+            font-size: clamp(43px, 5vw, 65px);
+            line-height: 1.02;
+            letter-spacing: -0.05em;
+        }
+
+        .titulo span {
+            color: var(--cyan);
+        }
+
+        .titulo .rojo {
+            color: var(--rojo);
+        }
+
+        .descripcion {
+            max-width: 610px;
+
+            color: var(--texto-secundario);
+            font-size: 16px;
+            line-height: 1.75;
+        }
+
+        .descripcion strong {
+            color: var(--texto);
+        }
+
+        /* ==============================
+           DIÁLOGO DE MILBOT
+        ============================== */
+
+        .dialogo {
+            position: relative;
+
+            margin-top: 27px;
+            padding: 18px 20px 18px 70px;
+
+            max-width: 590px;
+
+            background: rgba(19, 24, 51, 0.84);
+            border: 1px solid var(--linea);
+            border-radius: 14px;
+
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.22);
+        }
+
+        .dialogo-icono {
+            position: absolute;
+            top: 15px;
+            left: 16px;
+
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--cyan);
+            background: #0d1128;
+            border: 2px solid var(--cyan);
+            border-radius: 12px;
+
+            font-family: var(--fuente-tecnica);
+            font-weight: 700;
+
+            box-shadow: 0 0 15px rgba(84, 231, 223, 0.18);
+        }
+
+        .dialogo-nombre {
+            display: block;
+            margin-bottom: 5px;
+
+            color: var(--cyan);
+            font-family: var(--fuente-tecnica);
+            font-size: 9px;
+            letter-spacing: 0.12em;
+        }
+
+        .dialogo p {
+            color: #c7cce2;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* ==============================
+           VISUAL DE INFÓPOLIS
+        ============================== */
+
+        .visual {
+            position: relative;
+
+            height: 510px;
+
+            display: grid;
+            place-items: center;
+        }
+
+        .resplandor {
+            position: absolute;
+
+            width: 370px;
+            height: 370px;
+
+            background: rgba(128, 108, 255, 0.14);
+            border-radius: 50%;
+
+            filter: blur(45px);
+        }
+
+        .circulo-digital {
+            position: absolute;
+
+            width: 430px;
+            height: 430px;
+
+            border: 1px solid rgba(84, 231, 223, 0.13);
+            border-radius: 50%;
+
+            animation: girar 24s linear infinite;
+        }
+
+        .circulo-digital::before,
+        .circulo-digital::after {
+            content: "";
+
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            background: var(--cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--cyan);
+        }
+
+        .circulo-digital::before {
+            top: 12%;
+            left: 18%;
+        }
+
+        .circulo-digital::after {
+            right: 10%;
+            bottom: 22%;
+        }
+
+        /* ==============================
+           CIUDAD
+        ============================== */
+
+        .ciudad {
+            position: relative;
+            z-index: 3;
+
+            width: 390px;
+            height: 340px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 10px;
+
+            border-bottom: 3px solid rgba(84, 231, 223, 0.3);
+        }
+
+        .edificio {
+            position: relative;
+
+            width: 55px;
+
+            background: linear-gradient(
+                180deg,
+                #282f59,
+                #11162f
+            );
+
+            border: 1px solid #3b456d;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+
+            box-shadow: inset 0 0 20px rgba(84, 231, 223, 0.04);
+        }
+
+        .edificio::before {
+            content: "";
+
+            position: absolute;
+            inset: 13px 10px;
+
+            background-image:
+                linear-gradient(
+                    90deg,
+                    transparent 45%,
+                    #151a35 45%,
+                    #151a35 55%,
+                    transparent 55%
+                ),
+                linear-gradient(
+                    transparent 45%,
+                    #151a35 45%,
+                    #151a35 55%,
+                    transparent 55%
+                );
+
+            background-size: 18px 18px;
+        }
+
+        .ventanas::after {
+            content: "";
+
+            position: absolute;
+            inset: 15px 11px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    var(--cyan) 0 2px,
+                    transparent 3px
+                );
+
+            background-size: 18px 18px;
+            opacity: 0.7;
+        }
+
+        .edificio-1 {
+            height: 140px;
+        }
+
+        .edificio-2 {
+            height: 220px;
+        }
+
+        .edificio-3 {
+            width: 78px;
+            height: 285px;
+        }
+
+        .edificio-4 {
+            height: 190px;
+        }
+
+        .edificio-5 {
+            height: 245px;
+        }
+
+        .edificio-6 {
+            height: 125px;
+        }
+
+        .antena-ciudad {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+
+            width: 3px;
+            height: 35px;
+
+            background: var(--cyan);
+        }
+
+        .antena-ciudad::after {
+            content: "";
+
+            position: absolute;
+            top: -5px;
+            left: -5px;
+
+            width: 13px;
+            height: 13px;
+
+            background: var(--verde);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--verde);
+        }
+
+        /* ==============================
+           NIEBLA DE DESINFORMACIÓN
+        ============================== */
+
+        .niebla {
+            position: absolute;
+            z-index: 6;
+
+            width: 430px;
+            height: 180px;
+
+            background:
+                radial-gradient(
+                    ellipse at 25% 50%,
+                    rgba(255, 84, 120, 0.34),
+                    transparent 52%
+                ),
+                radial-gradient(
+                    ellipse at 70% 40%,
+                    rgba(128, 108, 255, 0.38),
+                    transparent 55%
+                );
+
+            border-radius: 50%;
+            filter: blur(25px);
+
+            animation: mover-niebla 7s ease-in-out infinite;
+        }
+
+        .particula {
+            position: absolute;
+            z-index: 7;
+
+            padding: 6px 9px;
+
+            color: var(--rojo);
+            background: rgba(255, 84, 120, 0.1);
+            border: 1px solid rgba(255, 84, 120, 0.34);
+            border-radius: 7px;
+
+            font-family: var(--fuente-tecnica);
+            font-size: 9px;
+
+            animation: flotar 4s ease-in-out infinite;
+        }
+
+        .particula-1 {
+            top: 25%;
+            left: 5%;
+        }
+
+        .particula-2 {
+            top: 43%;
+            right: 1%;
+            animation-delay: 0.5s;
+        }
+
+        .particula-3 {
+            bottom: 16%;
+            left: 17%;
+            animation-delay: 1s;
+        }
+
+        .particula-4 {
+            top: 15%;
+            right: 22%;
+            animation-delay: 1.5s;
+        }
+
+        /* ==============================
+           ROBOT SIMPLIFICADO
+        ============================== */
+
+        .robot {
+            position: relative;
+            z-index: 8;
+
+            width: 230px;
+            height: 330px;
+
+            animation: robot-flota 4s ease-in-out infinite;
+            filter: drop-shadow(0 24px 32px rgba(0, 0, 0, 0.35));
+        }
+
+        .robot-antena {
+            position: absolute;
+            top: 0;
+            left: 113px;
+
+            width: 4px;
+            height: 42px;
+
+            background: #9ba3c8;
+        }
+
+        .robot-antena::before {
+            content: "";
+
+            position: absolute;
+            top: -4px;
+            left: -5px;
+
+            width: 14px;
+            height: 14px;
+
+            background: var(--verde);
+            border-radius: 50%;
+            box-shadow: 0 0 16px var(--verde);
+        }
+
+        .robot-cabeza {
+            position: absolute;
+            top: 38px;
+            left: 28px;
+
+            width: 174px;
+            height: 125px;
+
+            background: linear-gradient(145deg, #dbe0f1, #737b99);
+            border: 7px solid #b6bdd3;
+            border-radius: 42px 42px 32px 32px;
+        }
+
+        .robot-cara {
+            position: absolute;
+            inset: 22px 19px 27px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 31px;
+
+            background: #10152c;
+            border-radius: 25px;
+        }
+
+        .robot-ojo {
+            width: 12px;
+            height: 22px;
+
+            background: var(--cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 14px var(--cyan);
+
+            animation: parpadear 5s infinite;
+        }
+
+        .robot-cuerpo {
+            position: absolute;
+            top: 178px;
+            left: 47px;
+
+            width: 136px;
+            height: 132px;
+
+            background: linear-gradient(145deg, #c9cfe2, #656d8b);
+            border: 5px solid #aeb5cb;
+            border-radius: 34px 34px 48px 48px;
+        }
+
+        .robot-nucleo {
+            position: absolute;
+            top: 31px;
+            left: 43px;
+
+            width: 46px;
+            height: 46px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--verde);
+            background: #15213c;
+            border: 3px solid var(--cyan);
+            border-radius: 50%;
+
+            font-size: 20px;
+            font-weight: 800;
+            box-shadow: 0 0 22px rgba(84, 231, 223, 0.48);
+        }
+
+        .robot-brazo {
+            position: absolute;
+            top: 198px;
+
+            width: 35px;
+            height: 105px;
+
+            background: linear-gradient(#aeb5cb, #616a8a);
+            border-radius: 18px;
+        }
+
+        .robot-brazo.izquierdo {
+            left: 10px;
+            transform: rotate(12deg);
+        }
+
+        .robot-brazo.derecho {
+            right: 10px;
+            transform: rotate(-12deg);
+        }
+
+        /* ==============================
+           CONTROLES INFERIORES
+        ============================== */
+
+        .controles {
+            position: relative;
+            z-index: 20;
+
+            margin-top: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .boton-anterior {
+            padding: 12px 16px;
+
+            color: var(--texto-secundario);
+            background: transparent;
+            border: 1px solid var(--linea);
+            border-radius: 9px;
+
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .boton-anterior:hover:not(:disabled) {
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+
+        .boton-anterior:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .indicadores {
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicador {
+            width: 8px;
+            height: 8px;
+
+            background: var(--linea);
+            border: none;
+            border-radius: 50%;
+
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .indicador.activo {
+            width: 25px;
+            background: var(--cyan);
+            border-radius: 10px;
+            box-shadow: 0 0 9px rgba(84, 231, 223, 0.5);
+        }
+
+        .boton-continuar {
+            min-width: 165px;
+            padding: 14px 19px;
+
+            color: #10131f;
+            background: var(--verde);
+            border: 1px solid var(--verde);
+            border-radius: 10px;
+
+            font-weight: 700;
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+        .boton-continuar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 27px rgba(202, 255, 100, 0.2);
+        }
+
+        /* ==============================
+           ANIMACIONES
+        ============================== */
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes girar {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes mover-niebla {
+            0%,
+            100% {
+                transform: translateX(-18px);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: translateX(20px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes flotar {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes robot-flota {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-11px);
+            }
+        }
+
+        @keyframes parpadear {
+            0%,
+            45%,
+            55%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 900px) {
+            .escena {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .contenido {
+                text-align: center;
+            }
+
+            .descripcion,
+            .dialogo {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .visual {
+                height: 430px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .encabezado {
+                width: calc(100% - 36px);
+                height: 66px;
+            }
+
+            .progreso-texto {
+                display: none;
+            }
+
+            .introduccion {
+                width: calc(100% - 36px);
+                min-height: calc(100vh - 66px);
+                padding-top: 30px;
+            }
+
+            .titulo {
+                font-size: 42px;
+            }
+
+            .descripcion {
+                font-size: 15px;
+            }
+
+            .dialogo {
+                padding-left: 65px;
+                text-align: left;
+            }
+
+            .visual {
+                height: 370px;
+                margin: 0 -45px;
+                transform: scale(0.78);
+            }
+
+            .controles {
+                gap: 12px;
+            }
+
+            .indicadores {
+                display: none;
+            }
+
+            .boton-anterior,
+            .boton-continuar {
+                flex: 1;
+                min-width: auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==============================
+         ENCABEZADO
+    ============================== -->
+
+    <header class="encabezado">
+
+        <a href="index.html" class="logo">
+            <span class="logo-simbolo">M</span>
+
+            <span class="logo-texto">
+                MIL<span>Bot</span>
+            </span>
+        </a>
+
+        <div class="encabezado-derecha">
+
+            <span class="progreso-texto">
+                INTRODUCTION · <span id="numeroEncabezado">1</span>/3
+            </span>
+
+            <button
+                class="boton-omitir"
+                id="botonOmitir"
+                type="button"
+            >
+                Skip introduction
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- ==============================
+         INTRODUCCIÓN
+    ============================== -->
+
+    <main class="introduccion">
+
+        <div class="progreso">
+
+            <div class="progreso-linea">
+                <div
+                    class="progreso-relleno"
+                    id="progresoRelleno"
+                ></div>
+            </div>
+
+            <span class="progreso-numero" id="progresoNumero">
+                01 / 03
+            </span>
+
+        </div>
+
+        <!-- ============================
+             ESCENA 1
+        ============================= -->
+
+        <section class="escena activa" data-escena="0">
+
+            <div class="contenido">
+
+                <span class="etiqueta">
+                    WELCOME TO INFOPOLIS
+                </span>
+
+                <h1 class="titulo">
+                    A city built on
+                    <span>information.</span>
+                </h1>
+
+                <p class="descripcion">
+                    In Infopolis, news, images, and messages connect
+                    every resident. Each post can guide a decision,
+                    change an opinion, or reach thousands of people.
+                </p>
+
+                <div class="dialogo">
+
+                    <span class="dialogo-icono">M</span>
+
+                    <span class="dialogo-nombre">
+                        MILBOT
+                    </span>
+
+                    <p>
+                        Information can help us understand the world,
+                        but first we must learn how to evaluate it.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="visual" aria-hidden="true">
+
+                <div class="resplandor"></div>
+                <div class="circulo-digital"></div>
+
+                <div class="ciudad">
+
+                    <div class="edificio edificio-1 ventanas"></div>
+                    <div class="edificio edificio-2 ventanas"></div>
+
+                    <div class="edificio edificio-3 ventanas">
+                        <div class="antena-ciudad"></div>
+                    </div>
+
+                    <div class="edificio edificio-4 ventanas"></div>
+                    <div class="edificio edificio-5 ventanas"></div>
+                    <div class="edificio edificio-6 ventanas"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ============================
+             ESCENA 2
+        ============================= -->
+
+        <section class="escena oculta" data-escena="1">
+
+            <div class="contenido">
+
+                <span class="etiqueta alerta">
+                    NETWORK ALERT
+                </span>
+
+                <h2 class="titulo">
+                    The city is being covered
+                    by a <span class="rojo">digital fog.</span>
+                </h2>
+
+                <p class="descripcion">
+                    False news, out-of-context images, scams, and
+                    manipulated content are making it difficult for
+                    residents to distinguish reliable information
+                    from misleading content.
+                </p>
+
+                <div class="dialogo">
+
+                    <span class="dialogo-icono">M</span>
+
+                    <span class="dialogo-nombre">
+                        MILBOT
+                    </span>
+
+                    <p>
+                        Every time someone shares without verifying,
+                        the fog grows stronger and reaches more people.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="visual" aria-hidden="true">
+
+                <div class="resplandor"></div>
+
+                <div class="ciudad">
+
+                    <div class="edificio edificio-1 ventanas"></div>
+                    <div class="edificio edificio-2 ventanas"></div>
+
+                    <div class="edificio edificio-3 ventanas">
+                        <div class="antena-ciudad"></div>
+                    </div>
+
+                    <div class="edificio edificio-4 ventanas"></div>
+                    <div class="edificio edificio-5 ventanas"></div>
+                    <div class="edificio edificio-6 ventanas"></div>
+
+                </div>
+
+                <div class="niebla"></div>
+
+                <span class="particula particula-1">
+                    SHARE IT NOW!
+                </span>
+
+                <span class="particula particula-2">
+                    NO SOURCE
+                </span>
+
+                <span class="particula particula-3">
+                    BREAKING NEWS
+                </span>
+
+                <span class="particula particula-4">
+                    REAL OR FALSE?
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- ============================
+             ESCENA 3
+        ============================= -->
+
+        <section class="escena oculta" data-escena="2">
+
+            <div class="contenido">
+
+                <span class="etiqueta">
+                    YOUR MISSION
+                </span>
+
+                <h2 class="titulo">
+                    MILBot needs
+                    <span>your reasoning.</span>
+                </h2>
+
+                <p class="descripcion">
+                    MILBot can identify signals and organize data,
+                    but it needs your critical thinking to investigate
+                    posts and decide which information deserves trust.
+                </p>
+
+                <div class="dialogo">
+
+                    <span class="dialogo-icono">M</span>
+
+                    <span class="dialogo-nombre">
+                        MILBOT
+                    </span>
+
+                    <p>
+                        I will give you tools and clues. You will gather
+                        the evidence and make the final decision.
+                        Do you accept the mission?
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="visual" aria-hidden="true">
+
+                <div class="resplandor"></div>
+                <div class="circulo-digital"></div>
+
+                <div class="robot">
+
+                    <div class="robot-antena"></div>
+
+                    <div class="robot-cabeza">
+
+                        <div class="robot-cara">
+                            <span class="robot-ojo"></span>
+                            <span class="robot-ojo"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="robot-brazo izquierdo"></div>
+                    <div class="robot-brazo derecho"></div>
+
+                    <div class="robot-cuerpo">
+                        <div class="robot-nucleo">✓</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ============================
+             CONTROLES
+        ============================= -->
+
+        <nav class="controles" aria-label="Introduction controls">
+
+            <button
+                class="boton-anterior"
+                id="botonAnterior"
+                type="button"
+                disabled
+            >
+                ← Previous
+            </button>
+
+            <div class="indicadores" aria-label="Scenes">
+
+                <button
+                    class="indicador activo"
+                    data-indicador="0"
+                    aria-label="Show scene 1"
+                ></button>
+
+                <button
+                    class="indicador"
+                    data-indicador="1"
+                    aria-label="Show scene 2"
+                ></button>
+
+                <button
+                    class="indicador"
+                    data-indicador="2"
+                    aria-label="Show scene 3"
+                ></button>
+
+            </div>
+
+            <button
+                class="boton-continuar"
+                id="botonContinuar"
+                type="button"
+            >
+                Continue →
+            </button>
+
+        </nav>
+
+    </main>
+
+    <!-- ==============================
+         FUNCIONAMIENTO
+    ============================== -->
+
+    <script>
+        const escenas = document.querySelectorAll(".escena");
+        const indicadores = document.querySelectorAll(".indicador");
+
+        const botonAnterior =
+            document.getElementById("botonAnterior");
+
+        const botonContinuar =
+            document.getElementById("botonContinuar");
+
+        const botonOmitir =
+            document.getElementById("botonOmitir");
+
+        const progresoRelleno =
+            document.getElementById("progresoRelleno");
+
+        const progresoNumero =
+            document.getElementById("progresoNumero");
+
+        const numeroEncabezado =
+            document.getElementById("numeroEncabezado");
+
+        let escenaActual = 0;
+
+        function mostrarEscena(numero) {
+            escenaActual = numero;
+
+            escenas.forEach(function (escena, indice) {
+                escena.classList.toggle(
+                    "oculta",
+                    indice !== escenaActual
+                );
+
+                escena.classList.toggle(
+                    "activa",
+                    indice === escenaActual
+                );
+            });
+
+            indicadores.forEach(function (indicador, indice) {
+                indicador.classList.toggle(
+                    "activo",
+                    indice === escenaActual
+                );
+            });
+
+            const porcentaje =
+                ((escenaActual + 1) / escenas.length) * 100;
+
+            progresoRelleno.style.width = porcentaje + "%";
+
+            progresoNumero.textContent =
+                "0" + (escenaActual + 1) +
+                " / 0" + escenas.length;
+
+            numeroEncabezado.textContent =
+                escenaActual + 1;
+
+            botonAnterior.disabled = escenaActual === 0;
+
+            if (escenaActual === escenas.length - 1) {
+                botonContinuar.textContent =
+                    "Learn P.A.R.A. →";
+            } else {
+                botonContinuar.textContent =
+                    "Continue →";
+            }
+        }
+
+        botonContinuar.addEventListener("click", function () {
+            if (escenaActual < escenas.length - 1) {
+                mostrarEscena(escenaActual + 1);
+            } else {
+                /*
+                 * Esta será la tercera pantalla.
+                 * El archivo se llamará metodo-para.html.
+                 */
+
+                window.location.href = "metodo-para.html";
+            }
+        });
+
+        botonAnterior.addEventListener("click", function () {
+            if (escenaActual > 0) {
+                mostrarEscena(escenaActual - 1);
+            }
+        });
+
+        botonOmitir.addEventListener("click", function () {
+            window.location.href = "metodo-para.html";
+        });
+
+        indicadores.forEach(function (indicador) {
+            indicador.addEventListener("click", function () {
+                const numero =
+                    Number(indicador.dataset.indicador);
+
+                mostrarEscena(numero);
+            });
+        });
+
+        /*
+         * Permite avanzar con las flechas del teclado.
+         */
+
+        document.addEventListener("keydown", function (evento) {
+            if (
+                evento.key === "ArrowRight" &&
+                escenaActual < escenas.length - 1
+            ) {
+                mostrarEscena(escenaActual + 1);
+            }
+
+            if (
+                evento.key === "ArrowLeft" &&
+                escenaActual > 0
+            ) {
+                mostrarEscena(escenaActual - 1);
+            }
+        });
+
+        mostrarEscena(0);
+    </script>
+
+</body>
+</html>

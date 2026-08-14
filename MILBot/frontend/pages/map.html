@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MILBot — Mission Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/map.css">
+</head>
+
+<body class="map-page">
+    <header class="topbar map-topbar">
+        <a class="brand" href="../index.html">
+            <span class="brand-icon">🤖</span>
+            <span>MIL<span class="brand-accent">Bot</span></span>
+        </a>
+        <div class="progress">
+            <span>MISSION PROGRESS</span>
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+            <strong>1 / 5</strong>
+        </div>
+        <div class="score-pill">⭐ <span>120</span></div>
+    </header>
+
+    <main class="map-main">
+        <section class="map-heading">
+            <!-- <span class="eyebrow">MILBOT'S WORLD</span>
+        <h1>Choose your <span>mission</span></h1>
+     <p>Help MILBot travel across the information world.</p> -->
+            <span class="eyebrow">MILBOT'S WORLD</span>
+            <h1>Choose your <span>mission</span></h1>
+            <p>
+                Help MILBot travel across the information world.
+            </p>
+        </section>
+
+        <section class="adventure-map">
+            <div class="map-cloud cloud-a">☁️</div>
+            <div class="map-cloud cloud-b">☁️</div>
+            <div class="map-path"></div>
+
+            <a href="news-city.html" class="mission-node node-news">
+                <div class="node-icon">📰</div>
+                <span class="node-number">01</span>
+                <h2>News City</h2>
+                <p>Can you spot a suspicious story?</p>
+                <span class="node-status current">READY!</span>
+            </a>
+
+            <article class="mission-node node-image">
+                <div class="node-icon">🖼️</div>
+                <span class="node-number">02</span>
+                <h2>Image Lab</h2>
+                <p>Look closely. Something changed!</p>
+                <span class="node-status locked">🔒 LOCKED</span>
+            </article>
+
+            <article class="mission-node node-ai">
+                <div class="node-icon">🤖</div>
+                <span class="node-number">03</span>
+                <h2>AI Lab</h2>
+                <p>Become an AI detective.</p>
+                <span class="node-status locked">🔒 LOCKED</span>
+            </article>
+
+            <article class="mission-node node-danger">
+                <div class="node-icon">🚨</div>
+                <span class="node-number">04</span>
+                <h2>Danger Zone</h2>
+                <p>Can you recognize harmful content?</p>
+                <span class="node-status locked">🔒 LOCKED</span>
+            </article>
+
+            <article class="mission-node node-goal">
+                <div class="node-icon">🏆</div>
+                <span class="node-number">05</span>
+                <h2>Final Mission</h2>
+                <p>Use everything you've learned!</p>
+                <span class="node-status locked">🔒 LOCKED</span>
+            </article>
+
+            <div class="map-milbot">
+                <div class="map-robot-frame">
+                    <div class="milbot">
+                        <div class="antenna"><span></span></div>
+                        <div class="robot-head">
+                            <div class="ear left"></div>
+                            <div class="ear right"></div>
+                            <div class="screen">
+                                <span class="eye"></span>
+                                <span class="eye"></span>
+                                <div class="robot-smile"></div>
+                            </div>
+                        </div>
+                        <div class="robot-body">
+                            <div class="chest">M</div>
+                            <div class="panel-light"></div>
+                        </div>
+                        <div class="arm arm-left"></div>
+                        <div class="arm arm-right"></div>
+                        <div class="foot foot-left"></div>
+                        <div class="foot foot-right"></div>
+                    </div>
+                </div>
+                <span>That's me!</span>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

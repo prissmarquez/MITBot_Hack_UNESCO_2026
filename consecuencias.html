@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Consequences | MILBot</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --fondo: #07091a;
+            --fondo-secundario: #0d1029;
+            --panel: #12172f;
+            --linea: #2b3155;
+
+            --texto: #f5f6ff;
+            --texto-secundario: #9da5c6;
+
+            --cyan: #54e7df;
+            --verde: #caff64;
+            --morado: #806cff;
+            --rosa: #ff5478;
+            --amarillo: #ffd166;
+
+            --fuente: "Inter", sans-serif;
+            --fuente-tecnica: "Space Mono", monospace;
+
+            --color-resultado: var(--verde);
+            --color-resultado-rgb: 202, 255, 100;
+            --niebla-final: 24%;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+
+            color: var(--texto);
+            background:
+                radial-gradient(
+                    circle at 50% 43%,
+                    rgba(128, 108, 255, 0.16),
+                    transparent 36%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--fondo),
+                    var(--fondo-secundario),
+                    #080a18
+                );
+
+            font-family: var(--fuente);
+        }
+
+        button,
+        a {
+            font-family: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--verde);
+            outline-offset: 4px;
+        }
+
+        /* =========================================
+           ENCABEZADO
+        ========================================= */
+
+        .encabezado {
+            width: calc(100% - 48px);
+            max-width: 1240px;
+            height: 76px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            color: var(--texto);
+            text-decoration: none;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .logo-simbolo {
+            width: 37px;
+            height: 37px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--cyan);
+            border: 2px solid var(--cyan);
+            border-radius: 10px;
+
+            font-family: var(--fuente-tecnica);
+            box-shadow: 0 0 18px rgba(84, 231, 223, 0.17);
+        }
+
+        .logo-texto span {
+            color: var(--cyan);
+        }
+
+        .progreso-general {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progreso-general > span {
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+        }
+
+        .barra-general {
+            width: 160px;
+            height: 5px;
+
+            overflow: hidden;
+
+            background: var(--linea);
+            border-radius: 20px;
+        }
+
+        .barra-general span {
+            display: block;
+            width: 92%;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                var(--cyan),
+                var(--verde)
+            );
+
+            border-radius: inherit;
+        }
+
+        .porcentaje {
+            color: var(--cyan) !important;
+        }
+
+        .estado-mision {
+            padding: 7px 10px;
+
+            color: var(--color-resultado);
+            background: rgba(
+                var(--color-resultado-rgb),
+                0.08
+            );
+
+            border-radius: 7px;
+
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+            letter-spacing: 0.08em;
+        }
+
+        /* =========================================
+           PÁGINA
+        ========================================= */
+
+        .pagina {
+            width: calc(100% - 48px);
+            max-width: 1180px;
+            min-height: calc(100vh - 76px);
+            margin: 0 auto;
+            padding: 34px 0 45px;
+        }
+
+        .cabecera {
+            margin-bottom: 23px;
+
+            text-align: center;
+
+            animation: aparecer 0.55s ease both;
+        }
+
+        .etiqueta {
+            display: block;
+            margin-bottom: 9px;
+
+            color: var(--color-resultado);
+            font-family: var(--fuente-tecnica);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+        }
+
+        .cabecera h1 {
+            margin-bottom: 11px;
+
+            font-size: clamp(37px, 5vw, 56px);
+            line-height: 1;
+            letter-spacing: -0.05em;
+        }
+
+        .cabecera h1 span {
+            color: var(--color-resultado);
+        }
+
+        .cabecera p {
+            max-width: 650px;
+            margin: 0 auto;
+
+            color: var(--texto-secundario);
+            font-size: 11px;
+            line-height: 1.65;
+        }
+
+        /* =========================================
+           VISUALIZACIÓN
+        ========================================= */
+
+        .visualizacion {
+            position: relative;
+
+            min-height: 390px;
+            margin-bottom: 17px;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    rgba(84, 231, 223, 0.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(84, 231, 223, 0.025) 1px,
+                    transparent 1px
+                ),
+                radial-gradient(
+                    circle at center,
+                    rgba(128, 108, 255, 0.13),
+                    transparent 58%
+                ),
+                #0b0f25;
+
+            background-size:
+                35px 35px,
+                35px 35px,
+                auto,
+                auto;
+
+            border: 1px solid var(--linea);
+            border-radius: 18px;
+
+            box-shadow:
+                inset 0 0 65px rgba(0, 0, 0, 0.37),
+                0 24px 55px rgba(0, 0, 0, 0.2);
+
+            animation: aparecer 0.65s 0.08s ease both;
+        }
+
+        .visualizacion::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+            z-index: 15;
+
+            pointer-events: none;
+
+            background: radial-gradient(
+                circle at center,
+                transparent 45%,
+                rgba(7, 9, 26, 0.65)
+            );
+        }
+
+        /* =========================================
+           PUBLICACIÓN CENTRAL
+        ========================================= */
+
+        .publicacion-central {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 10;
+
+            width: 210px;
+            padding: 13px;
+
+            color: #202334;
+            background: #f5f6fb;
+            border-radius: 13px;
+
+            transform: translate(-50%, -50%);
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.38),
+                0 0 30px rgba(
+                    var(--color-resultado-rgb),
+                    0.12
+                );
+        }
+
+        .perfil-publicacion {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .avatar-publicacion {
+            width: 30px;
+            height: 30px;
+
+            display: grid;
+            place-items: center;
+
+            color: white;
+            background: var(--rosa);
+            border-radius: 50%;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .perfil-publicacion div {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .perfil-publicacion strong {
+            font-size: 8px;
+        }
+
+        .perfil-publicacion span {
+            color: #73798b;
+            font-size: 6px;
+        }
+
+        .publicacion-central p {
+            margin: 10px 0;
+
+            font-size: 8px;
+            font-weight: 600;
+            line-height: 1.45;
+        }
+
+        .imagen-mini {
+            height: 83px;
+
+            display: grid;
+            place-items: center;
+
+            color: white;
+            background:
+                linear-gradient(
+                    rgba(10, 15, 30, 0.2),
+                    rgba(10, 15, 30, 0.78)
+                ),
+                linear-gradient(
+                    145deg,
+                    #566079,
+                    #141b2e
+                );
+
+            border-radius: 7px;
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        .estado-publicacion {
+            margin-top: 9px;
+            padding: 6px;
+
+            color: var(--color-resultado);
+            background: rgba(
+                var(--color-resultado-rgb),
+                0.1
+            );
+
+            border-radius: 6px;
+
+            text-align: center;
+            font-family: var(--fuente-tecnica);
+            font-size: 6px;
+            font-weight: 700;
+        }
+
+        /* =========================================
+           PERSONAS Y PROPAGACIÓN
+        ========================================= */
+
+        .usuario {
+            position: absolute;
+            z-index: 8;
+
+            width: 46px;
+            height: 46px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--texto-secundario);
+            background: #141a36;
+            border: 1px solid var(--linea);
+            border-radius: 50%;
+
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+
+            transition:
+                border-color 0.4s ease,
+                color 0.4s ease,
+                box-shadow 0.4s ease;
+        }
+
+        .usuario.protegido {
+            color: var(--color-resultado);
+            border-color: var(--color-resultado);
+
+            box-shadow: 0 0 17px rgba(
+                var(--color-resultado-rgb),
+                0.22
+            );
+        }
+
+        .usuario.afectado {
+            color: var(--rosa);
+            border-color: var(--rosa);
+
+            box-shadow: 0 0 17px rgba(255, 84, 120, 0.24);
+        }
+
+        .usuario-1 {
+            top: 17%;
+            left: 15%;
+        }
+
+        .usuario-2 {
+            top: 18%;
+            right: 16%;
+        }
+
+        .usuario-3 {
+            bottom: 17%;
+            left: 17%;
+        }
+
+        .usuario-4 {
+            right: 18%;
+            bottom: 17%;
+        }
+
+        .usuario-5 {
+            top: 44%;
+            left: 5%;
+        }
+
+        .usuario-6 {
+            top: 44%;
+            right: 6%;
+        }
+
+        .conexion {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 3;
+
+            width: 260px;
+            height: 2px;
+
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    var(--color-resultado) 0 8px,
+                    transparent 8px 15px
+                );
+
+            opacity: 0.4;
+            transform-origin: left center;
+        }
+
+        .conexion-1 {
+            transform: rotate(-148deg);
+        }
+
+        .conexion-2 {
+            transform: rotate(-32deg);
+        }
+
+        .conexion-3 {
+            transform: rotate(148deg);
+        }
+
+        .conexion-4 {
+            transform: rotate(32deg);
+        }
+
+        .conexion-5 {
+            transform: rotate(180deg);
+        }
+
+        .conexion-6 {
+            transform: rotate(0deg);
+        }
+
+        /* =========================================
+           NIEBLA
+        ========================================= */
+
+        .niebla {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+
+            opacity: 0.8;
+            pointer-events: none;
+
+            background:
+                radial-gradient(
+                    ellipse at 20% 30%,
+                    rgba(255, 84, 120, 0.31),
+                    transparent 40%
+                ),
+                radial-gradient(
+                    ellipse at 80% 65%,
+                    rgba(128, 108, 255, 0.35),
+                    transparent 43%
+                );
+
+            filter: blur(20px);
+
+            animation: disipar-niebla 3s 0.5s forwards;
+        }
+
+        .estado-negativo .niebla {
+            animation: aumentar-niebla 3s 0.5s forwards;
+        }
+
+        .estado-intermedio .niebla {
+            animation: mantener-niebla 3s 0.5s forwards;
+        }
+
+        .contador-alcance {
+            position: absolute;
+            top: 17px;
+            left: 17px;
+            z-index: 20;
+
+            padding: 10px 12px;
+
+            background: rgba(10, 14, 33, 0.88);
+            border: 1px solid var(--linea);
+            border-radius: 9px;
+        }
+
+        .contador-alcance span {
+            display: block;
+            margin-bottom: 3px;
+
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 6px;
+        }
+
+        .contador-alcance strong {
+            color: var(--color-resultado);
+            font-family: var(--fuente-tecnica);
+            font-size: 14px;
+        }
+
+        .medidor-niebla {
+            position: absolute;
+            right: 17px;
+            bottom: 17px;
+            z-index: 20;
+
+            width: 185px;
+            padding: 10px 12px;
+
+            background: rgba(10, 14, 33, 0.88);
+            border: 1px solid var(--linea);
+            border-radius: 9px;
+        }
+
+        .medidor-superior {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 6px;
+        }
+
+        .medidor-superior strong {
+            color: var(--color-resultado);
+        }
+
+        .barra-niebla {
+            height: 5px;
+
+            overflow: hidden;
+
+            background: var(--linea);
+            border-radius: 20px;
+        }
+
+        .barra-niebla span {
+            display: block;
+            width: 72%;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                var(--amarillo),
+                var(--rosa)
+            );
+
+            border-radius: inherit;
+
+            animation:
+                cambiar-medidor 2.7s 0.7s forwards;
+        }
+
+        /* =========================================
+           PANEL DE CONSECUENCIAS
+        ========================================= */
+
+        .panel-consecuencias {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 13px;
+            align-items: stretch;
+
+            animation: aparecer 0.65s 0.16s ease both;
+        }
+
+        .resultado,
+        .aprendizaje {
+            padding: 17px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 25, 52, 0.97),
+                    rgba(9, 13, 31, 0.96)
+                );
+
+            border: 1px solid var(--linea);
+            border-radius: 13px;
+        }
+
+        .resultado span,
+        .aprendizaje span {
+            display: block;
+            margin-bottom: 7px;
+
+            color: var(--color-resultado);
+            font-family: var(--fuente-tecnica);
+            font-size: 7px;
+            letter-spacing: 0.1em;
+        }
+
+        .resultado h2 {
+            margin-bottom: 7px;
+            font-size: 16px;
+        }
+
+        .resultado p,
+        .aprendizaje p {
+            color: var(--texto-secundario);
+            font-size: 9px;
+            line-height: 1.6;
+        }
+
+        .aprendizaje strong {
+            display: block;
+            margin-bottom: 7px;
+
+            font-size: 13px;
+        }
+
+        .boton-evaluacion {
+            min-width: 190px;
+            padding: 0 18px;
+
+            color: #10131f;
+            background: var(--verde);
+            border: 1px solid var(--verde);
+            border-radius: 11px;
+
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+        .boton-evaluacion:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(202, 255, 100, 0.2);
+        }
+
+        /* =========================================
+           ANIMACIONES
+        ========================================= */
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(11px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes disipar-niebla {
+            from {
+                opacity: 0.85;
+            }
+
+            to {
+                opacity: 0.18;
+                transform: scale(1.15);
+            }
+        }
+
+        @keyframes aumentar-niebla {
+            from {
+                opacity: 0.65;
+                transform: scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes mantener-niebla {
+            from {
+                opacity: 0.75;
+            }
+
+            to {
+                opacity: 0.55;
+                transform: translateX(15px);
+            }
+        }
+
+        @keyframes cambiar-medidor {
+            from {
+                width: 72%;
+            }
+
+            to {
+                width: var(--niebla-final);
+            }
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 850px) {
+            .panel-consecuencias {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .boton-evaluacion {
+                grid-column: 1 / -1;
+                min-height: 48px;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .encabezado {
+                width: calc(100% - 30px);
+                height: 66px;
+            }
+
+            .progreso-general {
+                display: none;
+            }
+
+            .pagina {
+                width: calc(100% - 30px);
+                min-height: calc(100vh - 66px);
+                padding-top: 28px;
+            }
+
+            .cabecera h1 {
+                font-size: 37px;
+            }
+
+            .visualizacion {
+                min-height: 520px;
+            }
+
+            .usuario-1 {
+                top: 10%;
+                left: 12%;
+            }
+
+            .usuario-2 {
+                top: 10%;
+                right: 12%;
+            }
+
+            .usuario-3 {
+                bottom: 12%;
+                left: 12%;
+            }
+
+            .usuario-4 {
+                right: 12%;
+                bottom: 12%;
+            }
+
+            .usuario-5,
+            .usuario-6,
+            .conexion {
+                display: none;
+            }
+
+            .panel-consecuencias {
+                grid-template-columns: 1fr;
+            }
+
+            .boton-evaluacion {
+                grid-column: auto;
+                min-height: 48px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         ENCABEZADO
+    ========================================== -->
+
+    <header class="encabezado">
+
+        <a href="index.html" class="logo">
+
+            <span class="logo-simbolo">M</span>
+
+            <span class="logo-texto">
+                MIL<span>Bot</span>
+            </span>
+
+        </a>
+
+        <div class="progreso-general">
+
+            <span>MISSION 01</span>
+
+            <div class="barra-general">
+                <span></span>
+            </div>
+
+            <span class="porcentaje">92%</span>
+
+        </div>
+
+        <span class="estado-mision" id="estadoMision">
+            DECISION PROCESSED
+        </span>
+
+    </header>
+
+    <!-- =========================================
+         PÁGINA
+    ========================================== -->
+
+    <main class="pagina">
+
+        <section class="cabecera">
+
+            <span class="etiqueta" id="etiquetaResultado">
+                POSITIVE CONSEQUENCE
+            </span>
+
+            <h1 id="tituloResultado">
+                The fog begins to
+                <span>disappear.</span>
+            </h1>
+
+            <p id="descripcionResultado">
+                Your decision helped stop the content from spreading
+                and directed residents toward a verifiable source.
+            </p>
+
+        </section>
+
+        <!-- =====================================
+             SIMULACIÓN
+        ====================================== -->
+
+        <section
+            class="visualizacion"
+            id="visualizacion"
+        >
+
+            <div class="niebla"></div>
+
+            <div class="contador-alcance">
+
+                <span>SPREAD PREVENTED</span>
+
+                <strong id="contadorAlcance">
+                    0
+                </strong>
+
+            </div>
+
+            <div class="conexion conexion-1"></div>
+            <div class="conexion conexion-2"></div>
+            <div class="conexion conexion-3"></div>
+            <div class="conexion conexion-4"></div>
+            <div class="conexion conexion-5"></div>
+            <div class="conexion conexion-6"></div>
+
+            <div class="usuario usuario-1">U1</div>
+            <div class="usuario usuario-2">U2</div>
+            <div class="usuario usuario-3">U3</div>
+            <div class="usuario usuario-4">U4</div>
+            <div class="usuario usuario-5">U5</div>
+            <div class="usuario usuario-6">U6</div>
+
+            <article class="publicacion-central">
+
+                <div class="perfil-publicacion">
+
+                    <span class="avatar-publicacion">
+                        A!
+                    </span>
+
+                    <div>
+                        <strong>School Alerts</strong>
+                        <span>@SchoolAlerts</span>
+                    </div>
+
+                </div>
+
+                <p>
+                    ⚠️ All classes are canceled tomorrow.
+                    Share this so no one leaves home.
+                </p>
+
+                <div class="imagen-mini">
+                    CLASSES CANCELED
+                </div>
+
+                <div
+                    class="estado-publicacion"
+                    id="estadoPublicacion"
+                >
+                    REACH REDUCED
+                </div>
+
+            </article>
+
+            <div class="medidor-niebla">
+
+                <div class="medidor-superior">
+
+                    <span>MISINFORMATION FOG</span>
+
+                    <strong id="porcentajeNiebla">
+                        24%
+                    </strong>
+
+                </div>
+
+                <div class="barra-niebla">
+                    <span></span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================
+             EXPLICACIÓN
+        ====================================== -->
+
+        <section class="panel-consecuencias">
+
+            <article class="resultado">
+
+                <span>RESULT OF YOUR ACTION</span>
+
+                <h2 id="tituloAccion">
+                    You corrected it with evidence
+                </h2>
+
+                <p id="textoAccion">
+                    You did not share the rumor and directed people
+                    toward the institutional statement. The post
+                    lost reach.
+                </p>
+
+            </article>
+
+            <article class="aprendizaje">
+
+                <span>MILBOT · LESSON</span>
+
+                <strong id="tituloAprendizaje">
+                    How you respond also matters
+                </strong>
+
+                <p id="textoAprendizaje">
+                    Correcting misinformation respectfully with a reliable
+                    source helps more than attacking the people who shared
+                    incorrect information.
+                </p>
+
+            </article>
+
+            <button
+                class="boton-evaluacion"
+                id="botonEvaluacion"
+                type="button"
+            >
+                View my evaluation →
+            </button>
+
+        </section>
+
+    </main>
+
+    <script>
+        const visualizacion =
+            document.getElementById("visualizacion");
+
+        const etiquetaResultado =
+            document.getElementById("etiquetaResultado");
+
+        const tituloResultado =
+            document.getElementById("tituloResultado");
+
+        const descripcionResultado =
+            document.getElementById("descripcionResultado");
+
+        const estadoPublicacion =
+            document.getElementById("estadoPublicacion");
+
+        const contadorAlcance =
+            document.getElementById("contadorAlcance");
+
+        const porcentajeNiebla =
+            document.getElementById("porcentajeNiebla");
+
+        const tituloAccion =
+            document.getElementById("tituloAccion");
+
+        const textoAccion =
+            document.getElementById("textoAccion");
+
+        const tituloAprendizaje =
+            document.getElementById("tituloAprendizaje");
+
+        const textoAprendizaje =
+            document.getElementById("textoAprendizaje");
+
+        const usuarios =
+            document.querySelectorAll(".usuario");
+
+        const botonEvaluacion =
+            document.getElementById("botonEvaluacion");
+
+        /*
+         * Recuperar la decisión.
+         */
+
+        let decision;
+
+        try {
+            decision =
+                JSON.parse(
+                    localStorage.getItem(
+                        "milbotDecisionFinal"
+                    )
+                );
+        } catch (error) {
+            decision = null;
+        }
+
+        /*
+         * Decisión demostrativa si se abre
+         * directamente esta pantalla.
+         */
+
+        if (!decision) {
+            decision = {
+                veredicto: "falsa",
+                accion: "corregir",
+                puntosVeredicto: 15,
+                puntosAccion: 10
+            };
+        }
+
+        let tipoResultado;
+
+        /*
+         * El resultado depende principalmente de la acción,
+         * aunque también considera el veredicto.
+         */
+
+        if (
+            decision.veredicto === "falsa" &&
+            decision.accion === "corregir"
+        ) {
+            tipoResultado = "positivo";
+        } else if (
+            decision.accion === "compartir" ||
+            decision.veredicto === "confiable"
+        ) {
+            tipoResultado = "negativo";
+        } else {
+            tipoResultado = "intermedio";
+        }
+
+        const resultados = {
+            positivo: {
+                etiqueta: "POSITIVE CONSEQUENCE",
+                titulo:
+                    'The fog begins to <span>disappear.</span>',
+                descripcion:
+                    "Your decision helped stop the content from spreading " +
+                    "and directed residents toward a verifiable source.",
+                estadoPublicacion: "REACH REDUCED",
+                alcance: 1240,
+                niebla: 24,
+                color: "#caff64",
+                rgb: "202, 255, 100",
+                tituloAccion: "You corrected it with evidence",
+                textoAccion:
+                    "You did not share the rumor and directed people " +
+                    "toward the institutional statement. The post " +
+                    "lost reach.",
+                tituloAprendizaje:
+                    "How you respond also matters",
+                textoAprendizaje:
+                    "Correcting misinformation respectfully with a reliable source " +
+                    "helps more than attacking those who shared " +
+                    "incorrect information."
+            },
+
+            intermedio: {
+                etiqueta: "PARTIAL CONSEQUENCE",
+                titulo:
+                    'The spread stopped, but the <span>fog remains.</span>',
+                descripcion:
+                    "Your decision prevented the message from being shared, but " +
+                    "it did not provide the community with an explanation " +
+                    "or a source to clarify the rumor.",
+                estadoPublicacion: "SPREAD STOPPED",
+                alcance: 540,
+                niebla: 53,
+                color: "#ffd166",
+                rgb: "255, 209, 102",
+                tituloAccion: "You avoided spreading the message",
+                textoAccion:
+                    "The post received no additional boost, but other " +
+                    "users may still believe it because they did not " +
+                    "receive a correction.",
+                tituloAprendizaje:
+                    "Not sharing helps, but we can do more",
+                textoAprendizaje:
+                    "When you have sufficient evidence, sharing a " +
+                    "respectful correction can reduce confusion " +
+                    "among other people."
+            },
+
+            negativo: {
+                etiqueta: "NEGATIVE CONSEQUENCE",
+                titulo:
+                    'The fog becomes <span>more intense.</span>',
+                descripcion:
+                    "The post continued circulating and reached more " +
+                    "people before they could consult an official source.",
+                estadoPublicacion: "CONTENT SPREAD",
+                alcance: 2850,
+                niebla: 92,
+                color: "#ff5478",
+                rgb: "255, 84, 120",
+                tituloAccion: "The rumor continued to spread",
+                textoAccion:
+                    "Sharing an alarming message without verifying it " +
+                    "increased its reach and caused more confusion among " +
+                    "students.",
+                tituloAprendizaje:
+                    "Popularity does not prove that something is true",
+                textoAprendizaje:
+                    "Before sharing an alert, identify who posted it " +
+                    "and look for the original statement on an " +
+                    "institutional channel."
+            }
+        };
+
+        const resultado =
+            resultados[tipoResultado];
+
+        /*
+         * Cambiar colores y animaciones.
+         */
+
+        document.documentElement.style.setProperty(
+            "--color-resultado",
+            resultado.color
+        );
+
+        document.documentElement.style.setProperty(
+            "--color-resultado-rgb",
+            resultado.rgb
+        );
+
+        document.documentElement.style.setProperty(
+            "--niebla-final",
+            resultado.niebla + "%"
+        );
+
+        if (tipoResultado === "negativo") {
+            visualizacion.classList.add("estado-negativo");
+
+            usuarios.forEach(function (usuario) {
+                usuario.classList.add("afectado");
+            });
+        } else if (tipoResultado === "intermedio") {
+            visualizacion.classList.add("estado-intermedio");
+
+            usuarios.forEach(function (usuario, indice) {
+                if (indice < 3) {
+                    usuario.classList.add("protegido");
+                }
+            });
+        } else {
+            usuarios.forEach(function (usuario) {
+                usuario.classList.add("protegido");
+            });
+        }
+
+        /*
+         * Colocar el contenido correspondiente.
+         */
+
+        etiquetaResultado.textContent =
+            resultado.etiqueta;
+
+        tituloResultado.innerHTML =
+            resultado.titulo;
+
+        descripcionResultado.textContent =
+            resultado.descripcion;
+
+        estadoPublicacion.textContent =
+            resultado.estadoPublicacion;
+
+        porcentajeNiebla.textContent =
+            resultado.niebla + "%";
+
+        tituloAccion.textContent =
+            resultado.tituloAccion;
+
+        textoAccion.textContent =
+            resultado.textoAccion;
+
+        tituloAprendizaje.textContent =
+            resultado.tituloAprendizaje;
+
+        textoAprendizaje.textContent =
+            resultado.textoAprendizaje;
+
+        /*
+         * Animar el contador.
+         */
+
+        function animarContador(valorFinal) {
+            const duracion = 2200;
+            const inicio = performance.now();
+
+            function actualizar(tiempoActual) {
+                const progreso = Math.min(
+                    (tiempoActual - inicio) / duracion,
+                    1
+                );
+
+                const valor =
+                    Math.floor(valorFinal * progreso);
+
+                contadorAlcance.textContent =
+                    valor.toLocaleString("en-US");
+
+                if (progreso < 1) {
+                    requestAnimationFrame(actualizar);
+                }
+            }
+
+            requestAnimationFrame(actualizar);
+        }
+
+        animarContador(resultado.alcance);
+
+        /*
+         * Guardar la consecuencia.
+         */
+
+        localStorage.setItem(
+            "milbotConsecuencia",
+            tipoResultado
+        );
+
+        localStorage.setItem(
+            "milbotNieblaFinal",
+            String(resultado.niebla)
+        );
+
+        botonEvaluacion.addEventListener("click", function () {
+            /*
+             * La siguiente pantalla mostrará la
+             * puntuación y el aprendizaje final.
+             */
+
+            window.location.href =
+                "resultados.html";
+        });
+    </script>
+
+</body>
+</html>

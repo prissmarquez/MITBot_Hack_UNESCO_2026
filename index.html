@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MILBot: Mission Verification</title>
+
+    <meta
+        name="description"
+        content="Investigate suspicious posts, gather evidence, and decide what is worth sharing."
+    >
+
+    <!-- Tipografías -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        /* ==============================
+           VARIABLES GENERALES
+        ============================== */
+
+        :root {
+            --fondo-principal: #07091a;
+            --fondo-secundario: #0d1029;
+            --panel: #131833;
+            --linea: #2b3155;
+
+            --texto-principal: #f5f6ff;
+            --texto-secundario: #9da5c6;
+
+            --cyan: #54e7df;
+            --verde: #caff64;
+            --morado: #806cff;
+
+            --fuente-principal: "Inter", sans-serif;
+            --fuente-tecnica: "Space Mono", monospace;
+        }
+
+        /* ==============================
+           CONFIGURACIÓN GLOBAL
+        ============================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+
+            color: var(--texto-principal);
+            background:
+                radial-gradient(
+                    circle at 75% 45%,
+                    rgba(83, 63, 184, 0.23),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--fondo-principal),
+                    var(--fondo-secundario) 60%,
+                    #080a18
+                );
+
+            font-family: var(--fuente-principal);
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--verde);
+            outline-offset: 4px;
+        }
+
+        /* ==============================
+           ENCABEZADO
+        ============================== */
+
+        .encabezado {
+            position: relative;
+            z-index: 20;
+
+            width: calc(100% - 48px);
+            max-width: 1240px;
+            height: 78px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            color: var(--texto-principal);
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .logo-simbolo {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--cyan);
+            border: 2px solid var(--cyan);
+            border-radius: 11px;
+
+            font-family: var(--fuente-tecnica);
+            font-size: 19px;
+
+            box-shadow:
+                0 0 20px rgba(84, 231, 223, 0.15),
+                inset 0 0 12px rgba(84, 231, 223, 0.06);
+        }
+
+        .logo-texto span {
+            color: var(--cyan);
+        }
+
+        .encabezado-derecha {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .estado {
+            color: var(--texto-secundario);
+            font-family: var(--fuente-tecnica);
+            font-size: 11px;
+        }
+
+        .estado-punto {
+            display: inline-block;
+
+            width: 7px;
+            height: 7px;
+            margin-right: 7px;
+
+            background: var(--verde);
+            border-radius: 50%;
+            box-shadow: 0 0 9px var(--verde);
+        }
+
+        .boton-sonido {
+            width: 38px;
+            height: 38px;
+
+            color: var(--texto-secundario);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--linea);
+            border-radius: 9px;
+
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .boton-sonido:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+        }
+
+        /* ==============================
+           PANTALLA PRINCIPAL
+        ============================== */
+
+        .portada {
+            position: relative;
+
+            width: calc(100% - 48px);
+            max-width: 1240px;
+            min-height: calc(100vh - 78px);
+            margin: 0 auto;
+            padding: 75px 0 55px;
+
+            display: grid;
+            grid-template-columns: 1.08fr 0.92fr;
+            align-items: center;
+            gap: 25px;
+        }
+
+        /* ==============================
+           INFORMACIÓN PRINCIPAL
+        ============================== */
+
+        .contenido {
+            position: relative;
+            z-index: 5;
+
+            animation: aparecer 0.8s ease both;
+        }
+
+        .etiqueta-mision {
+            margin-bottom: 23px;
+
+            color: var(--cyan);
+            font-family: var(--fuente-tecnica);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+        }
+
+        .etiqueta-mision::before {
+            content: "";
+
+            display: inline-block;
+
+            width: 7px;
+            height: 7px;
+            margin-right: 9px;
+
+            background: var(--verde);
+            border-radius: 50%;
+            box-shadow: 0 0 9px var(--verde);
+        }
+
+        .titulo {
+            max-width: 760px;
+            margin-bottom: 27px;
+
+            font-size: clamp(50px, 6vw, 82px);
+            line-height: 0.98;
+            letter-spacing: -0.06em;
+        }
+
+        .titulo span {
+            color: var(--cyan);
+            text-shadow: 0 0 30px rgba(84, 231, 223, 0.17);
+        }
+
+        .descripcion {
+            max-width: 590px;
+
+            color: var(--texto-secundario);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        /* ==============================
+           BOTONES
+        ============================== */
+
+        .grupo-botones {
+            margin-top: 36px;
+
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .boton {
+            min-height: 52px;
+            padding: 0 22px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 26px;
+
+            border-radius: 11px;
+
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .boton-principal {
+            color: #10131f;
+            background: var(--verde);
+            border: 1px solid var(--verde);
+
+            box-shadow: 0 9px 30px rgba(202, 255, 100, 0.12);
+        }
+
+        .boton-principal:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(202, 255, 100, 0.22);
+        }
+
+        .boton-secundario {
+            color: var(--texto-principal);
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid var(--linea);
+        }
+
+        .boton-secundario:hover {
+            transform: translateY(-3px);
+            border-color: var(--cyan);
+        }
+
+        .boton-minijuego {
+            position: relative;
+
+            color: var(--texto-principal);
+            background: linear-gradient(
+                135deg,
+                rgba(128, 108, 255, 0.95),
+                rgba(84, 231, 223, 0.72)
+            );
+            border: 1px solid rgba(84, 231, 223, 0.75);
+
+            box-shadow: 0 9px 30px rgba(128, 108, 255, 0.2);
+        }
+
+        .boton-minijuego:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 13px 36px rgba(128, 108, 255, 0.34);
+        }
+
+        .boton-minijuego .nuevo {
+            padding: 4px 7px;
+
+            color: #10131f;
+            background: var(--verde);
+            border-radius: 100px;
+
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+            letter-spacing: 0.08em;
+        }
+
+        /* ==============================
+           ESTADÍSTICAS
+        ============================== */
+
+        .estadisticas {
+            margin-top: 53px;
+
+            display: flex;
+            gap: 44px;
+        }
+
+        .estadistica {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .estadistica-numero {
+            color: var(--texto-principal);
+            font-family: var(--fuente-tecnica);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .estadistica-texto {
+            color: var(--texto-secundario);
+            font-size: 10px;
+        }
+
+        /* ==============================
+           ÁREA VISUAL
+        ============================== */
+
+        .area-visual {
+            position: relative;
+
+            height: 570px;
+
+            display: grid;
+            place-items: center;
+
+            animation: aparecer 1s 0.15s ease both;
+        }
+
+        .orbita {
+            position: absolute;
+
+            border: 1px solid rgba(84, 231, 223, 0.14);
+            border-radius: 50%;
+
+            animation: girar 18s linear infinite;
+        }
+
+        .orbita-grande {
+            width: 455px;
+            height: 455px;
+        }
+
+        .orbita-pequena {
+            width: 325px;
+            height: 325px;
+
+            border-style: dashed;
+
+            animation-direction: reverse;
+            animation-duration: 23s;
+        }
+
+        .orbita::before,
+        .orbita::after {
+            content: "";
+
+            position: absolute;
+
+            width: 7px;
+            height: 7px;
+
+            background: var(--cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--cyan);
+        }
+
+        .orbita::before {
+            top: 20%;
+            left: 5%;
+        }
+
+        .orbita::after {
+            right: 12%;
+            bottom: 12%;
+        }
+
+        /* ==============================
+           TARJETAS FLOTANTES
+        ============================== */
+
+        .tarjeta-flotante {
+            position: absolute;
+            z-index: 6;
+
+            padding: 13px 16px;
+
+            background: rgba(19, 24, 51, 0.85);
+            border: 1px solid var(--linea);
+            border-radius: 11px;
+
+            font-size: 12px;
+
+            backdrop-filter: blur(9px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .tarjeta-flotante small {
+            display: block;
+            margin-bottom: 6px;
+
+            color: var(--cyan);
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+            letter-spacing: 0.12em;
+        }
+
+        .tarjeta-fuente {
+            top: 27%;
+            left: 0;
+
+            transform: rotate(-4deg);
+            animation: flotar-uno 4s ease-in-out infinite;
+        }
+
+        .tarjeta-contexto {
+            right: -1%;
+            bottom: 25%;
+
+            transform: rotate(3deg);
+            animation: flotar-dos 4.5s ease-in-out infinite;
+        }
+
+        .burbuja {
+            position: absolute;
+            top: 14%;
+            right: 1%;
+            z-index: 7;
+
+            padding: 13px 17px;
+
+            color: #171a30;
+            background: #f0f1ff;
+            border-radius: 14px 14px 14px 3px;
+
+            font-size: 12px;
+            line-height: 1.5;
+
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+            animation: flotar-dos 4s ease-in-out infinite;
+        }
+
+        /* ==============================
+           MILBOT CON CSS
+        ============================== */
+
+        .milbot {
+            position: relative;
+            z-index: 5;
+
+            width: 230px;
+            height: 360px;
+
+            filter: drop-shadow(0 28px 38px rgba(0, 0, 0, 0.38));
+            animation: robot-flota 4s ease-in-out infinite;
+        }
+
+        .milbot-sombra {
+            position: absolute;
+            left: 31px;
+            bottom: 0;
+
+            width: 170px;
+            height: 22px;
+
+            background: rgba(84, 231, 223, 0.15);
+            border-radius: 50%;
+
+            filter: blur(8px);
+        }
+
+        .antena {
+            position: absolute;
+            top: 0;
+            left: 113px;
+
+            width: 4px;
+            height: 43px;
+
+            background: #9ba3c8;
+        }
+
+        .antena::before {
+            content: "";
+
+            position: absolute;
+            top: -4px;
+            left: -5px;
+
+            width: 14px;
+            height: 14px;
+
+            background: var(--verde);
+            border-radius: 50%;
+            box-shadow: 0 0 17px var(--verde);
+        }
+
+        .cabeza {
+            position: absolute;
+            top: 38px;
+            left: 28px;
+
+            width: 174px;
+            height: 125px;
+
+            background: linear-gradient(145deg, #dbe0f1, #737b99);
+            border: 7px solid #b6bdd3;
+            border-radius: 42px 42px 32px 32px;
+
+            box-shadow: inset -12px -8px 20px rgba(22, 27, 57, 0.35);
+        }
+
+        .pantalla-cara {
+            position: absolute;
+            inset: 22px 19px 27px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+
+            background: #10152c;
+            border-radius: 25px;
+
+            box-shadow: inset 0 0 18px #02040d;
+        }
+
+        .ojo {
+            width: 12px;
+            height: 22px;
+
+            background: var(--cyan);
+            border-radius: 50%;
+
+            box-shadow: 0 0 15px var(--cyan);
+            animation: parpadear 5s infinite;
+        }
+
+        .cuello {
+            position: absolute;
+            top: 155px;
+            left: 98px;
+
+            width: 35px;
+            height: 30px;
+
+            background: #68718f;
+        }
+
+        .cuerpo {
+            position: absolute;
+            top: 179px;
+            left: 47px;
+
+            width: 136px;
+            height: 132px;
+
+            background: linear-gradient(145deg, #c9cfe2, #656d8b);
+            border: 5px solid #aeb5cb;
+            border-radius: 34px 34px 48px 48px;
+        }
+
+        .nucleo {
+            position: absolute;
+            top: 31px;
+            left: 43px;
+
+            width: 46px;
+            height: 46px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--verde);
+            background: #15213c;
+            border: 3px solid var(--cyan);
+            border-radius: 50%;
+
+            font-size: 20px;
+            font-weight: 800;
+
+            box-shadow: 0 0 22px rgba(84, 231, 223, 0.5);
+        }
+
+        .brazo {
+            position: absolute;
+            top: 198px;
+
+            width: 35px;
+            height: 105px;
+
+            background: linear-gradient(#aeb5cb, #616a8a);
+            border-radius: 18px;
+        }
+
+        .brazo-izquierdo {
+            left: 10px;
+            transform: rotate(12deg);
+        }
+
+        .brazo-derecho {
+            right: 10px;
+            transform: rotate(-12deg);
+        }
+
+        /* ==============================
+           TEXTO INFERIOR
+        ============================== */
+
+        .indicador-inferior {
+            position: absolute;
+            bottom: 23px;
+            left: 0;
+
+            color: #616887;
+            font-family: var(--fuente-tecnica);
+            font-size: 8px;
+            letter-spacing: 0.16em;
+        }
+
+        .indicador-inferior span {
+            margin-left: 12px;
+            color: var(--cyan);
+        }
+
+        /* ==============================
+           ANIMACIONES
+        ============================== */
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes girar {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes robot-flota {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        @keyframes flotar-uno {
+            0%,
+            100% {
+                transform: translateY(0) rotate(-4deg);
+            }
+
+            50% {
+                transform: translateY(-9px) rotate(-4deg);
+            }
+        }
+
+        @keyframes flotar-dos {
+            0%,
+            100% {
+                transform: translateY(0) rotate(3deg);
+            }
+
+            50% {
+                transform: translateY(8px) rotate(3deg);
+            }
+        }
+
+        @keyframes parpadear {
+            0%,
+            45%,
+            55%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        /* ==============================
+           DISEÑO RESPONSIVO
+        ============================== */
+
+        @media (max-width: 950px) {
+            .portada {
+                grid-template-columns: 1fr;
+                padding-top: 60px;
+            }
+
+            .contenido {
+                text-align: center;
+            }
+
+            .descripcion {
+                margin: 0 auto;
+            }
+
+            .grupo-botones,
+            .estadisticas {
+                justify-content: center;
+            }
+
+            .area-visual {
+                height: 500px;
+            }
+
+            .indicador-inferior {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .encabezado {
+                width: calc(100% - 36px);
+                height: 66px;
+            }
+
+            .estado {
+                display: none;
+            }
+
+            .portada {
+                width: calc(100% - 36px);
+                min-height: calc(100vh - 66px);
+                padding-top: 45px;
+            }
+
+            .titulo {
+                font-size: 48px;
+            }
+
+            .descripcion {
+                font-size: 16px;
+            }
+
+            .grupo-botones {
+                flex-direction: column;
+            }
+
+            .boton {
+                width: 100%;
+            }
+
+            .estadisticas {
+                gap: 20px;
+            }
+
+            .estadistica-texto {
+                max-width: 80px;
+            }
+
+            .area-visual {
+                height: 420px;
+                margin: -10px -40px 0;
+                transform: scale(0.82);
+            }
+        }
+
+        /* Reduce las animaciones cuando el usuario lo solicita */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==============================
+         ENCABEZADO
+    ============================== -->
+
+    <header class="encabezado">
+
+        <a href="#" class="logo" aria-label="MILBot home page">
+            <span class="logo-simbolo">M</span>
+
+            <span class="logo-texto">
+                MIL<span>Bot</span>
+            </span>
+        </a>
+
+        <div class="encabezado-derecha">
+
+            <div class="estado">
+                <span class="estado-punto"></span>
+                
+            Connected Infópolis
+            </div>
+
+            <button
+                class="boton-sonido"
+                id="botonSonido"
+                type="button"
+                aria-label="Turn sound off"
+                aria-pressed="true"
+            >
+                ◖))
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- ==============================
+         PORTADA
+    ============================== -->
+
+    <main class="portada">
+
+        <!-- Información principal -->
+
+        <section class="contenido">
+
+            <p class="etiqueta-mision">
+                MISSION 01 · VIRAL PLAZA
+            </p>
+
+            <h1 class="titulo">
+                The truth needs<br>
+                <span>a good detective. </span>
+            </h1>
+
+            <p class="descripcion">
+               Investigate suspicious posts, gather evidence,
+                and decide what is worth sharing.
+            </p>
+
+            <div class="grupo-botones">
+
+                <button
+                    class="boton boton-principal"
+                    id="botonIniciar"
+                    type="button"
+                >
+                    Start mission
+                    <span aria-hidden="true">→</span>
+                </button>
+
+                <button
+                    class="boton boton-secundario"
+                    id="botonMetodo"
+                    type="button"
+                >
+                    Understand the method
+                </button>
+
+                <a
+                    class="boton boton-minijuego"
+                    href="quick-check-map.html"
+                    aria-label="Play Quick Check level 01"
+                >
+                    <span class="nuevo">NEW</span>
+                    Play Quick Check
+                    <span aria-hidden="true">⚡</span>
+                </a>
+
+            </div>
+
+            <div class="estadisticas">
+
+                <div class="estadistica">
+                    <span class="estadistica-numero">01</span>
+                    <span class="estadistica-texto">
+                        Mission available
+                    </span>
+                </div>
+
+                <div class="estadistica">
+                    <span class="estadistica-numero">10 min</span>
+                    <span class="estadistica-texto">
+                         Estimated duration
+                    </span>
+                </div>
+
+                <div class="estadistica">
+                    <span class="estadistica-numero">100</span>
+                    <span class="estadistica-texto">
+                        Points at stake 
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Área visual de MILBot -->
+
+        <section class="area-visual" aria-label="MILBot presentation">
+
+            <div class="orbita orbita-grande"></div>
+            <div class="orbita orbita-pequena"></div>
+
+            <div class="tarjeta-flotante tarjeta-fuente">
+                <small>SOURCE</small>
+                <strong>Who published it?</strong>
+            </div>
+
+            <div class="tarjeta-flotante tarjeta-contexto">
+                <small>CONTEXT</small>
+                <strong>When did it happen?</strong>
+            </div>
+
+            <div class="burbuja">
+                Hi! I'm MILBot.<br>
+                <strong>Shall we investigate together?</strong>
+            </div>
+
+            <!-- Personaje MILBot -->
+
+            <div class="milbot" aria-hidden="true">
+
+                <div class="milbot-sombra"></div>
+
+                <div class="antena"></div>
+
+                <div class="cabeza">
+
+                    <div class="pantalla-cara">
+                        <span class="ojo"></span>
+                        <span class="ojo"></span>
+                    </div>
+
+                </div>
+
+                <div class="cuello"></div>
+
+                <div class="brazo brazo-izquierdo"></div>
+                <div class="brazo brazo-derecho"></div>
+
+                <div class="cuerpo">
+                    <div class="nucleo">✓</div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <p class="indicador-inferior">
+            START YOUR RESEARCH
+            <span aria-hidden="true">↓</span>
+        </p>
+
+    </main>
+
+    <!-- ==============================
+         FUNCIONES BÁSICAS
+    ============================== -->
+
+    <script>
+        const botonIniciar = document.getElementById("botonIniciar");
+        const botonMetodo = document.getElementById("botonMetodo");
+        const botonSonido = document.getElementById("botonSonido");
+
+        let sonidoActivo = true;
+
+        botonIniciar.addEventListener("click", function () {
+            window.location.href = "introduccion.html";
+        });
+
+        botonMetodo.addEventListener("click", function () {
+            /*
+             * Cuando exista la pantalla del método P.A.R.A.,
+             * puedes usar:
+             */
+              window.location.href = "metodo-para.html";
+             
+
+           
+        });
+
+        botonSonido.addEventListener("click", function () {
+            sonidoActivo = !sonidoActivo;
+
+            botonSonido.textContent = sonidoActivo ? "◖))" : "×";
+            botonSonido.setAttribute(
+                "aria-pressed",
+                String(sonidoActivo)
+            );
+
+            botonSonido.setAttribute(
+                "aria-label",
+                sonidoActivo
+                    ? "Turn sound off"
+                    : "Turn sound on"
+            );
+        });
+    </script>
+
+</body>
+</html>
