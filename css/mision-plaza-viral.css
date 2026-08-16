@@ -1066,3 +1066,17 @@
 .etapa strong { font-size: 14px; }.etapa small { font-size: 12px; }
 .habilidad { font-size: 11px; }.mensaje-milbot p { font-size: 14px; line-height: 1.65; }
 .confirmacion label { font-size: 13px; line-height: 1.55; }.boton-comenzar { font-size: 15px; }
+
+/* Visor real de la noticia sospechosa */
+.visor-noticia { margin-top: 16px; overflow: hidden; background: #080c20; border: 1px solid var(--linea); border-radius: 12px; }
+.visor-lienzo { position: relative; aspect-ratio: 1024 / 572; overflow: hidden; touch-action: none; cursor: zoom-in; }
+.visor-lienzo.ampliado { cursor: grab; }.visor-lienzo.ampliado:active { cursor: grabbing; }
+.visor-lienzo img { width: 100%; height: 100%; display: block; object-fit: contain; transform-origin: center; user-select: none; transition: transform .08s linear; }
+.visor-controles { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 9px; background: #0d122a; border-top: 1px solid var(--linea); }
+.visor-controles button { min-width: 35px; padding: 7px 10px; color: var(--texto); background: var(--panel-claro); border: 1px solid var(--linea); border-radius: 7px; cursor: pointer; }
+.visor-controles button:hover { color: var(--cyan); border-color: var(--cyan); }
+.visor-controles span { min-width: 52px; color: var(--verde); text-align: center; font: 700 10px var(--fuente-tecnica); }
+.pistas-imagen { margin-top: 12px; padding: 12px 14px; background: rgba(255,209,102,.06); border: 1px solid rgba(255,209,102,.3); border-radius: 9px; }
+.pistas-imagen summary { color: var(--amarillo); font-size: 13px; font-weight: 700; cursor: pointer; }
+.pistas-imagen ul { margin: 11px 0 0 19px; color: var(--texto-secundario); font-size: 13px; line-height: 1.7; }
+.pistas-imagen li { margin-bottom: 9px; }.pistas-imagen li strong { color: var(--texto); }

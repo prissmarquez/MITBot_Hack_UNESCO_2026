@@ -1,1 +1,77 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Digital Market | MILBot</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../css/mision-04-mercado-digital.css"></head><body><header class="game-header"><a class="game-brand" href="../index.html">MIL<span>Bot</span></a><nav><a href="infopolis.html">← Map</a><a href="library.html">Library</a></nav></header><main class="game-shell"><div class="game-head"><div><p class="eyebrow">MISSION 04 · SCAM INSPECTOR</p><h1>Digital <span>Market</span></h1></div><div class="game-score"><small>SCORE</small><strong id="score">0 / 120</strong></div></div><div class="game-progress"><i id="progressBar"></i></div><section class="game-panel active" data-step="0"><h2>Inspect the prize message.</h2><p class="lead">Click the four warning signs hidden in the message. Do not follow the link.</p><article class="message-card"><small>From: rewards-center@fast-prize.click</small><h3>YOU WON A NEW PHONE!</h3><p><span class="clue">Act in the next 10 minutes</span> or your prize will be given away. We selected your account at random. <span class="clue">Pay a $4.99 verification fee</span>, then <span class="clue">enter your school email password</span> at <span class="clue">fast-prize.click/claim-now</span>.</p></article><p class="clue-count" id="clueCount">0 / 4 WARNING SIGNS</p><div class="actions"><button class="primary" id="clueSubmit" disabled>Lock evidence →</button></div></section><section class="game-panel" data-step="1"><h2>Choose the safest response.</h2><div class="coach"><b>M</b><p>The message uses urgency, a fee, credential theft, and an unrelated domain. Choose an action that protects both you and other students.</p></div><div class="choice-grid"><button class="choice" data-correct="false">Pay the small fee because the possible reward is valuable.</button><button class="choice" data-correct="true">Close the link, report the message, change credentials if entered, and verify through the official organization.</button><button class="choice" data-correct="false">Forward it to friends so they can decide for themselves.</button><button class="choice" data-correct="false">Reply with personal details but not the password.</button></div><div class="actions"><div class="feedback" id="decisionFeedback"></div><button class="primary" id="finishButton" disabled>Submit protection plan →</button></div></section><section class="game-panel result" data-step="2"><div class="medal">⚿</div><p class="eyebrow">MISSION 04 COMPLETE</p><h2>Digital Scam Inspector</h2><p class="lead">You identified manipulation tactics and chose a response that protects personal information.</p><div class="stats"><div class="stat"><strong id="finalScore">0</strong><span>POINTS</span></div><div class="stat"><strong>04</strong><span>MISSION</span></div><div class="stat"><strong>✓</strong><span>MARKET SECURED</span></div></div><div class="actions"><button class="secondary" onclick="location.reload()">↻ Replay</button><button class="primary" onclick="location.href='infopolis.html'">Return to map →</button></div></section></main><script src="../js/mision-04-mercado-digital.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Digital Market | MILBot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/mision-04-mercado-digital.css">
+</head>
+
+<body>
+    <header class="game-header"><a class="game-brand" href="../index.html">MIL<span>Bot</span></a>
+        <nav><a href="infopolis.html">← Map</a><a href="library.html">Library</a></nav>
+    </header>
+    <main class="game-shell">
+        <div class="game-head">
+            <div>
+                <p class="eyebrow">MISSION 04 · SCAM INSPECTOR</p>
+                <h1>Digital <span>Market</span></h1>
+            </div>
+            <div class="game-score"><small>SCORE</small><strong id="score">0 / 120</strong></div>
+        </div>
+        <div class="game-progress"><i id="progressBar"></i></div>
+        <section class="game-panel active" data-step="0">
+            <h2>Inspect the prize message.</h2>
+            <p class="lead">Click the four warning signs hidden in the message. Do not follow the link.</p>
+            <article class="message-card"><small>From: rewards-center@fast-prize.click</small>
+                <h3>YOU WON A NEW PHONE!</h3>
+                <p><span class="clue">Act in the next 10 minutes</span> or your prize will be given away. We selected
+                    your account at random. <span class="clue">Pay a $4.99 verification fee</span>, then <span
+                        class="clue">enter your school email password</span> at <span
+                        class="clue">fast-prize.click/claim-now</span>.</p>
+            </article>
+            <p class="clue-count" id="clueCount">0 / 4 WARNING SIGNS</p>
+            <div class="actions"><button class="primary" id="clueSubmit" disabled>Lock evidence →</button></div>
+        </section>
+        <section class="game-panel" data-step="1">
+            <h2>Choose the safest response.</h2>
+            <div class="coach"><b>M</b>
+                <p>The message uses urgency, a fee, credential theft, and an unrelated domain. Choose an action that
+                    protects both you and other students.</p>
+            </div>
+            <div class="choice-grid"><button class="choice" data-correct="false">Pay the small fee because the possible
+                    reward is valuable.</button><button class="choice" data-correct="true">Close the link, report the
+                    message, change credentials if entered, and verify through the official
+                    organization.</button><button class="choice" data-correct="false">Forward it to friends so they can
+                    decide for themselves.</button><button class="choice" data-correct="false">Reply with personal
+                    details but not the password.</button></div>
+            <div class="actions">
+                <div class="feedback" id="decisionFeedback"></div><button class="primary" id="finishButton"
+                    disabled>Submit protection plan →</button>
+            </div>
+        </section>
+        <section class="game-panel result" data-step="2">
+            <div class="medal">⚿</div>
+            <p class="eyebrow">MISSION 04 COMPLETE</p>
+            <h2>Digital Scam Inspector</h2>
+            <p class="lead">You identified manipulation tactics and chose a response that protects personal information.
+            </p>
+            <div class="stats">
+                <div class="stat"><strong id="finalScore">0</strong><span>POINTS</span></div>
+                <div class="stat"><strong>04</strong><span>MISSION</span></div>
+                <div class="stat"><strong>✓</strong><span>MARKET SECURED</span></div>
+            </div>
+            <div class="actions"><button class="secondary" onclick="location.reload()">↻ Replay</button><button
+                    class="primary" onclick="location.href='infopolis.html'">Return to map →</button></div>
+        </section>
+    </main>
+    <script src="../js/mision-04-mercado-digital.js"></script>
+</body>
+
+</html>

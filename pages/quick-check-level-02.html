@@ -1,14 +1,90 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Level 02 — Missing Context | MILBot</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/quick-check-level-02.css"></head><body><header class="topbar"><a class="brand" href="../index.html"><span>M</span><b>MIL<i>Bot</i></b></a><div class="level"><small>QUICK CHECK</small><strong>LEVEL 02 · MISSING CONTEXT</strong></div><nav class="nav"><a href="quick-check-map.html">← <span>LEVEL MAP</span></a><a class="home" href="../index.html">⌂ <span>HOME</span></a><div class="score">★ <span id="score">0</span></div></nav></header>
-<section id="intro" class="screen panel active"><div class="orbit">02</div><p class="eyebrow">SPEED CHALLENGE · INTERMEDIATE</p><h1>The detail is true.<br><em>Is the story complete?</em></h1><p class="lede">Classify five posts in 55 seconds. Watch for cropped statistics, missing dates, incomplete comparisons, and claims that need their original context.</p><div class="rules"><div><b>5</b><span>POSTS</span></div><div><b>55</b><span>SECONDS</span></div><div><b>3</b><span>CHOICES</span></div></div><button class="primary" id="start">Start level →</button><p class="hint">Tip: A true number can still mislead when the comparison, date, or population is hidden.</p></section>
-<section id="play" class="screen play"><div class="hud"><div class="progress-copy"><span id="postCount"></span><b id="percent"></b></div><div class="track"><i id="progress"></i></div><div class="timer" id="timerBox"><span>TIME</span><strong id="timer"></strong></div></div><article class="post"><div class="post-head"><div class="avatar" id="avatar"></div><div><strong id="source"></strong><span id="handle"></span></div><b class="more">•••</b></div><span class="badge" id="badge"></span><h2 id="headline"></h2><p id="copy"></p><div class="clue" id="clue"></div></article><div class="prompt"><p>🤖 <b>Quick decision:</b> How would you classify this post?</p><div class="streak">STREAK <b id="streak">×0</b></div></div><div class="choices"><button class="choice reliable" data-value="reliable"><i>✓</i> RELIABLE</button><button class="choice check" data-value="check"><i>?</i> NEEDS CHECKING</button><button class="choice misleading" data-value="misleading"><i>!</i> MISLEADING</button></div><div class="feedback" id="feedback"><div><b id="feedbackTitle"></b><p id="feedbackCopy"></p></div><button id="next"></button></div></section>
-<section id="result" class="screen panel"><div class="result-mark" id="resultMark">★</div><p class="eyebrow">LEVEL 02 COMPLETE</p><h1 id="resultTitle"></h1><p class="lede" id="resultCopy"></p><div class="results"><div><b id="finalScore"></b><span>POINTS</span></div><div><b id="accuracy"></b><span>ACCURACY</span></div><div><b id="best"></b><span>BEST STREAK</span></div><div><b id="timeLeft"></b><span>TIME LEFT</span></div></div><div class="review" id="review"></div><button class="primary" id="again">Play again ↻</button><button class="secondary" id="overview">Back to level map</button></section>
-<script>
-const stories=[
-{source:"City Mobility Office",handle:"@MoveInfopolis · 18 min",badge:"MONTHLY REPORT",headline:"Bus ridership increased by 12% this month",copy:"The full dashboard compares the result with the same month last year and explains the new route expansion.",clue:"First-party source · Clear comparison · Full report linked",answer:"reliable",explanation:"The source identifies the comparison period and provides the complete dashboard, making the limited claim verifiable."},
-{source:"Future Energy Daily",handle:"@FutureEnergyDaily · 34 min",badge:"RECORD GROWTH",headline:"Solar power grew by 300%!",copy:"The post does not say whether this refers to one neighborhood, one company, installed capacity, or actual electricity generation.",clue:"Large percentage · No baseline · Undefined measurement",answer:"check",explanation:"The number may be accurate, but without a baseline, place, time period, or measurement it cannot be interpreted responsibly."},
-{source:"Campus Pulse",handle:"@CampusPulse · 9 min",badge:"STUDENT SURVEY",headline:"90% of students want classes to start later",copy:"The survey received 18 responses from one optional social-media poll. The campus has more than 4,000 students.",clue:"Real poll · Tiny self-selected sample · Broad conclusion",answer:"misleading",explanation:"The percentage comes from a real poll, but the sample is too small and self-selected to represent all students."},
-{source:"Health Department",handle:"@InfopolisHealth · 1 h",badge:"WEEKLY UPDATE",headline:"Flu cases decreased for the third consecutive week",copy:"The weekly bulletin lists case counts, reporting dates, testing limitations, and a link to the public dataset.",clue:"Named authority · Time series · Limitations disclosed",answer:"reliable",explanation:"The claim is limited, supported by a public dataset, and includes both the relevant dates and known limitations."},
-{source:"Market Insider",handle:"@MarketInsiderNow · 6 min",badge:"PRICES COLLAPSE",headline:"Food prices are finally down!",copy:"The article cites a decrease in tomato prices but uses it to describe the cost of all food. No broader price index is shown.",clue:"One product · Broad headline · Missing overall comparison",answer:"misleading",explanation:"A decrease in one product does not establish that all food prices fell. The headline overgeneralizes a narrow fact."}
-],labels={reliable:"RELIABLE",check:"NEEDS CHECKING",misleading:"MISLEADING"};let index=0,time=55,score=0,streak=0,best=0,answers=[],interval,locked=false;const $=id=>document.getElementById(id),screens=["intro","play","result"];function show(id){screens.forEach(x=>$(x).classList.toggle("active",x===id))}function start(){index=0;time=55;score=0;streak=0;best=0;answers=[];$("score").textContent=0;show("play");render();clearInterval(interval);interval=setInterval(()=>{time--;$("timer").textContent=`0:${String(time).padStart(2,"0")}`;$("timerBox").classList.toggle("danger",time<=12);if(time<=0)finish()},1000)}function render(){const s=stories[index],pct=Math.round((index+1)/stories.length*100);$("postCount").textContent=`POST ${index+1} OF ${stories.length}`;$("percent").textContent=pct+"%";$("progress").style.width=pct+"%";$("timer").textContent=`0:${String(time).padStart(2,"0")}`;["source","handle","badge","headline","copy"].forEach(id=>$(id).textContent=s[id]);$("avatar").textContent=s.source.split(" ").map(x=>x[0]).slice(0,2).join("");$("clue").textContent="⌕ "+s.clue;$("streak").textContent="×"+streak;$("feedback").className="feedback";document.querySelectorAll(".choice").forEach(b=>{b.disabled=false;b.classList.remove("selected","answer")});locked=false}document.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{if(locked)return;locked=true;const s=stories[index],ok=b.dataset.value===s.answer;streak=ok?streak+1:0;best=Math.max(best,streak);if(ok)score+=100+streak*20;answers.push(ok);$("score").textContent=score;$("streak").textContent="×"+streak;document.querySelectorAll(".choice").forEach(x=>{x.disabled=true;x.classList.toggle("answer",x.dataset.value===s.answer)});b.classList.add("selected");$("feedback").className="feedback visible "+(ok?"correct":"wrong");$("feedbackTitle").textContent=ok?"Correct!":"Not quite — "+labels[s.answer];$("feedbackCopy").textContent=s.explanation;$("next").textContent=index===stories.length-1?"View results →":"Next post →"});function finish(){clearInterval(interval);const correct=answers.filter(Boolean).length,accuracy=Math.round(correct/stories.length*100)||0,old=Number(localStorage.getItem("quickCheckBestScore02")||0);localStorage.setItem("quickCheckBestScore02",Math.max(old,score));localStorage.setItem("quickCheckAccuracy02",accuracy);localStorage.setItem("quickCheckLevel02Complete","true");$("finalScore").textContent=score;$("accuracy").textContent=accuracy+"%";$("best").textContent="×"+best;$("timeLeft").textContent=Math.max(0,time)+"s";$("resultTitle").textContent=accuracy>=80?"Context restored!":"Keep looking deeper!";$("resultCopy").textContent=accuracy>=80?"You caught the missing comparisons, dates, and baselines.":"Review how incomplete context can turn a real detail into a misleading conclusion.";$("resultMark").textContent=accuracy>=80?"★":"✓";$("review").innerHTML=stories.map((_,i)=>`<span class="${answers[i]?"ok":"miss"}">${i+1}</span>`).join("");show("result")}$("start").onclick=start;$("again").onclick=start;$("overview").onclick=()=>location.href="quick-check-map.html";$("next").onclick=()=>{if(index===stories.length-1)finish();else{index++;render()}};
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Level 02 — Missing Context | MILBot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/quick-check-level-02.css">
+</head>
+
+<body>
+    <header class="topbar"><a class="brand" href="../index.html"><span>M</span><b>MIL<i>Bot</i></b></a>
+        <div class="level"><small>QUICK CHECK</small><strong>LEVEL 02 · MISSING CONTEXT</strong></div>
+        <nav class="nav"><a href="quick-check-map.html">← <span>LEVEL MAP</span></a><a class="home"
+                href="../index.html">⌂ <span>HOME</span></a>
+            <div class="score">★ <span id="score">0</span></div>
+        </nav>
+    </header>
+    <section id="intro" class="screen panel active">
+        <div class="orbit">02</div>
+        <p class="eyebrow">SPEED CHALLENGE · INTERMEDIATE</p>
+        <h1>The detail is true.<br><em>Is the story complete?</em></h1>
+        <p class="lede">Classify five posts in 55 seconds. Watch for cropped statistics, missing dates, incomplete
+            comparisons, and claims that need their original context.</p>
+        <div class="rules">
+            <div><b>5</b><span>POSTS</span></div>
+            <div><b>55</b><span>SECONDS</span></div>
+            <div><b>3</b><span>CHOICES</span></div>
+        </div><button class="primary" id="start">Start level →</button>
+        <p class="hint">Tip: A true number can still mislead when the comparison, date, or population is hidden.</p>
+    </section>
+    <section id="play" class="screen play">
+        <div class="hud">
+            <div class="progress-copy"><span id="postCount"></span><b id="percent"></b></div>
+            <div class="track"><i id="progress"></i></div>
+            <div class="timer" id="timerBox"><span>TIME</span><strong id="timer"></strong></div>
+        </div>
+        <article class="post">
+            <div class="post-head">
+                <div class="avatar" id="avatar"></div>
+                <div><strong id="source"></strong><span id="handle"></span></div><b class="more">•••</b>
+            </div><span class="badge" id="badge"></span>
+            <h2 id="headline"></h2>
+            <p id="copy"></p>
+            <div class="clue" id="clue"></div>
+        </article>
+        <div class="prompt">
+            <p>🤖 <b>Quick decision:</b> How would you classify this post?</p>
+            <div class="streak">STREAK <b id="streak">×0</b></div>
+        </div>
+        <div class="choices"><button class="choice reliable" data-value="reliable"><i>✓</i> RELIABLE</button><button
+                class="choice check" data-value="check"><i>?</i> NEEDS CHECKING</button><button
+                class="choice misleading" data-value="misleading"><i>!</i> MISLEADING</button></div>
+        <div class="feedback" id="feedback">
+            <div><b id="feedbackTitle"></b>
+                <p id="feedbackCopy"></p>
+            </div><button id="next"></button>
+        </div>
+    </section>
+    <section id="result" class="screen panel">
+        <div class="result-mark" id="resultMark">★</div>
+        <p class="eyebrow">LEVEL 02 COMPLETE</p>
+        <h1 id="resultTitle"></h1>
+        <p class="lede" id="resultCopy"></p>
+        <div class="results">
+            <div><b id="finalScore"></b><span>POINTS</span></div>
+            <div><b id="accuracy"></b><span>ACCURACY</span></div>
+            <div><b id="best"></b><span>BEST STREAK</span></div>
+            <div><b id="timeLeft"></b><span>TIME LEFT</span></div>
+        </div>
+        <div class="review" id="review"></div><button class="primary" id="again">Play again ↻</button><button
+            class="secondary" id="overview">Back to level map</button>
+    </section>
+    <script>
+        const stories = [
+            { source: "City Mobility Office", handle: "@MoveInfopolis · 18 min", badge: "MONTHLY REPORT", headline: "Bus ridership increased by 12% this month", copy: "The full dashboard compares the result with the same month last year and explains the new route expansion.", clue: "First-party source · Clear comparison · Full report linked", answer: "reliable", explanation: "The source identifies the comparison period and provides the complete dashboard, making the limited claim verifiable." },
+            { source: "Future Energy Daily", handle: "@FutureEnergyDaily · 34 min", badge: "RECORD GROWTH", headline: "Solar power grew by 300%!", copy: "The post does not say whether this refers to one neighborhood, one company, installed capacity, or actual electricity generation.", clue: "Large percentage · No baseline · Undefined measurement", answer: "check", explanation: "The number may be accurate, but without a baseline, place, time period, or measurement it cannot be interpreted responsibly." },
+            { source: "Campus Pulse", handle: "@CampusPulse · 9 min", badge: "STUDENT SURVEY", headline: "90% of students want classes to start later", copy: "The survey received 18 responses from one optional social-media poll. The campus has more than 4,000 students.", clue: "Real poll · Tiny self-selected sample · Broad conclusion", answer: "misleading", explanation: "The percentage comes from a real poll, but the sample is too small and self-selected to represent all students." },
+            { source: "Health Department", handle: "@InfopolisHealth · 1 h", badge: "WEEKLY UPDATE", headline: "Flu cases decreased for the third consecutive week", copy: "The weekly bulletin lists case counts, reporting dates, testing limitations, and a link to the public dataset.", clue: "Named authority · Time series · Limitations disclosed", answer: "reliable", explanation: "The claim is limited, supported by a public dataset, and includes both the relevant dates and known limitations." },
+            { source: "Market Insider", handle: "@MarketInsiderNow · 6 min", badge: "PRICES COLLAPSE", headline: "Food prices are finally down!", copy: "The article cites a decrease in tomato prices but uses it to describe the cost of all food. No broader price index is shown.", clue: "One product · Broad headline · Missing overall comparison", answer: "misleading", explanation: "A decrease in one product does not establish that all food prices fell. The headline overgeneralizes a narrow fact." }
+        ], labels = { reliable: "RELIABLE", check: "NEEDS CHECKING", misleading: "MISLEADING" }; let index = 0, time = 55, score = 0, streak = 0, best = 0, answers = [], interval, locked = false; const $ = id => document.getElementById(id), screens = ["intro", "play", "result"]; function show(id) { screens.forEach(x => $(x).classList.toggle("active", x === id)) } function start() { index = 0; time = 55; score = 0; streak = 0; best = 0; answers = []; $("score").textContent = 0; show("play"); render(); clearInterval(interval); interval = setInterval(() => { time--; $("timer").textContent = `0:${String(time).padStart(2, "0")}`; $("timerBox").classList.toggle("danger", time <= 12); if (time <= 0) finish() }, 1000) } function render() { const s = stories[index], pct = Math.round((index + 1) / stories.length * 100); $("postCount").textContent = `POST ${index + 1} OF ${stories.length}`; $("percent").textContent = pct + "%"; $("progress").style.width = pct + "%"; $("timer").textContent = `0:${String(time).padStart(2, "0")}`;["source", "handle", "badge", "headline", "copy"].forEach(id => $(id).textContent = s[id]); $("avatar").textContent = s.source.split(" ").map(x => x[0]).slice(0, 2).join(""); $("clue").textContent = "⌕ " + s.clue; $("streak").textContent = "×" + streak; $("feedback").className = "feedback"; document.querySelectorAll(".choice").forEach(b => { b.disabled = false; b.classList.remove("selected", "answer") }); locked = false } document.querySelectorAll(".choice").forEach(b => b.onclick = () => { if (locked) return; locked = true; const s = stories[index], ok = b.dataset.value === s.answer; streak = ok ? streak + 1 : 0; best = Math.max(best, streak); if (ok) score += 100 + streak * 20; answers.push(ok); $("score").textContent = score; $("streak").textContent = "×" + streak; document.querySelectorAll(".choice").forEach(x => { x.disabled = true; x.classList.toggle("answer", x.dataset.value === s.answer) }); b.classList.add("selected"); $("feedback").className = "feedback visible " + (ok ? "correct" : "wrong"); $("feedbackTitle").textContent = ok ? "Correct!" : "Not quite — " + labels[s.answer]; $("feedbackCopy").textContent = s.explanation; $("next").textContent = index === stories.length - 1 ? "View results →" : "Next post →" }); function finish() { clearInterval(interval); const correct = answers.filter(Boolean).length, accuracy = Math.round(correct / stories.length * 100) || 0, old = Number(localStorage.getItem("quickCheckBestScore02") || 0); localStorage.setItem("quickCheckBestScore02", Math.max(old, score)); localStorage.setItem("quickCheckAccuracy02", accuracy); localStorage.setItem("quickCheckLevel02Complete", "true"); $("finalScore").textContent = score; $("accuracy").textContent = accuracy + "%"; $("best").textContent = "×" + best; $("timeLeft").textContent = Math.max(0, time) + "s"; $("resultTitle").textContent = accuracy >= 80 ? "Context restored!" : "Keep looking deeper!"; $("resultCopy").textContent = accuracy >= 80 ? "You caught the missing comparisons, dates, and baselines." : "Review how incomplete context can turn a real detail into a misleading conclusion."; $("resultMark").textContent = accuracy >= 80 ? "★" : "✓"; $("review").innerHTML = stories.map((_, i) => `<span class="${answers[i] ? "ok" : "miss"}">${i + 1}</span>`).join(""); show("result") } $("start").onclick = start; $("again").onclick = start; $("overview").onclick = () => location.href = "quick-check-map.html"; $("next").onclick = () => { if (index === stories.length - 1) finish(); else { index++; render() } };
+    </script>
+</body>
+
+</html>

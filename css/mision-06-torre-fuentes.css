@@ -1,1 +1,63 @@
-@import url("mission-game.css");.evidence-board{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:22px 0}.claim-zone,.source-bank{padding:18px;background:#0c122b;border:1px solid var(--line);border-radius:15px}.claim-zone h3,.source-bank h3{margin-top:0}.evidence-card{width:100%;margin:7px 0;padding:13px;text-align:left;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:10px;cursor:pointer}.evidence-card.selected{border-color:var(--cyan);background:rgba(84,231,223,.09)}.case-slots{display:grid;gap:8px}.case-slot{min-height:54px;padding:12px;color:var(--muted);border:1px dashed #45507c;border-radius:10px}.case-slot.filled{color:var(--lime);border-style:solid;border-color:rgba(202,255,100,.4)}@media(max-width:700px){.evidence-board{grid-template-columns:1fr}}
+@import url("mission-game.css");
+
+.evidence-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 22px 0;
+}
+
+.claim-zone,
+.source-bank {
+    padding: 18px;
+    background: #0c122b;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+}
+
+.claim-zone h3,
+.source-bank h3 {
+    margin-top: 0;
+}
+
+.evidence-card {
+    width: 100%;
+    margin: 7px 0;
+    padding: 13px;
+    text-align: left;
+    color: var(--text);
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.evidence-card.selected {
+    border-color: var(--cyan);
+    background: rgba(84, 231, 223, 0.09);
+}
+
+.case-slots {
+    display: grid;
+    gap: 8px;
+}
+
+.case-slot {
+    min-height: 54px;
+    padding: 12px;
+    color: var(--muted);
+    border: 1px dashed #45507c;
+    border-radius: 10px;
+}
+
+.case-slot.filled {
+    color: var(--lime);
+    border-style: solid;
+    border-color: rgba(202, 255, 100, 0.4);
+}
+
+@media (max-width: 700px) {
+    .evidence-board {
+        grid-template-columns: 1fr;
+    }
+}

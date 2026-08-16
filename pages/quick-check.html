@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>MILBot — Quick Check</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/quick-check.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/quick-check.css">
 </head>
+
 <body>
   <header class="topbar">
     <a class="brand" href="../index.html" aria-label="MILBot home"><span>M</span><b>MIL<i>Bot</i></b></a>
@@ -19,18 +23,71 @@
       <div class="score">★ <span id="score">0</span></div>
     </nav>
   </header>
-  <section id="intro" class="screen panel active"><div class="orbit">01</div><p class="eyebrow">SPEED CHALLENGE · BEGINNER</p><h1>Think fast.<br><em>Verify faster.</em></h1><p class="lede">Classify five posts before the timer reaches zero. Look for the source, evidence, context, and emotional pressure.</p><div class="rules"><div><b>5</b><span>POSTS</span></div><div><b>60</b><span>SECONDS</span></div><div><b>3</b><span>CHOICES</span></div></div><button class="primary" id="start">Start level →</button><p class="hint">Tip: “Needs checking” is useful when a claim could be true but lacks enough evidence.</p></section>
-  <section id="play" class="screen play"><div class="hud"><div class="progress-copy"><span id="postCount">POST 1 OF 5</span><b id="percent">20%</b></div><div class="track"><i id="progress"></i></div><div class="timer" id="timerBox"><span>TIME</span><strong id="timer">0:60</strong></div></div><article class="post"><div class="post-head"><div class="avatar" id="avatar">CW</div><div><strong id="source"></strong><span id="handle"></span></div><b class="more">•••</b></div><span class="badge" id="badge"></span><h2 id="headline"></h2><p id="copy"></p><div class="clue" id="clue"></div></article><div class="prompt"><p>🤖 <b>Quick decision:</b> How would you classify this post?</p><div class="streak">STREAK <b id="streak">×0</b></div></div><div class="choices"><button class="choice reliable" data-value="reliable"><i>✓</i> RELIABLE</button><button class="choice check" data-value="check"><i>?</i> NEEDS CHECKING</button><button class="choice misleading" data-value="misleading"><i>!</i> MISLEADING</button></div><div class="feedback" id="feedback"><div><b id="feedbackTitle"></b><p id="feedbackCopy"></p></div><button id="next">Next post →</button></div></section>
-  <section id="result" class="screen panel"><div class="result-mark" id="resultMark">★</div><p class="eyebrow">LEVEL 01 COMPLETE</p><h1 id="resultTitle">Sharp thinking!</h1><p class="lede" id="resultCopy"></p><div class="results"><div><b id="finalScore">0</b><span>POINTS</span></div><div><b id="accuracy">0%</b><span>ACCURACY</span></div><div><b id="best">×0</b><span>BEST STREAK</span></div><div><b id="timeLeft">0s</b><span>TIME LEFT</span></div></div><div class="review" id="review"></div><button class="primary" id="again">Play again ↻</button><button class="secondary" id="overview">Back to level overview</button></section>
+  <section id="intro" class="screen panel active">
+    <div class="orbit">01</div>
+    <p class="eyebrow">SPEED CHALLENGE · BEGINNER</p>
+    <h1>Think fast.<br><em>Verify faster.</em></h1>
+    <p class="lede">Classify five posts before the timer reaches zero. Look for the source, evidence, context, and
+      emotional pressure.</p>
+    <div class="rules">
+      <div><b>5</b><span>POSTS</span></div>
+      <div><b>60</b><span>SECONDS</span></div>
+      <div><b>3</b><span>CHOICES</span></div>
+    </div><button class="primary" id="start">Start level →</button>
+    <p class="hint">Tip: “Needs checking” is useful when a claim could be true but lacks enough evidence.</p>
+  </section>
+  <section id="play" class="screen play">
+    <div class="hud">
+      <div class="progress-copy"><span id="postCount">POST 1 OF 5</span><b id="percent">20%</b></div>
+      <div class="track"><i id="progress"></i></div>
+      <div class="timer" id="timerBox"><span>TIME</span><strong id="timer">0:60</strong></div>
+    </div>
+    <article class="post">
+      <div class="post-head">
+        <div class="avatar" id="avatar">CW</div>
+        <div><strong id="source"></strong><span id="handle"></span></div><b class="more">•••</b>
+      </div><span class="badge" id="badge"></span>
+      <h2 id="headline"></h2>
+      <p id="copy"></p>
+      <div class="clue" id="clue"></div>
+    </article>
+    <div class="prompt">
+      <p>🤖 <b>Quick decision:</b> How would you classify this post?</p>
+      <div class="streak">STREAK <b id="streak">×0</b></div>
+    </div>
+    <div class="choices"><button class="choice reliable" data-value="reliable"><i>✓</i> RELIABLE</button><button
+        class="choice check" data-value="check"><i>?</i> NEEDS CHECKING</button><button class="choice misleading"
+        data-value="misleading"><i>!</i> MISLEADING</button></div>
+    <div class="feedback" id="feedback">
+      <div><b id="feedbackTitle"></b>
+        <p id="feedbackCopy"></p>
+      </div><button id="next">Next post →</button>
+    </div>
+  </section>
+  <section id="result" class="screen panel">
+    <div class="result-mark" id="resultMark">★</div>
+    <p class="eyebrow">LEVEL 01 COMPLETE</p>
+    <h1 id="resultTitle">Sharp thinking!</h1>
+    <p class="lede" id="resultCopy"></p>
+    <div class="results">
+      <div><b id="finalScore">0</b><span>POINTS</span></div>
+      <div><b id="accuracy">0%</b><span>ACCURACY</span></div>
+      <div><b id="best">×0</b><span>BEST STREAK</span></div>
+      <div><b id="timeLeft">0s</b><span>TIME LEFT</span></div>
+    </div>
+    <div class="review" id="review"></div><button class="primary" id="again">Play again ↻</button><button
+      class="secondary" id="overview">Back to level overview</button>
+  </section>
   <script>
-    const stories=[
-      {source:"City Weather Service",handle:"@CityWeatherOfficial · 12 min",badge:"VERIFIED CHANNEL",headline:"Heavy rain expected after 6:00 p.m.",copy:"The official forecast recommends avoiding flooded roads. Full advisory: city.gov/weather/august-13",clue:"Named agency · Official link · Specific time",answer:"reliable",explanation:"The post identifies the responsible agency, links to an official domain, and provides specific, verifiable details."},
-      {source:"Daily Flash",handle:"@DailyFlashNow · 4 min",badge:"BREAKING",headline:"ALL SCHOOLS WILL CLOSE TOMORROW!",copy:"A friend of a teacher confirmed it. Share immediately so nobody goes outside!",clue:"Anonymous claim · No source · Urgent sharing request",answer:"misleading",explanation:"The claim relies on hearsay, provides no official statement, and uses urgency to encourage sharing before verification."},
-      {source:"Science Window",handle:"@ScienceWindow · 1 h",badge:"NEW STUDY",headline:"Scientists may have found a new way to recycle batteries",copy:"Early laboratory results appear promising, but the researchers say larger trials are still needed.",clue:"Cautious language · Study not linked · More context needed",answer:"check",explanation:"The wording is careful, but the original study is missing. The claim should be checked before it is accepted or shared."},
-      {source:"Healthy Life Secrets",handle:"@HealthySecrets4U · 27 min",badge:"DOCTORS HATE THIS",headline:"This fruit cures every type of flu in 24 hours",copy:"No medicine needed. Thousands of people have already tried it—save this post before it disappears.",clue:"Absolute medical claim · No evidence · Conspiracy framing",answer:"misleading",explanation:"An absolute health claim requires strong medical evidence. Popularity and conspiracy language are not proof."},
-      {source:"Infopolis Public Library",handle:"@InfopolisLibrary · 2 h",badge:"SCHEDULE UPDATE",headline:"The library will close at 5:00 p.m. this Friday",copy:"The updated schedule is also available on our website and at the library entrance.",clue:"First-party source · Confirmable location · Limited claim",answer:"reliable",explanation:"The organization is reporting its own schedule and gives two clear places where the information can be confirmed."}
-    ],labels={reliable:"RELIABLE",check:"NEEDS CHECKING",misleading:"MISLEADING"};let index=0,time=60,score=0,streak=0,best=0,answers=[],interval=null,locked=false;
-    const $=id=>document.getElementById(id),screens=["intro","play","result"];function show(id){screens.forEach(x=>$(x).classList.toggle("active",x===id))}function reset(){index=0;time=60;score=0;streak=0;best=0;answers=[];locked=false;$("score").textContent="0";show("play");render();clearInterval(interval);interval=setInterval(()=>{time--;$("timer").textContent=`0:${String(time).padStart(2,"0")}`;$("timerBox").classList.toggle("danger",time<=15);if(time<=0)finish()},1000)}function render(){const s=stories[index];$("postCount").textContent=`POST ${index+1} OF ${stories.length}`;$("percent").textContent=`${(index+1)*20}%`;$("progress").style.width=`${(index+1)*20}%`;$("source").textContent=s.source;$("handle").textContent=s.handle;$("avatar").textContent=s.source.split(" ").map(x=>x[0]).slice(0,2).join("");$("badge").textContent=s.badge;$("headline").textContent=s.headline;$("copy").textContent=s.copy;$("clue").textContent="⌕ "+s.clue;$("streak").textContent="×"+streak;$("feedback").className="feedback";document.querySelectorAll(".choice").forEach(b=>{b.disabled=false;b.classList.remove("selected","answer")});locked=false}document.querySelectorAll(".choice").forEach(button=>button.addEventListener("click",()=>{if(locked)return;locked=true;const choice=button.dataset.value,s=stories[index],ok=choice===s.answer;streak=ok?streak+1:0;best=Math.max(best,streak);if(ok)score+=100+streak*20;answers.push(ok);$("score").textContent=score;$("streak").textContent="×"+streak;document.querySelectorAll(".choice").forEach(b=>{b.disabled=true;b.classList.toggle("answer",b.dataset.value===s.answer)});button.classList.add("selected");$("feedback").className="feedback visible "+(ok?"correct":"wrong");$("feedbackTitle").textContent=ok?"Correct!":"Not quite — "+labels[s.answer];$("feedbackCopy").textContent=s.explanation;$("next").textContent=index===stories.length-1?"View results →":"Next post →"}));function finish(){clearInterval(interval);const correct=answers.filter(Boolean).length,accuracy=Math.round(correct/stories.length*100)||0;const oldScore=Number(localStorage.getItem("quickCheckBestScore01")||0);localStorage.setItem("quickCheckBestScore01",String(Math.max(oldScore,score)));localStorage.setItem("quickCheckAccuracy01",String(accuracy));localStorage.setItem("quickCheckLevel01Complete","true");$("finalScore").textContent=score;$("accuracy").textContent=accuracy+"%";$("best").textContent="×"+best;$("timeLeft").textContent=Math.max(0,time)+"s";$("resultTitle").textContent=accuracy>=80?"Sharp thinking!":"Good first run!";$("resultCopy").textContent=accuracy>=80?"You recognized the strongest verification signals under pressure.":"Review the clues and try again to strengthen your verification speed.";$("resultMark").textContent=accuracy>=80?"★":"✓";$("review").innerHTML=stories.map((_,i)=>`<span class="${answers[i]?"ok":"miss"}">${i+1}</span>`).join("");show("result")}$("start").onclick=reset;$("again").onclick=reset;$("overview").onclick=()=>{clearInterval(interval);window.location.href="quick-check-map.html"};$("next").onclick=()=>{if(index===stories.length-1)finish();else{index++;render()}};
+    const stories = [
+      { source: "City Weather Service", handle: "@CityWeatherOfficial · 12 min", badge: "VERIFIED CHANNEL", headline: "Heavy rain expected after 6:00 p.m.", copy: "The official forecast recommends avoiding flooded roads. Full advisory: city.gov/weather/august-13", clue: "Named agency · Official link · Specific time", answer: "reliable", explanation: "The post identifies the responsible agency, links to an official domain, and provides specific, verifiable details." },
+      { source: "Daily Flash", handle: "@DailyFlashNow · 4 min", badge: "BREAKING", headline: "ALL SCHOOLS WILL CLOSE TOMORROW!", copy: "A friend of a teacher confirmed it. Share immediately so nobody goes outside!", clue: "Anonymous claim · No source · Urgent sharing request", answer: "misleading", explanation: "The claim relies on hearsay, provides no official statement, and uses urgency to encourage sharing before verification." },
+      { source: "Science Window", handle: "@ScienceWindow · 1 h", badge: "NEW STUDY", headline: "Scientists may have found a new way to recycle batteries", copy: "Early laboratory results appear promising, but the researchers say larger trials are still needed.", clue: "Cautious language · Study not linked · More context needed", answer: "check", explanation: "The wording is careful, but the original study is missing. The claim should be checked before it is accepted or shared." },
+      { source: "Healthy Life Secrets", handle: "@HealthySecrets4U · 27 min", badge: "DOCTORS HATE THIS", headline: "This fruit cures every type of flu in 24 hours", copy: "No medicine needed. Thousands of people have already tried it—save this post before it disappears.", clue: "Absolute medical claim · No evidence · Conspiracy framing", answer: "misleading", explanation: "An absolute health claim requires strong medical evidence. Popularity and conspiracy language are not proof." },
+      { source: "Infopolis Public Library", handle: "@InfopolisLibrary · 2 h", badge: "SCHEDULE UPDATE", headline: "The library will close at 5:00 p.m. this Friday", copy: "The updated schedule is also available on our website and at the library entrance.", clue: "First-party source · Confirmable location · Limited claim", answer: "reliable", explanation: "The organization is reporting its own schedule and gives two clear places where the information can be confirmed." }
+    ], labels = { reliable: "RELIABLE", check: "NEEDS CHECKING", misleading: "MISLEADING" }; let index = 0, time = 60, score = 0, streak = 0, best = 0, answers = [], interval = null, locked = false;
+    const $ = id => document.getElementById(id), screens = ["intro", "play", "result"]; function show(id) { screens.forEach(x => $(x).classList.toggle("active", x === id)) } function reset() { index = 0; time = 60; score = 0; streak = 0; best = 0; answers = []; locked = false; $("score").textContent = "0"; show("play"); render(); clearInterval(interval); interval = setInterval(() => { time--; $("timer").textContent = `0:${String(time).padStart(2, "0")}`; $("timerBox").classList.toggle("danger", time <= 15); if (time <= 0) finish() }, 1000) } function render() { const s = stories[index]; $("postCount").textContent = `POST ${index + 1} OF ${stories.length}`; $("percent").textContent = `${(index + 1) * 20}%`; $("progress").style.width = `${(index + 1) * 20}%`; $("source").textContent = s.source; $("handle").textContent = s.handle; $("avatar").textContent = s.source.split(" ").map(x => x[0]).slice(0, 2).join(""); $("badge").textContent = s.badge; $("headline").textContent = s.headline; $("copy").textContent = s.copy; $("clue").textContent = "⌕ " + s.clue; $("streak").textContent = "×" + streak; $("feedback").className = "feedback"; document.querySelectorAll(".choice").forEach(b => { b.disabled = false; b.classList.remove("selected", "answer") }); locked = false } document.querySelectorAll(".choice").forEach(button => button.addEventListener("click", () => { if (locked) return; locked = true; const choice = button.dataset.value, s = stories[index], ok = choice === s.answer; streak = ok ? streak + 1 : 0; best = Math.max(best, streak); if (ok) score += 100 + streak * 20; answers.push(ok); $("score").textContent = score; $("streak").textContent = "×" + streak; document.querySelectorAll(".choice").forEach(b => { b.disabled = true; b.classList.toggle("answer", b.dataset.value === s.answer) }); button.classList.add("selected"); $("feedback").className = "feedback visible " + (ok ? "correct" : "wrong"); $("feedbackTitle").textContent = ok ? "Correct!" : "Not quite — " + labels[s.answer]; $("feedbackCopy").textContent = s.explanation; $("next").textContent = index === stories.length - 1 ? "View results →" : "Next post →" })); function finish() { clearInterval(interval); const correct = answers.filter(Boolean).length, accuracy = Math.round(correct / stories.length * 100) || 0; const oldScore = Number(localStorage.getItem("quickCheckBestScore01") || 0); localStorage.setItem("quickCheckBestScore01", String(Math.max(oldScore, score))); localStorage.setItem("quickCheckAccuracy01", String(accuracy)); localStorage.setItem("quickCheckLevel01Complete", "true"); $("finalScore").textContent = score; $("accuracy").textContent = accuracy + "%"; $("best").textContent = "×" + best; $("timeLeft").textContent = Math.max(0, time) + "s"; $("resultTitle").textContent = accuracy >= 80 ? "Sharp thinking!" : "Good first run!"; $("resultCopy").textContent = accuracy >= 80 ? "You recognized the strongest verification signals under pressure." : "Review the clues and try again to strengthen your verification speed."; $("resultMark").textContent = accuracy >= 80 ? "★" : "✓"; $("review").innerHTML = stories.map((_, i) => `<span class="${answers[i] ? "ok" : "miss"}">${i + 1}</span>`).join(""); show("result") } $("start").onclick = reset; $("again").onclick = reset; $("overview").onclick = () => { clearInterval(interval); window.location.href = "quick-check-map.html" }; $("next").onclick = () => { if (index === stories.length - 1) finish(); else { index++; render() } };
   </script>
 </body>
+
 </html>

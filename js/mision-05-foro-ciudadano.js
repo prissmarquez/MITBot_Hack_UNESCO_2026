@@ -1,1 +1,95 @@
-const cases=[{title:"A rumor becomes a personal attack",prompt:"Which moderator response corrects the claim without escalating harm?",thread:`<div class="comment"><span class="avatar">L</span><p>A video says the new student caused the school closure.</p></div><div class="comment harmful"><span class="avatar">R</span><p><span class="moderation-label">HARMFUL REPLY</span><br>Everyone should post their photo and make them leave.</p></div>`,choices:["Insult the author so they understand how harm feels.","Remove the personal attack, protect the student, and post verified closure information from the school.","Leave everything visible because moderation is censorship."],correct:1},{title:"A misleading statistic divides the forum",prompt:"What response keeps the discussion evidence-based?",thread:`<div class="comment"><span class="avatar">A</span><p>“90% of residents support this” — no survey or link included.</p></div><div class="comment harmful"><span class="avatar">B</span><p>Anyone who disagrees is ignorant and should be banned.</p></div>`,choices:["Ask for the original survey, explain what is unverified, and enforce rules against insults.","Repeat the statistic because it is already popular.","Ban every participant without explaining the decision."],correct:0},{title:"A tense debate needs a safe next step",prompt:"Choose the action that combines dialogue, evidence, and safety.",thread:`<div class="comment"><span class="avatar">M</span><p>People are sharing an edited screenshot and threatening the person named in it.</p></div>`,choices:["Share the screenshot with a warning so more people see it.","Tell the targeted person to defend themselves publicly.","Pause the thread, preserve evidence for moderators, verify the original, and provide support/reporting channels."],correct:2}];let index=0,score=0,locked=false;const $=id=>document.getElementById(id);function render(){locked=false;const c=cases[index];$("caseLabel").textContent=`CASE ${index+1} OF ${cases.length}`;$("caseTitle").textContent=c.title;$("casePrompt").textContent=c.prompt;$("thread").innerHTML=c.thread;$("responseChoices").innerHTML=c.choices.map((x,i)=>`<button class="choice" data-index="${i}">${x}</button>`).join("");$("caseFeedback").className="feedback";$("nextCase").disabled=true;$("nextCase").textContent=index===cases.length-1?"Complete moderation →":"Next case →";document.querySelectorAll(".choice").forEach(btn=>btn.onclick=()=>answer(Number(btn.dataset.index)));$("progressBar").style.width=`${index/cases.length*100}%`}function answer(selected){if(locked)return;locked=true;const c=cases[index];document.querySelectorAll(".choice").forEach((btn,i)=>{btn.disabled=true;if(i===c.correct)btn.classList.add("correct");if(i===selected&&i!==c.correct)btn.classList.add("wrong")});if(selected===c.correct)score+=50;$("score").textContent=`${score} / 150`;$("caseFeedback").className="feedback show";$("caseFeedback").textContent=selected===c.correct?"Responsible choice: evidence and safety remain central.":"Review the highlighted response. Moderation should reduce harm and restore verifiable context.";$("nextCase").disabled=false}$("nextCase").onclick=()=>{if(index<cases.length-1){index++;render();window.scrollTo({top:0,behavior:"smooth"})}else finish()};function finish(){const old=Number(localStorage.getItem("milbotMission05Score")||0);localStorage.setItem("milbotMission05Complete","true");localStorage.setItem("milbotMission05Score",Math.max(old,score));$("finalScore").textContent=score;$("casePanel").classList.remove("active");$("resultPanel").classList.add("active");$("progressBar").style.width="100%";window.scrollTo({top:0,behavior:"smooth"})}render();
+const cases = [
+    {
+        title: "A rumor becomes a personal attack",
+        prompt:
+            "Which moderator response corrects the claim without escalating harm?",
+        thread: `<div class="comment"><span class="avatar">L</span><p>A video says the new student caused the school closure.</p></div><div class="comment harmful"><span class="avatar">R</span><p><span class="moderation-label">HARMFUL REPLY</span><br>Everyone should post their photo and make them leave.</p></div>`,
+        choices: [
+            "Insult the author so they understand how harm feels.",
+            "Remove the personal attack, protect the student, and post verified closure information from the school.",
+            "Leave everything visible because moderation is censorship.",
+        ],
+        correct: 1,
+    },
+    {
+        title: "A misleading statistic divides the forum",
+        prompt: "What response keeps the discussion evidence-based?",
+        thread: `<div class="comment"><span class="avatar">A</span><p>“90% of residents support this” — no survey or link included.</p></div><div class="comment harmful"><span class="avatar">B</span><p>Anyone who disagrees is ignorant and should be banned.</p></div>`,
+        choices: [
+            "Ask for the original survey, explain what is unverified, and enforce rules against insults.",
+            "Repeat the statistic because it is already popular.",
+            "Ban every participant without explaining the decision.",
+        ],
+        correct: 0,
+    },
+    {
+        title: "A tense debate needs a safe next step",
+        prompt: "Choose the action that combines dialogue, evidence, and safety.",
+        thread: `<div class="comment"><span class="avatar">M</span><p>People are sharing an edited screenshot and threatening the person named in it.</p></div>`,
+        choices: [
+            "Share the screenshot with a warning so more people see it.",
+            "Tell the targeted person to defend themselves publicly.",
+            "Pause the thread, preserve evidence for moderators, verify the original, and provide support/reporting channels.",
+        ],
+        correct: 2,
+    },
+];
+let index = 0,
+    score = 0,
+    locked = false;
+const $ = (id) => document.getElementById(id);
+function render() {
+    locked = false;
+    const c = cases[index];
+    $("caseLabel").textContent = `CASE ${index + 1} OF ${cases.length}`;
+    $("caseTitle").textContent = c.title;
+    $("casePrompt").textContent = c.prompt;
+    $("thread").innerHTML = c.thread;
+    $("responseChoices").innerHTML = c.choices
+        .map((x, i) => `<button class="choice" data-index="${i}">${x}</button>`)
+        .join("");
+    $("caseFeedback").className = "feedback";
+    $("nextCase").disabled = true;
+    $("nextCase").textContent =
+        index === cases.length - 1 ? "Complete moderation →" : "Next case →";
+    document
+        .querySelectorAll(".choice")
+        .forEach((btn) => (btn.onclick = () => answer(Number(btn.dataset.index))));
+    $("progressBar").style.width = `${(index / cases.length) * 100}%`;
+}
+function answer(selected) {
+    if (locked) return;
+    locked = true;
+    const c = cases[index];
+    document.querySelectorAll(".choice").forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === c.correct) btn.classList.add("correct");
+        if (i === selected && i !== c.correct) btn.classList.add("wrong");
+    });
+    if (selected === c.correct) score += 50;
+    $("score").textContent = `${score} / 150`;
+    $("caseFeedback").className = "feedback show";
+    $("caseFeedback").textContent =
+        selected === c.correct
+            ? "Responsible choice: evidence and safety remain central."
+            : "Review the highlighted response. Moderation should reduce harm and restore verifiable context.";
+    $("nextCase").disabled = false;
+}
+$("nextCase").onclick = () => {
+    if (index < cases.length - 1) {
+        index++;
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    } else finish();
+};
+function finish() {
+    const old = Number(localStorage.getItem("milbotMission05Score") || 0);
+    localStorage.setItem("milbotMission05Complete", "true");
+    localStorage.setItem("milbotMission05Score", Math.max(old, score));
+    $("finalScore").textContent = score;
+    $("casePanel").classList.remove("active");
+    $("resultPanel").classList.add("active");
+    $("progressBar").style.width = "100%";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+render();

@@ -1,1 +1,69 @@
-const sources=[{title:"City water dashboard — updated today",good:true},{title:"Laboratory test report with methods",good:true},{title:"Public-health department advisory",good:true},{title:"Independent local newsroom confirmation",good:true},{title:"Named water-quality scientist interview",good:true},{title:"Anonymous voice note forwarded 200 times",good:false},{title:"Old photograph from another city",good:false},{title:"Influencer poll with 63 responses",good:false}];let selected=[];const bank=document.getElementById("sourceBank"),slots=[...document.querySelectorAll(".case-slot")];bank.innerHTML=sources.map((s,i)=>`<button class="evidence-card" data-index="${i}">${s.title}</button>`).join("");function render(){document.querySelectorAll(".evidence-card").forEach((card,i)=>card.classList.toggle("selected",selected.includes(i)));slots.forEach((slot,i)=>{const item=selected[i];slot.textContent=item===undefined?`Evidence slot ${i+1}`:sources[item].title;slot.classList.toggle("filled",item!==undefined)});document.getElementById("submitBoard").disabled=selected.length!==5}document.querySelectorAll(".evidence-card").forEach(card=>card.onclick=()=>{const i=Number(card.dataset.index),position=selected.indexOf(i);if(position>=0)selected.splice(position,1);else if(selected.length<5)selected.push(i);render()});document.getElementById("clearBoard").onclick=()=>{selected=[];document.getElementById("boardFeedback").className="feedback";render()};document.getElementById("submitBoard").onclick=()=>{const valid=selected.length===5&&selected.every(i=>sources[i].good);const feedback=document.getElementById("boardFeedback");feedback.className="feedback show";if(!valid){feedback.textContent="The board contains weak or unrelated material. Remove popularity, anonymity, and out-of-context visuals, then try again.";return}const score=250,old=Number(localStorage.getItem("milbotMission06Score")||0);localStorage.setItem("milbotMission06Complete","true");localStorage.setItem("milbotMission06Score",Math.max(old,score));document.getElementById("score").textContent="250 / 250";document.getElementById("finalScore").textContent=score;document.querySelector('[data-step="0"]').classList.remove("active");document.querySelector('[data-step="1"]').classList.add("active");document.getElementById("progressBar").style.width="100%";window.scrollTo({top:0,behavior:"smooth"})};render();
+const sources = [
+    { title: "City water dashboard — updated today", good: true },
+    { title: "Laboratory test report with methods", good: true },
+    { title: "Public-health department advisory", good: true },
+    { title: "Independent local newsroom confirmation", good: true },
+    { title: "Named water-quality scientist interview", good: true },
+    { title: "Anonymous voice note forwarded 200 times", good: false },
+    { title: "Old photograph from another city", good: false },
+    { title: "Influencer poll with 63 responses", good: false },
+];
+let selected = [];
+const bank = document.getElementById("sourceBank"),
+    slots = [...document.querySelectorAll(".case-slot")];
+bank.innerHTML = sources
+    .map(
+        (s, i) =>
+            `<button class="evidence-card" data-index="${i}">${s.title}</button>`,
+    )
+    .join("");
+function render() {
+    document
+        .querySelectorAll(".evidence-card")
+        .forEach((card, i) =>
+            card.classList.toggle("selected", selected.includes(i)),
+        );
+    slots.forEach((slot, i) => {
+        const item = selected[i];
+        slot.textContent =
+            item === undefined ? `Evidence slot ${i + 1}` : sources[item].title;
+        slot.classList.toggle("filled", item !== undefined);
+    });
+    document.getElementById("submitBoard").disabled = selected.length !== 5;
+}
+document.querySelectorAll(".evidence-card").forEach(
+    (card) =>
+    (card.onclick = () => {
+        const i = Number(card.dataset.index),
+            position = selected.indexOf(i);
+        if (position >= 0) selected.splice(position, 1);
+        else if (selected.length < 5) selected.push(i);
+        render();
+    }),
+);
+document.getElementById("clearBoard").onclick = () => {
+    selected = [];
+    document.getElementById("boardFeedback").className = "feedback";
+    render();
+};
+document.getElementById("submitBoard").onclick = () => {
+    const valid = selected.length === 5 && selected.every((i) => sources[i].good);
+    const feedback = document.getElementById("boardFeedback");
+    feedback.className = "feedback show";
+    if (!valid) {
+        feedback.textContent =
+            "The board contains weak or unrelated material. Remove popularity, anonymity, and out-of-context visuals, then try again.";
+        return;
+    }
+    const score = 250,
+        old = Number(localStorage.getItem("milbotMission06Score") || 0);
+    localStorage.setItem("milbotMission06Complete", "true");
+    localStorage.setItem("milbotMission06Score", Math.max(old, score));
+    document.getElementById("score").textContent = "250 / 250";
+    document.getElementById("finalScore").textContent = score;
+    document.querySelector('[data-step="0"]').classList.remove("active");
+    document.querySelector('[data-step="1"]').classList.add("active");
+    document.getElementById("progressBar").style.width = "100%";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+};
+render();

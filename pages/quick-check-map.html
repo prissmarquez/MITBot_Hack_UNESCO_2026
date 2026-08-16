@@ -1,14 +1,91 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quick Check Map | MILBot</title><meta name="description" content="Choose a Quick Check level and train your media literacy skills with MILBot."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/quick-check-map.css"></head><body><header class="topbar"><a class="brand" href="../index.html"><span class="brand-icon">M</span><span>MIL<span>Bot</span></span></a><a class="back" href="../index.html">← Back to home</a></header><main class="page"><section class="intro"><p class="eyebrow">QUICK CHECK · TRAINING MAP</p><h1>Choose your next <span>challenge.</span></h1><p>Classify news posts against the clock. Each level introduces subtler signals, less time, and more difficult decisions.</p><div class="progress-card"><div class="progress-copy"><span>TRAINING PROGRESS</span><strong id="progressText">0 OF 5 LEVELS</strong></div><div class="track"><i id="progressBar"></i></div></div></section>
-<section class="map" id="map" aria-label="Quick Check levels">
-<article class="level" id="level1"><div class="node"><div><strong>01</strong><span>LEVEL 01</span></div></div><h2>First Signals</h2><p>Identify clear source and credibility clues.</p><a class="play" href="quick-check.html">PLAY LEVEL →</a><div class="level-stats"></div></article>
-<article class="level" id="level2"><div class="node"><div><strong>02</strong><span>LEVEL 02</span></div></div><h2>Missing Context</h2><p>Spot claims that leave out important details.</p><div class="action"></div><div class="level-stats"></div></article>
-<article class="level" id="level3"><div class="node"><div><strong>03</strong><span>LEVEL 03</span></div></div><h2>Emotional Traps</h2><p>Resist urgency, fear, and outrage bait.</p><div class="action"></div><div class="level-stats"></div></article>
-<article class="level locked"><div class="node"><div><strong>🔒</strong><span>LEVEL 04</span></div></div><h2>Source Hunt</h2><p>Compare similar and unfamiliar publishers.</p><span class="locked-label">LOCKED</span><div class="level-stats"></div></article>
-<article class="level locked"><div class="node"><div><strong>🔒</strong><span>FINAL</span></div></div><h2>Viral Storm</h2><p>Use every verification skill under pressure.</p><span class="locked-label">LOCKED</span><div class="level-stats"></div></article>
-</section><aside class="guide"><div class="bot">🤖</div><p><strong>MILBot tip:</strong> Completed levels remain available. Finish the current challenge to unlock the next one.</p></aside></main><script>
-const done=[1,2,3].map(n=>localStorage.getItem(`quickCheckLevel0${n}Complete`)==="true");const completed=done.filter(Boolean).length;document.getElementById("progressText").textContent=`${completed} OF 5 LEVELS`;document.getElementById("progressBar").style.width=`${completed*20}%`;document.getElementById("map").style.setProperty("--road",`${Math.min(completed*20,60)}%`);
-function setup(n,unlocked,file){const card=document.getElementById("level"+n),node=card.querySelector(".node"),state=node.querySelector("span"),icon=node.querySelector("strong"),stats=card.querySelector(".level-stats");if(done[n-1]){card.className="level complete";icon.textContent="✓";state.textContent="COMPLETED";const score=localStorage.getItem(`quickCheckBestScore0${n}`)||0,accuracy=localStorage.getItem(`quickCheckAccuracy0${n}`)||0;stats.textContent=`BEST ${score} PTS · ${accuracy}% ACCURACY`}else card.className="level "+(unlocked?"current":"locked");if(n>1){const action=card.querySelector(".action");action.innerHTML=unlocked?`<a class="play" href="${file}">PLAY LEVEL →</a>`:`<span class="locked-label">COMPLETE LEVEL 0${n-1}</span>`;if(!unlocked){icon.textContent="🔒";state.textContent=`LEVEL 0${n}`}}}
-setup(1,true,"quick-check.html");setup(2,done[0],"quick-check-level-02.html");setup(3,done[1],"quick-check-level-03.html");
-</script></body></html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Quick Check Map | MILBot</title>
+    <meta name="description" content="Choose a Quick Check level and train your media literacy skills with MILBot.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/quick-check-map.css">
+</head>
+
+<body>
+    <header class="topbar"><a class="brand" href="../index.html"><span
+                class="brand-icon">M</span><span>MIL<span>Bot</span></span></a><a class="back" href="../index.html">←
+            Back to home</a></header>
+    <main class="page">
+        <section class="intro">
+            <p class="eyebrow">QUICK CHECK · TRAINING MAP</p>
+            <h1>Choose your next <span>challenge.</span></h1>
+            <p>Classify news posts against the clock. Each level introduces subtler signals, less time, and more
+                difficult decisions.</p>
+            <div class="progress-card">
+                <div class="progress-copy"><span>TRAINING PROGRESS</span><strong id="progressText">0 OF 5
+                        LEVELS</strong></div>
+                <div class="track"><i id="progressBar"></i></div>
+            </div>
+        </section>
+        <section class="map" id="map" aria-label="Quick Check levels">
+            <article class="level" id="level1">
+                <div class="node">
+                    <div><strong>01</strong><span>LEVEL 01</span></div>
+                </div>
+                <h2>First Signals</h2>
+                <p>Identify clear source and credibility clues.</p><a class="play" href="quick-check.html">PLAY LEVEL
+                    →</a>
+                <div class="level-stats"></div>
+            </article>
+            <article class="level" id="level2">
+                <div class="node">
+                    <div><strong>02</strong><span>LEVEL 02</span></div>
+                </div>
+                <h2>Missing Context</h2>
+                <p>Spot claims that leave out important details.</p>
+                <div class="action"></div>
+                <div class="level-stats"></div>
+            </article>
+            <article class="level" id="level3">
+                <div class="node">
+                    <div><strong>03</strong><span>LEVEL 03</span></div>
+                </div>
+                <h2>Emotional Traps</h2>
+                <p>Resist urgency, fear, and outrage bait.</p>
+                <div class="action"></div>
+                <div class="level-stats"></div>
+            </article>
+            <article class="level locked">
+                <div class="node">
+                    <div><strong>🔒</strong><span>LEVEL 04</span></div>
+                </div>
+                <h2>Source Hunt</h2>
+                <p>Compare similar and unfamiliar publishers.</p><span class="locked-label">LOCKED</span>
+                <div class="level-stats"></div>
+            </article>
+            <article class="level locked">
+                <div class="node">
+                    <div><strong>🔒</strong><span>FINAL</span></div>
+                </div>
+                <h2>Viral Storm</h2>
+                <p>Use every verification skill under pressure.</p><span class="locked-label">LOCKED</span>
+                <div class="level-stats"></div>
+            </article>
+        </section>
+        <aside class="guide">
+            <div class="bot">🤖</div>
+            <p><strong>MILBot tip:</strong> Completed levels remain available. Finish the current challenge to unlock
+                the next one.</p>
+        </aside>
+    </main>
+    <script>
+        const done = [1, 2, 3].map(n => localStorage.getItem(`quickCheckLevel0${n}Complete`) === "true"); const completed = done.filter(Boolean).length; document.getElementById("progressText").textContent = `${completed} OF 5 LEVELS`; document.getElementById("progressBar").style.width = `${completed * 20}%`; document.getElementById("map").style.setProperty("--road", `${Math.min(completed * 20, 60)}%`);
+        function setup(n, unlocked, file) { const card = document.getElementById("level" + n), node = card.querySelector(".node"), state = node.querySelector("span"), icon = node.querySelector("strong"), stats = card.querySelector(".level-stats"); if (done[n - 1]) { card.className = "level complete"; icon.textContent = "✓"; state.textContent = "COMPLETED"; const score = localStorage.getItem(`quickCheckBestScore0${n}`) || 0, accuracy = localStorage.getItem(`quickCheckAccuracy0${n}`) || 0; stats.textContent = `BEST ${score} PTS · ${accuracy}% ACCURACY` } else card.className = "level " + (unlocked ? "current" : "locked"); if (n > 1) { const action = card.querySelector(".action"); action.innerHTML = unlocked ? `<a class="play" href="${file}">PLAY LEVEL →</a>` : `<span class="locked-label">COMPLETE LEVEL 0${n - 1}</span>`; if (!unlocked) { icon.textContent = "🔒"; state.textContent = `LEVEL 0${n}` } } }
+        setup(1, true, "quick-check.html"); setup(2, done[0], "quick-check-level-02.html"); setup(3, done[1], "quick-check-level-03.html");
+    </script>
+</body>
+
+</html>

@@ -1,1 +1,57 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Citizen Forum | MILBot</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../css/mision-05-foro-ciudadano.css"></head><body><header class="game-header"><a class="game-brand" href="../index.html">MIL<span>Bot</span></a><nav><a href="infopolis.html">← Map</a><a href="library.html">Library</a></nav></header><main class="game-shell"><div class="game-head"><div><p class="eyebrow">MISSION 05 · MODERATION SIMULATOR</p><h1>Citizen <span>Forum</span></h1></div><div class="game-score"><small>SCORE</small><strong id="score">0 / 150</strong></div></div><div class="game-progress"><i id="progressBar"></i></div><section class="game-panel active" id="casePanel"><p class="eyebrow" id="caseLabel">CASE 1 OF 3</p><h2 id="caseTitle"></h2><div class="thread" id="thread"></div><p class="lead" id="casePrompt"></p><div class="choice-grid" id="responseChoices"></div><div class="actions"><div class="feedback" id="caseFeedback"></div><button class="primary" id="nextCase" disabled>Next case →</button></div></section><section class="game-panel result" id="resultPanel"><div class="medal">◌</div><p class="eyebrow">MISSION 05 COMPLETE</p><h2>Responsible Dialogue Moderator</h2><p class="lead">You focused on evidence, protected people from harm, and avoided escalating conflict.</p><div class="stats"><div class="stat"><strong id="finalScore">0</strong><span>POINTS</span></div><div class="stat"><strong>05</strong><span>MISSION</span></div><div class="stat"><strong>✓</strong><span>FORUM RESTORED</span></div></div><div class="actions"><button class="secondary" onclick="location.reload()">↻ Replay</button><button class="primary" onclick="location.href='infopolis.html'">Return to map →</button></div></section></main><script src="../js/mision-05-foro-ciudadano.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Citizen Forum | MILBot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/mision-05-foro-ciudadano.css">
+</head>
+
+<body>
+    <header class="game-header"><a class="game-brand" href="../index.html">MIL<span>Bot</span></a>
+        <nav><a href="infopolis.html">← Map</a><a href="library.html">Library</a></nav>
+    </header>
+    <main class="game-shell">
+        <div class="game-head">
+            <div>
+                <p class="eyebrow">MISSION 05 · MODERATION SIMULATOR</p>
+                <h1>Citizen <span>Forum</span></h1>
+            </div>
+            <div class="game-score"><small>SCORE</small><strong id="score">0 / 150</strong></div>
+        </div>
+        <div class="game-progress"><i id="progressBar"></i></div>
+        <section class="game-panel active" id="casePanel">
+            <p class="eyebrow" id="caseLabel">CASE 1 OF 3</p>
+            <h2 id="caseTitle"></h2>
+            <div class="thread" id="thread"></div>
+            <p class="lead" id="casePrompt"></p>
+            <div class="choice-grid" id="responseChoices"></div>
+            <div class="actions">
+                <div class="feedback" id="caseFeedback"></div><button class="primary" id="nextCase" disabled>Next case
+                    →</button>
+            </div>
+        </section>
+        <section class="game-panel result" id="resultPanel">
+            <div class="medal">◌</div>
+            <p class="eyebrow">MISSION 05 COMPLETE</p>
+            <h2>Responsible Dialogue Moderator</h2>
+            <p class="lead">You focused on evidence, protected people from harm, and avoided escalating conflict.</p>
+            <div class="stats">
+                <div class="stat"><strong id="finalScore">0</strong><span>POINTS</span></div>
+                <div class="stat"><strong>05</strong><span>MISSION</span></div>
+                <div class="stat"><strong>✓</strong><span>FORUM RESTORED</span></div>
+            </div>
+            <div class="actions"><button class="secondary" onclick="location.reload()">↻ Replay</button><button
+                    class="primary" onclick="location.href='infopolis.html'">Return to map →</button></div>
+        </section>
+    </main>
+    <script src="../js/mision-05-foro-ciudadano.js"></script>
+</body>
+
+</html>

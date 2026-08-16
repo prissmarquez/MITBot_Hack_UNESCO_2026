@@ -143,26 +143,27 @@
                         home.
                     </p>
 
-                    <div class="imagen-tormenta">
-
-                        <div class="nube nube-1"></div>
-                        <div class="nube nube-2"></div>
-                        <div class="lluvia"></div>
-                        <div class="relampago"></div>
-
-                        <div class="alerta-imagen">
-
-                            <span>
-                                WEATHER ALERT
-                            </span>
-
-                            <strong>
-                                CLASSES CANCELED
-                            </strong>
-
+                    <div class="visor-noticia" data-visor>
+                        <div class="visor-lienzo">
+                            <img src="../assets/noticia_ia.jpeg" alt="Suspicious breaking-news image claiming that all classes are canceled because of a storm" draggable="false">
                         </div>
-
+                        <div class="visor-controles" aria-label="Image zoom controls">
+                            <button type="button" data-zoom-out aria-label="Zoom out">−</button>
+                            <span data-zoom-label>100%</span>
+                            <button type="button" data-zoom-in aria-label="Zoom in">+</button>
+                            <button type="button" data-reset>Reset</button>
+                        </div>
                     </div>
+
+                    <details class="pistas-imagen">
+                        <summary>Inspection guide: what details should I examine?</summary>
+                        <ul>
+                            <li><strong>Secondary ticker text:</strong> the main headline is readable, but the smaller lower text contains distorted glyphs and words that do not make sense.</li>
+                            <li><strong>Submerged vehicles:</strong> some cars have unclear window frames, hybrid body shapes, or wheels that merge unnaturally with the road and water.</li>
+                            <li><strong>Skyscraper geometry:</strong> several architectural lines bend and the window patterns lose symmetry or consistency.</li>
+                            <li><strong>Reflections and lighting:</strong> water highlights and projected shadows do not appear to follow one coherent light source.</li>
+                        </ul>
+                    </details>
 
                     <div class="metricas">
 
@@ -406,6 +407,41 @@
         document.querySelectorAll(".etapa[data-guia]").forEach(etapa => {
             etapa.addEventListener("click", () => mostrarGuia(Number(etapa.dataset.guia)));
         });
+
+        function configurarVisor(visor) {
+            const lienzo = visor.querySelector(".visor-lienzo");
+            const imagen = visor.querySelector("img");
+            const etiqueta = visor.querySelector("[data-zoom-label]");
+            let escala = 1;
+            let x = 0;
+            let y = 0;
+            let arrastrando = false;
+            let origenX = 0;
+            let origenY = 0;
+
+            function actualizar() {
+                imagen.style.transform = `translate(${x}px, ${y}px) scale(${escala})`;
+                etiqueta.textContent = `${Math.round(escala * 100)}%`;
+                lienzo.classList.toggle("ampliado", escala > 1);
+            }
+
+            function cambiarZoom(cambio) {
+                escala = Math.min(3.5, Math.max(1, escala + cambio));
+                if (escala === 1) x = y = 0;
+                actualizar();
+            }
+
+            visor.querySelector("[data-zoom-in]").onclick = () => cambiarZoom(0.25);
+            visor.querySelector("[data-zoom-out]").onclick = () => cambiarZoom(-0.25);
+            visor.querySelector("[data-reset]").onclick = () => { escala = 1; x = y = 0; actualizar(); };
+            lienzo.addEventListener("wheel", evento => { evento.preventDefault(); cambiarZoom(evento.deltaY < 0 ? 0.2 : -0.2); }, { passive: false });
+            lienzo.addEventListener("pointerdown", evento => { if (escala === 1) return; arrastrando = true; origenX = evento.clientX - x; origenY = evento.clientY - y; lienzo.setPointerCapture(evento.pointerId); });
+            lienzo.addEventListener("pointermove", evento => { if (!arrastrando) return; x = evento.clientX - origenX; y = evento.clientY - origenY; actualizar(); });
+            lienzo.addEventListener("pointerup", () => { arrastrando = false; });
+            actualizar();
+        }
+
+        document.querySelectorAll("[data-visor]").forEach(configurarVisor);
 
         const confirmarPreparacion =
             document.getElementById("confirmarPreparacion");

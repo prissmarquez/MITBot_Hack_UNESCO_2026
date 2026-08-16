@@ -1,16 +1,92 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Level 03 — Emotional Traps | MILBot</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/quick-check-level-03.css"></head><body><header class="topbar"><a class="brand" href="../index.html"><span>M</span><b>MIL<i>Bot</i></b></a><div class="level"><small>QUICK CHECK</small><strong>LEVEL 03 · EMOTIONAL TRAPS</strong></div><nav class="nav"><a href="quick-check-map.html">← <span>LEVEL MAP</span></a><a class="home" href="../index.html">⌂ <span>HOME</span></a><div class="score">★ <span id="score">0</span></div></nav></header>
-<section id="intro" class="screen panel active"><div class="orbit">03</div><p class="eyebrow">SPEED CHALLENGE · ADVANCED</p><h1>Feel the reaction.<br><em>Pause the impulse.</em></h1><p class="lede">Classify six posts in 50 seconds. Strong emotion is a signal to slow down—not automatic proof that a claim is false.</p><div class="rules"><div><b>6</b><span>POSTS</span></div><div><b>50</b><span>SECONDS</span></div><div><b>3</b><span>CHOICES</span></div></div><button class="primary" id="start">Start level →</button><p class="hint">Tip: Check whether urgency or outrage replaces evidence—or simply accompanies a verifiable warning.</p></section>
-<section id="play" class="screen play"><div class="hud"><div class="progress-copy"><span id="postCount"></span><b id="percent"></b></div><div class="track"><i id="progress"></i></div><div class="timer" id="timerBox"><span>TIME</span><strong id="timer"></strong></div></div><article class="post"><div class="post-head"><div class="avatar" id="avatar"></div><div><strong id="source"></strong><span id="handle"></span></div><b class="more">•••</b></div><span class="badge" id="badge"></span><h2 id="headline"></h2><p id="copy"></p><div class="clue" id="clue"></div></article><div class="prompt"><p>🤖 <b>Quick decision:</b> How would you classify this post?</p><div class="streak">STREAK <b id="streak">×0</b></div></div><div class="choices"><button class="choice reliable" data-value="reliable"><i>✓</i> RELIABLE</button><button class="choice check" data-value="check"><i>?</i> NEEDS CHECKING</button><button class="choice misleading" data-value="misleading"><i>!</i> MISLEADING</button></div><div class="feedback" id="feedback"><div><b id="feedbackTitle"></b><p id="feedbackCopy"></p></div><button id="next"></button></div></section>
-<section id="result" class="screen panel"><div class="result-mark" id="resultMark">★</div><p class="eyebrow">LEVEL 03 COMPLETE</p><h1 id="resultTitle"></h1><p class="lede" id="resultCopy"></p><div class="results"><div><b id="finalScore"></b><span>POINTS</span></div><div><b id="accuracy"></b><span>ACCURACY</span></div><div><b id="best"></b><span>BEST STREAK</span></div><div><b id="timeLeft"></b><span>TIME LEFT</span></div></div><div class="review" id="review"></div><button class="primary" id="again">Play again ↻</button><button class="secondary" id="overview">Back to level map</button></section>
-<script>
-const stories=[
-{source:"Emergency Management",handle:"@InfopolisEmergency · 3 min",badge:"URGENT SAFETY ALERT",headline:"Evacuate Riverside Zone B before 7:00 p.m.",copy:"A damaged flood barrier may fail. The official alert includes the affected streets, shelter locations, update time, and emergency number.",clue:"Urgent tone · Named authority · Specific verifiable instructions",answer:"reliable",explanation:"Urgency alone does not make a post misleading. This warning comes from the responsible authority and provides precise, checkable instructions."},
-{source:"Truth Warrior 24",handle:"@WakeUpNow24 · 2 min",badge:"THEY ARE TERRIFIED",headline:"Share this before the government deletes it!",copy:"A voice message proves that every bank account will be frozen tonight. Do not ask questions—warn everyone you love!",clue:"Fear · Untraceable audio · Pressure against verification",answer:"misleading",explanation:"The post uses fear and urgency to prevent verification while offering no identifiable source or official confirmation."},
-{source:"Animal Watch",handle:"@AnimalWatchFeed · 22 min",badge:"OUTRAGE",headline:"This video shows a zoo worker hurting an animal",copy:"The ten-second clip is disturbing, but its date, location, uploader, and the events before the recording are unknown.",clue:"Strong reaction · Short clip · Missing origin and context",answer:"check",explanation:"The content deserves careful investigation, but emotion cannot fill the missing information about origin, date, and context."},
-{source:"Community Food Bank",handle:"@InfopolisFoodBank · 1 h",badge:"HELP NEEDED TODAY",headline:"Cold-weather donations needed before 6:00 p.m.",copy:"The verified organization lists requested items, its registered address, contact number, and the same campaign on its official website.",clue:"Emotional appeal · Verified organization · Confirmable campaign",answer:"reliable",explanation:"An emotional appeal can still be reliable when the organization, request, address, and campaign are independently confirmable."},
-{source:"Campus Fury",handle:"@CampusFury · 7 min",badge:"UNBELIEVABLE",headline:"The university BANNED students from drinking water!",copy:"The actual notice temporarily closes one fountain for maintenance and directs students to three nearby refill stations.",clue:"Outrage headline · Official notice contradicts it · Major exaggeration",answer:"misleading",explanation:"The post transforms a limited maintenance notice into an invented campus-wide ban to provoke outrage."},
-{source:"Breaking Earth",handle:"@BreakingEarthNow · 11 min",badge:"TERRIFYING DISCOVERY",headline:"A new object in the sky could threaten Earth",copy:"The post names an observatory but does not link its statement, identify the object, or provide its probability of impact.",clue:"Fear language · Named but unlinked source · Essential probability missing",answer:"check",explanation:"The claim might refer to a real observation, but the missing original statement and risk probability require verification."}
-],labels={reliable:"RELIABLE",check:"NEEDS CHECKING",misleading:"MISLEADING"};let index=0,time=50,score=0,streak=0,best=0,answers=[],interval,locked=false;const $=id=>document.getElementById(id),screens=["intro","play","result"];function show(id){screens.forEach(x=>$(x).classList.toggle("active",x===id))}function start(){index=0;time=50;score=0;streak=0;best=0;answers=[];$("score").textContent=0;show("play");render();clearInterval(interval);interval=setInterval(()=>{time--;$("timer").textContent=`0:${String(time).padStart(2,"0")}`;$("timerBox").classList.toggle("danger",time<=10);if(time<=0)finish()},1000)}function render(){const s=stories[index],pct=Math.round((index+1)/stories.length*100);$("postCount").textContent=`POST ${index+1} OF ${stories.length}`;$("percent").textContent=pct+"%";$("progress").style.width=pct+"%";$("timer").textContent=`0:${String(time).padStart(2,"0")}`;["source","handle","badge","headline","copy"].forEach(id=>$(id).textContent=s[id]);$("avatar").textContent=s.source.split(" ").map(x=>x[0]).slice(0,2).join("");$("clue").textContent="⌕ "+s.clue;$("streak").textContent="×"+streak;$("feedback").className="feedback";document.querySelectorAll(".choice").forEach(b=>{b.disabled=false;b.classList.remove("selected","answer")});locked=false}document.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{if(locked)return;locked=true;const s=stories[index],ok=b.dataset.value===s.answer;streak=ok?streak+1:0;best=Math.max(best,streak);if(ok)score+=100+streak*20;answers.push(ok);$("score").textContent=score;$("streak").textContent="×"+streak;document.querySelectorAll(".choice").forEach(x=>{x.disabled=true;x.classList.toggle("answer",x.dataset.value===s.answer)});b.classList.add("selected");$("feedback").className="feedback visible "+(ok?"correct":"wrong");$("feedbackTitle").textContent=ok?"Correct!":"Not quite — "+labels[s.answer];$("feedbackCopy").textContent=s.explanation;$("next").textContent=index===stories.length-1?"View results →":"Next post →"});function finish(){clearInterval(interval);const correct=answers.filter(Boolean).length,accuracy=Math.round(correct/stories.length*100)||0,old=Number(localStorage.getItem("quickCheckBestScore03")||0);localStorage.setItem("quickCheckBestScore03",Math.max(old,score));localStorage.setItem("quickCheckAccuracy03",accuracy);localStorage.setItem("quickCheckLevel03Complete","true");$("finalScore").textContent=score;$("accuracy").textContent=accuracy+"%";$("best").textContent="×"+best;$("timeLeft").textContent=Math.max(0,time)+"s";$("resultTitle").textContent=accuracy>=80?"Impulse controlled!":"Pause before reacting!";$("resultCopy").textContent=accuracy>=80?"You separated emotional pressure from the evidence behind each claim.":"Try again and ask whether emotion is supported by verifiable evidence or being used to replace it.";$("resultMark").textContent=accuracy>=80?"★":"✓";$("review").innerHTML=stories.map((_,i)=>`<span class="${answers[i]?"ok":"miss"}">${i+1}</span>`).join("");show("result")}$("start").onclick=start;$("again").onclick=start;$("overview").onclick=()=>location.href="quick-check-map.html";$("next").onclick=()=>{if(index===stories.length-1)finish();else{index++;render()}};
-</script></body></html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Level 03 — Emotional Traps | MILBot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/quick-check-level-03.css">
+</head>
+
+<body>
+    <header class="topbar"><a class="brand" href="../index.html"><span>M</span><b>MIL<i>Bot</i></b></a>
+        <div class="level"><small>QUICK CHECK</small><strong>LEVEL 03 · EMOTIONAL TRAPS</strong></div>
+        <nav class="nav"><a href="quick-check-map.html">← <span>LEVEL MAP</span></a><a class="home"
+                href="../index.html">⌂ <span>HOME</span></a>
+            <div class="score">★ <span id="score">0</span></div>
+        </nav>
+    </header>
+    <section id="intro" class="screen panel active">
+        <div class="orbit">03</div>
+        <p class="eyebrow">SPEED CHALLENGE · ADVANCED</p>
+        <h1>Feel the reaction.<br><em>Pause the impulse.</em></h1>
+        <p class="lede">Classify six posts in 50 seconds. Strong emotion is a signal to slow down—not automatic proof
+            that a claim is false.</p>
+        <div class="rules">
+            <div><b>6</b><span>POSTS</span></div>
+            <div><b>50</b><span>SECONDS</span></div>
+            <div><b>3</b><span>CHOICES</span></div>
+        </div><button class="primary" id="start">Start level →</button>
+        <p class="hint">Tip: Check whether urgency or outrage replaces evidence—or simply accompanies a verifiable
+            warning.</p>
+    </section>
+    <section id="play" class="screen play">
+        <div class="hud">
+            <div class="progress-copy"><span id="postCount"></span><b id="percent"></b></div>
+            <div class="track"><i id="progress"></i></div>
+            <div class="timer" id="timerBox"><span>TIME</span><strong id="timer"></strong></div>
+        </div>
+        <article class="post">
+            <div class="post-head">
+                <div class="avatar" id="avatar"></div>
+                <div><strong id="source"></strong><span id="handle"></span></div><b class="more">•••</b>
+            </div><span class="badge" id="badge"></span>
+            <h2 id="headline"></h2>
+            <p id="copy"></p>
+            <div class="clue" id="clue"></div>
+        </article>
+        <div class="prompt">
+            <p>🤖 <b>Quick decision:</b> How would you classify this post?</p>
+            <div class="streak">STREAK <b id="streak">×0</b></div>
+        </div>
+        <div class="choices"><button class="choice reliable" data-value="reliable"><i>✓</i> RELIABLE</button><button
+                class="choice check" data-value="check"><i>?</i> NEEDS CHECKING</button><button
+                class="choice misleading" data-value="misleading"><i>!</i> MISLEADING</button></div>
+        <div class="feedback" id="feedback">
+            <div><b id="feedbackTitle"></b>
+                <p id="feedbackCopy"></p>
+            </div><button id="next"></button>
+        </div>
+    </section>
+    <section id="result" class="screen panel">
+        <div class="result-mark" id="resultMark">★</div>
+        <p class="eyebrow">LEVEL 03 COMPLETE</p>
+        <h1 id="resultTitle"></h1>
+        <p class="lede" id="resultCopy"></p>
+        <div class="results">
+            <div><b id="finalScore"></b><span>POINTS</span></div>
+            <div><b id="accuracy"></b><span>ACCURACY</span></div>
+            <div><b id="best"></b><span>BEST STREAK</span></div>
+            <div><b id="timeLeft"></b><span>TIME LEFT</span></div>
+        </div>
+        <div class="review" id="review"></div><button class="primary" id="again">Play again ↻</button><button
+            class="secondary" id="overview">Back to level map</button>
+    </section>
+    <script>
+        const stories = [
+            { source: "Emergency Management", handle: "@InfopolisEmergency · 3 min", badge: "URGENT SAFETY ALERT", headline: "Evacuate Riverside Zone B before 7:00 p.m.", copy: "A damaged flood barrier may fail. The official alert includes the affected streets, shelter locations, update time, and emergency number.", clue: "Urgent tone · Named authority · Specific verifiable instructions", answer: "reliable", explanation: "Urgency alone does not make a post misleading. This warning comes from the responsible authority and provides precise, checkable instructions." },
+            { source: "Truth Warrior 24", handle: "@WakeUpNow24 · 2 min", badge: "THEY ARE TERRIFIED", headline: "Share this before the government deletes it!", copy: "A voice message proves that every bank account will be frozen tonight. Do not ask questions—warn everyone you love!", clue: "Fear · Untraceable audio · Pressure against verification", answer: "misleading", explanation: "The post uses fear and urgency to prevent verification while offering no identifiable source or official confirmation." },
+            { source: "Animal Watch", handle: "@AnimalWatchFeed · 22 min", badge: "OUTRAGE", headline: "This video shows a zoo worker hurting an animal", copy: "The ten-second clip is disturbing, but its date, location, uploader, and the events before the recording are unknown.", clue: "Strong reaction · Short clip · Missing origin and context", answer: "check", explanation: "The content deserves careful investigation, but emotion cannot fill the missing information about origin, date, and context." },
+            { source: "Community Food Bank", handle: "@InfopolisFoodBank · 1 h", badge: "HELP NEEDED TODAY", headline: "Cold-weather donations needed before 6:00 p.m.", copy: "The verified organization lists requested items, its registered address, contact number, and the same campaign on its official website.", clue: "Emotional appeal · Verified organization · Confirmable campaign", answer: "reliable", explanation: "An emotional appeal can still be reliable when the organization, request, address, and campaign are independently confirmable." },
+            { source: "Campus Fury", handle: "@CampusFury · 7 min", badge: "UNBELIEVABLE", headline: "The university BANNED students from drinking water!", copy: "The actual notice temporarily closes one fountain for maintenance and directs students to three nearby refill stations.", clue: "Outrage headline · Official notice contradicts it · Major exaggeration", answer: "misleading", explanation: "The post transforms a limited maintenance notice into an invented campus-wide ban to provoke outrage." },
+            { source: "Breaking Earth", handle: "@BreakingEarthNow · 11 min", badge: "TERRIFYING DISCOVERY", headline: "A new object in the sky could threaten Earth", copy: "The post names an observatory but does not link its statement, identify the object, or provide its probability of impact.", clue: "Fear language · Named but unlinked source · Essential probability missing", answer: "check", explanation: "The claim might refer to a real observation, but the missing original statement and risk probability require verification." }
+        ], labels = { reliable: "RELIABLE", check: "NEEDS CHECKING", misleading: "MISLEADING" }; let index = 0, time = 50, score = 0, streak = 0, best = 0, answers = [], interval, locked = false; const $ = id => document.getElementById(id), screens = ["intro", "play", "result"]; function show(id) { screens.forEach(x => $(x).classList.toggle("active", x === id)) } function start() { index = 0; time = 50; score = 0; streak = 0; best = 0; answers = []; $("score").textContent = 0; show("play"); render(); clearInterval(interval); interval = setInterval(() => { time--; $("timer").textContent = `0:${String(time).padStart(2, "0")}`; $("timerBox").classList.toggle("danger", time <= 10); if (time <= 0) finish() }, 1000) } function render() { const s = stories[index], pct = Math.round((index + 1) / stories.length * 100); $("postCount").textContent = `POST ${index + 1} OF ${stories.length}`; $("percent").textContent = pct + "%"; $("progress").style.width = pct + "%"; $("timer").textContent = `0:${String(time).padStart(2, "0")}`;["source", "handle", "badge", "headline", "copy"].forEach(id => $(id).textContent = s[id]); $("avatar").textContent = s.source.split(" ").map(x => x[0]).slice(0, 2).join(""); $("clue").textContent = "⌕ " + s.clue; $("streak").textContent = "×" + streak; $("feedback").className = "feedback"; document.querySelectorAll(".choice").forEach(b => { b.disabled = false; b.classList.remove("selected", "answer") }); locked = false } document.querySelectorAll(".choice").forEach(b => b.onclick = () => { if (locked) return; locked = true; const s = stories[index], ok = b.dataset.value === s.answer; streak = ok ? streak + 1 : 0; best = Math.max(best, streak); if (ok) score += 100 + streak * 20; answers.push(ok); $("score").textContent = score; $("streak").textContent = "×" + streak; document.querySelectorAll(".choice").forEach(x => { x.disabled = true; x.classList.toggle("answer", x.dataset.value === s.answer) }); b.classList.add("selected"); $("feedback").className = "feedback visible " + (ok ? "correct" : "wrong"); $("feedbackTitle").textContent = ok ? "Correct!" : "Not quite — " + labels[s.answer]; $("feedbackCopy").textContent = s.explanation; $("next").textContent = index === stories.length - 1 ? "View results →" : "Next post →" }); function finish() { clearInterval(interval); const correct = answers.filter(Boolean).length, accuracy = Math.round(correct / stories.length * 100) || 0, old = Number(localStorage.getItem("quickCheckBestScore03") || 0); localStorage.setItem("quickCheckBestScore03", Math.max(old, score)); localStorage.setItem("quickCheckAccuracy03", accuracy); localStorage.setItem("quickCheckLevel03Complete", "true"); $("finalScore").textContent = score; $("accuracy").textContent = accuracy + "%"; $("best").textContent = "×" + best; $("timeLeft").textContent = Math.max(0, time) + "s"; $("resultTitle").textContent = accuracy >= 80 ? "Impulse controlled!" : "Pause before reacting!"; $("resultCopy").textContent = accuracy >= 80 ? "You separated emotional pressure from the evidence behind each claim." : "Try again and ask whether emotion is supported by verifiable evidence or being used to replace it."; $("resultMark").textContent = accuracy >= 80 ? "★" : "✓"; $("review").innerHTML = stories.map((_, i) => `<span class="${answers[i] ? "ok" : "miss"}">${i + 1}</span>`).join(""); show("result") } $("start").onclick = start; $("again").onclick = start; $("overview").onclick = () => location.href = "quick-check-map.html"; $("next").onclick = () => { if (index === stories.length - 1) finish(); else { index++; render() } };
+    </script>
+</body>
+
+</html>
