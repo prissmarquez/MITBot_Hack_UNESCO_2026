@@ -735,3 +735,19 @@
 .instruccion { font-size: 16px; line-height: 1.7; }
 .mensaje-milbot p { font-size: 14px; line-height: 1.65; }
 button { font-size: 14px; }
+
+/* Conclusión preliminar con escala de lectura amplia */
+.conclusion { padding: 27px; }
+.conclusion-superior { margin-bottom: 22px; }
+.conclusion h2 { margin-bottom: 8px; font-size: 27px; line-height: 1.25; }
+.conclusion-superior p { max-width: 720px; font-size: 15px; line-height: 1.7; }
+.estado-expediente { padding: 8px 11px; font-size: 11px; line-height: 1.4; }
+.frase { grid-template-columns: auto 220px auto minmax(260px,1fr); gap: 12px; padding: 19px; font-size: 16px; line-height: 1.55; }
+.frase select { min-height: 49px; padding: 0 13px; font-size: 14px; line-height: 1.4; }
+.resumen-conclusion { padding: 15px 17px; font-size: 14px; line-height: 1.7; }
+.conclusion .boton-secundario, .conclusion .boton-principal { font-size: 14px; }
+
+@media (max-width: 850px) {
+    .frase { grid-template-columns: 1fr; }
+    .frase select { width: 100%; }
+}

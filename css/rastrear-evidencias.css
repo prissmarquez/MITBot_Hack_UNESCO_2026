@@ -741,3 +741,35 @@
 .instruccion { font-size: 16px; line-height: 1.7; }
 .mensaje-milbot p { font-size: 14px; line-height: 1.65; }
 button { font-size: 14px; }
+
+/* Escala amplia para las herramientas de investigación */
+.zona-herramientas { padding: 24px; }
+.zona-superior { margin-bottom: 20px; gap: 15px; }
+.zona-superior h2 { font-size: 24px; line-height: 1.25; }
+.pistas-abiertas { font-size: 12px; line-height: 1.5; }
+.pistas-abiertas strong { font-size: 15px; }
+.herramientas { gap: 14px; }
+.boton-herramienta { min-height: 82px; padding: 17px; gap: 14px; }
+.icono-herramienta { width: 48px; height: 48px; border-radius: 12px; font-size: 23px; }
+.datos-herramienta { gap: 6px; }
+.datos-herramienta strong { font-size: 16px; line-height: 1.35; }
+.datos-herramienta span { font-size: 13px; line-height: 1.45; }
+.estado-herramienta { font-size: 22px; }
+.resultado { padding: 0 17px 18px; }
+.hallazgo { margin-bottom: 13px; padding: 15px 16px; font-size: 14px; line-height: 1.7; }
+.hallazgo strong { margin-bottom: 7px; font-size: 11px; }
+.fuente-resultado { margin-bottom: 13px; gap: 8px; }
+.fuente-resultado span { padding: 7px 9px; font-size: 11px; line-height: 1.35; }
+.guardar-evidencia { padding: 11px 14px; font-size: 12px; }
+
+/* El expediente lateral usa la misma escala de lectura */
+.expediente-cabecera h2 { font-size: 21px; }
+.contador { font-size: 11px; }
+.mensaje-milbot strong { font-size: 10px; }
+.mensaje-milbot p { font-size: 13px; line-height: 1.65; }
+.espacio { min-height: 92px; }
+
+@media (max-width: 850px) {
+    .herramientas { grid-template-columns: 1fr; }
+    .herramienta.abierta { grid-column: span 1; }
+}
