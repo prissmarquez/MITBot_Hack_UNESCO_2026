@@ -11,4 +11,6 @@ Prototipo web educativo para fortalecer habilidades de alfabetización mediátic
 
 Infopolis guarda en `localStorage` el mejor puntaje de cada misión, desbloquea los niveles en orden y calcula la puntuación total. El botón **Restart game** borra el progreso completo.
 
+Las secciones `Missions`, `Library` y `My progress` ofrecen acceso al catálogo de retos, fichas de consulta y estadísticas guardadas. Las seis misiones tienen mecánicas interactivas y puntuaciones independientes.
+
 El proyecto no requiere compilación: puede abrirse con un servidor estático desde la raíz.

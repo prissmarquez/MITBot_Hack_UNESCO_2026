@@ -77,7 +77,7 @@ const niveles = [
         duracion: "6 minutes",
         recompensa: 120,
         habilidades: ["Privacy", "Scams", "Security"],
-        mensaje: "This district will open after the previous mission and its content are ready.",
+        mensaje: "Inspect the offer carefully. Urgency, fees, and credential requests are warning signs.",
         archivo: "mision-04-mercado-digital.html",
         claveCompletada: "milbotMission04Complete",
         clavePuntos: "milbotMission04Score"
@@ -92,7 +92,7 @@ const niveles = [
         duracion: "8 minutes",
         recompensa: 150,
         habilidades: ["Empathy", "Dialogue", "Citizenship"],
-        mensaje: "Complete every previous level to continue along the route.",
+        mensaje: "Moderate the conversation by combining evidence, empathy, and user safety.",
         archivo: "mision-05-foro-ciudadano.html",
         claveCompletada: "milbotMission05Complete",
         clavePuntos: "milbotMission05Score"
@@ -107,7 +107,7 @@ const niveles = [
         duracion: "12 minutes",
         recompensa: 250,
         habilidades: ["Investigation", "Comparison", "Decision"],
-        mensaje: "The final challenge unlocks after all previous districts are complete.",
+        mensaje: "Build a final case using direct, current, and independently confirmed evidence.",
         archivo: "mision-06-torre-fuentes.html",
         claveCompletada: "milbotMission06Complete",
         clavePuntos: "milbotMission06Score"

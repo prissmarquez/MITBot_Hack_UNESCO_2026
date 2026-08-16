@@ -1,0 +1,1 @@
+@import url("portal-common.css");.library-card{min-height:245px}.library-icon{width:48px;height:48px;display:grid;place-items:center;color:var(--cyan);background:rgba(84,231,223,.08);border:1px solid rgba(84,231,223,.25);border-radius:13px;font-size:22px}.tip-list{margin:14px 0 0;padding-left:19px;color:var(--muted);font-size:14px;line-height:1.7}
