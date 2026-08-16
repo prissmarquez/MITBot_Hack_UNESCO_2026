@@ -727,3 +727,150 @@
                 width: 100%;
             }
         }
+
+        /* =========================================
+           ESCALA LEGIBLE DEL INFORME FINAL
+        ========================================= */
+
+        .desglose {
+            padding: 27px;
+        }
+
+        .seccion-superior {
+            margin-bottom: 22px;
+        }
+
+        .seccion-superior h2 {
+            font-size: 27px;
+            line-height: 1.2;
+        }
+
+        .seccion-superior span {
+            font-size: 12px;
+            letter-spacing: 0.08em;
+        }
+
+        .criterios {
+            gap: 14px;
+        }
+
+        .criterio {
+            min-height: 164px;
+            padding: 18px;
+        }
+
+        .criterio-superior {
+            gap: 12px;
+        }
+
+        .criterio-superior span {
+            font-size: 15px;
+            line-height: 1.3;
+        }
+
+        .criterio-superior strong {
+            font-size: 15px;
+        }
+
+        .barra-criterio {
+            height: 7px;
+            margin-top: 13px;
+        }
+
+        .criterio p {
+            margin-top: 13px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .zona-aprendizaje {
+            gap: 18px;
+        }
+
+        .aprendizaje,
+        .recomendacion {
+            padding: 26px;
+        }
+
+        .aprendizaje > span,
+        .recomendacion > span {
+            font-size: 11px;
+            letter-spacing: 0.08em;
+        }
+
+        .aprendizaje h2,
+        .recomendacion h2 {
+            margin-top: 9px;
+            font-size: 24px;
+            line-height: 1.25;
+        }
+
+        .aprendizaje p,
+        .recomendacion p {
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .aprendizaje-destacado {
+            padding: 16px;
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .lista-recomendaciones {
+            margin-top: 17px;
+            gap: 13px;
+        }
+
+        .recomendacion-item {
+            gap: 11px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .recomendacion-item i {
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+        }
+
+        .acciones {
+            gap: 13px;
+        }
+
+        .boton {
+            min-height: 54px;
+            padding: 0 24px;
+            font-size: 15px;
+        }
+
+        .modal p,
+        .modal-acciones button {
+            font-size: 14px;
+        }
+
+        .modal-acciones button {
+            min-height: 50px;
+        }
+
+        @media (max-width: 850px) {
+            .criterio {
+                min-height: 145px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .desglose,
+            .aprendizaje,
+            .recomendacion {
+                padding: 20px;
+            }
+
+            .seccion-superior h2 {
+                font-size: 24px;
+            }
+
+            .criterio {
+                min-height: auto;
+            }
+        }
