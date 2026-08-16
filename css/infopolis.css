@@ -1108,3 +1108,229 @@
                 animation-iteration-count: 1 !important;
             }
         }
+
+/* =========================================
+   MAPA DE PROGRESO POR NIVELES
+========================================= */
+
+.titulo-seccion {
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 420px) auto;
+    align-items: end;
+}
+
+.boton-reiniciar {
+    padding: 10px 13px;
+    color: var(--texto-secundario);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--linea);
+    border-radius: 9px;
+    font: 700 9px var(--fuente-tecnica);
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.boton-reiniciar:hover {
+    color: var(--rosa);
+    border-color: rgba(255, 84, 120, 0.55);
+}
+
+.mapa {
+    min-height: 760px;
+    background:
+        radial-gradient(circle at 17% 82%, rgba(84, 231, 223, 0.13), transparent 22%),
+        radial-gradient(circle at 74% 19%, rgba(128, 108, 255, 0.15), transparent 25%),
+        linear-gradient(rgba(84, 231, 223, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(84, 231, 223, 0.035) 1px, transparent 1px),
+        #0b0f25;
+    background-size: auto, auto, 34px 34px, 34px 34px, auto;
+}
+
+.mapa::after {
+    content: "";
+    position: absolute;
+    inset: 4%;
+    z-index: 0;
+    border: 1px solid rgba(84, 231, 223, 0.08);
+    border-radius: 48% 52% 44% 56% / 52% 42% 58% 48%;
+    transform: rotate(-2deg);
+    pointer-events: none;
+}
+
+.centro-ciudad {
+    display: none;
+}
+
+.camino {
+    z-index: 3;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, rgba(84, 231, 223, 0.5) 0 10px, transparent 10px 17px);
+    filter: drop-shadow(0 0 5px rgba(84, 231, 223, 0.25));
+}
+
+.camino-1 { width: 30%; top: 79%; left: 23%; transform: rotate(0deg); }
+.camino-2 { width: 43%; top: 48%; left: 23%; transform: rotate(51deg); }
+.camino-3 { width: 31%; top: 48%; left: 34%; transform: rotate(0deg); }
+.camino-4 { width: 30%; top: 37%; left: 57%; transform: rotate(-140deg); }
+.camino-5 { width: 29%; top: 20%; left: 51%; transform: rotate(0deg); }
+
+.zona {
+    width: 178px;
+    min-height: 132px;
+    padding: 15px;
+}
+
+.zona-central { left: 7%; bottom: 7%; top: auto; width: 178px; min-height: 132px; transform: none; }
+.zona-central:hover, .zona-central.seleccionada { transform: translateY(-5px); }
+.zona-laboratorio { right: auto; bottom: 7%; top: auto; left: 40%; }
+.zona-distrito { top: 39%; left: 13%; }
+.zona-mercado { top: 39%; right: auto; bottom: auto; left: 51%; }
+.zona-foro { top: 7%; bottom: auto; left: 31%; }
+.zona-torre { top: 7%; right: 5%; left: auto; }
+
+.numero-nivel {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: rgba(255, 255, 255, 0.25);
+    font: 700 10px var(--fuente-tecnica);
+    letter-spacing: 0.08em;
+}
+
+.zona.actual {
+    animation: pulso-nivel 2.2s ease-in-out infinite;
+}
+
+.zona.completada {
+    border-color: var(--cyan);
+    background: linear-gradient(145deg, rgba(17, 58, 67, 0.98), rgba(11, 15, 35, 0.96));
+}
+
+.zona.completada .zona-estado {
+    color: var(--cyan);
+    background: rgba(84, 231, 223, 0.1);
+}
+
+.zona.bloqueada {
+    opacity: 0.42;
+    filter: grayscale(0.55);
+    cursor: not-allowed;
+}
+
+.zona.bloqueada:hover { transform: none; }
+
+.nivel-niebla { width: 220px; }
+.nivel-niebla strong { color: var(--cyan); }
+.barra-niebla span { width: 0; background: linear-gradient(90deg, var(--cyan), var(--verde)); transition: width 0.45s ease; }
+
+@keyframes pulso-nivel {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(202, 255, 100, 0.12), 0 18px 35px rgba(0,0,0,.3); }
+    50% { box-shadow: 0 0 0 8px rgba(202, 255, 100, 0), 0 0 30px rgba(202, 255, 100, 0.2); }
+}
+
+@media (max-width: 1000px) {
+    .titulo-seccion { grid-template-columns: 1fr auto; }
+    .descripcion { grid-column: 1 / -1; grid-row: 2; margin-top: 12px; text-align: left; }
+}
+
+@media (max-width: 760px) {
+    .mapa { min-height: auto; padding: 18px; display: grid; gap: 14px; }
+    .zona, .zona-central, .zona-laboratorio, .zona-distrito, .zona-mercado, .zona-foro, .zona-torre {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        min-height: 112px;
+        margin: 0;
+        transform: none;
+    }
+    .zona-central:hover, .zona-central.seleccionada { transform: none; }
+    .nivel-niebla { position: relative; right: auto; bottom: auto; width: 100%; margin: 0; }
+    .niebla { display: none; }
+}
+
+/* Ruta precisa entre tarjetas */
+.camino { display: none; }
+
+.ruta-misiones {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.ruta-misiones path {
+    fill: none;
+    stroke: rgba(84, 231, 223, 0.58);
+    stroke-width: 4;
+    stroke-dasharray: 10 9;
+    stroke-linecap: butt;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 0 5px rgba(84, 231, 223, 0.22));
+}
+
+/* Tipografía legible dentro del mapa */
+.zona {
+    width: 190px;
+    min-height: 142px;
+    padding: 17px;
+}
+
+.zona-central {
+    width: 190px;
+    min-height: 142px;
+}
+
+.zona-nombre {
+    margin-bottom: 7px;
+    font-size: 17px;
+    line-height: 1.2;
+}
+
+.zona-tema {
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.zona-estado {
+    margin-top: 10px;
+    padding: 5px 8px;
+    font-size: 9px;
+    line-height: 1.3;
+}
+
+.numero-nivel { font-size: 12px; }
+
+.zona.bloqueada {
+    opacity: 0.66;
+    filter: grayscale(0.25);
+}
+
+@media (max-width: 760px) {
+    .ruta-misiones { display: none; }
+    .zona, .zona-central { width: 100%; min-height: 125px; }
+}
+
+/* Escala de lectura accesible */
+.zona-nombre { font-size: 20px; }
+.zona-tema { font-size: 14px; line-height: 1.55; }
+.zona-estado { font-size: 11px; }
+.panel h2 { font-size: 31px; }
+.panel-tema { font-size: 15px; line-height: 1.45; }
+.panel-descripcion { font-size: 15px; line-height: 1.7; }
+.dato span { font-size: 9px; }.dato strong { font-size: 14px; }
+.lista-habilidades span { font-size: 11px; }
+.mensaje-milbot strong { font-size: 10px; }
+.mensaje-milbot p { font-size: 13px; line-height: 1.6; }
+.boton-mision { font-size: 15px; }
+
+/* Proporciones amplias para tarjetas con texto grande */
+.mapa, .panel { min-height: 980px; }
+.zona, .zona-central { min-height: 155px; }
+.zona-central { bottom: 6%; }
+.zona-laboratorio { bottom: 6%; }
+.zona-distrito, .zona-mercado { top: 38%; }
+.zona-foro, .zona-torre { top: 6%; }

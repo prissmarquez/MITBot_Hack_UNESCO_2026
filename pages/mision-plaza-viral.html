@@ -198,16 +198,35 @@
                     CASE FILE #VP-001
                 </span>
 
+                <div class="guia-milbot" aria-live="polite">
+                    <div class="guia-cabecera">
+                        <span class="milbot-mini">M</span>
+                        <div>
+                            <small>MILBOT · MISSION GUIDE</small>
+                            <strong id="guiaTitulo">First, pause.</strong>
+                        </div>
+                    </div>
+                    <p id="guiaTexto">Do not share or react yet. Look at who published the message and what evidence it provides.</p>
+                    <div class="guia-pasos" aria-label="Important mission instructions">
+                        <button class="guia-paso activo" type="button" data-guia="0">1 · Pause</button>
+                        <button class="guia-paso" type="button" data-guia="1">2 · Verify</button>
+                        <button class="guia-paso" type="button" data-guia="2">3 · Decide</button>
+                    </div>
+                </div>
+
                 <h2>
                     Case overview
                 </h2>
 
-                <p class="situacion">
-                    An account called “School Alerts” claims that all
-                    classes will be canceled tomorrow because of a storm.
-                    Thousands of students have already shared the message,
-                    but the post does not clearly include an official statement.
-                </p>
+                <details class="detalles-caso">
+                    <summary>Read full case context</summary>
+                    <p class="situacion">
+                        An account called “School Alerts” claims that all
+                        classes will be canceled tomorrow because of a storm.
+                        Thousands of students have already shared the message,
+                        but the post does not clearly include an official statement.
+                    </p>
+                </details>
 
                 <div class="objetivo">
 
@@ -229,7 +248,7 @@
 
                 <div class="etapas">
 
-                    <div class="etapa">
+                    <div class="etapa" data-guia="0">
 
                         <span class="etapa-numero">01</span>
 
@@ -240,7 +259,7 @@
 
                     </div>
 
-                    <div class="etapa">
+                    <div class="etapa" data-guia="1">
 
                         <span class="etapa-numero">02</span>
 
@@ -251,7 +270,7 @@
 
                     </div>
 
-                    <div class="etapa">
+                    <div class="etapa" data-guia="1">
 
                         <span class="etapa-numero">03</span>
 
@@ -262,7 +281,7 @@
 
                     </div>
 
-                    <div class="etapa">
+                    <div class="etapa" data-guia="2">
 
                         <span class="etapa-numero">04</span>
 
@@ -353,6 +372,41 @@
     ========================================== -->
 
     <script>
+        const instruccionesGuia = [
+            {
+                titulo: "First, pause.",
+                texto: "Do not share or react yet. Look at who published the message and what evidence it provides."
+            },
+            {
+                titulo: "Verify before believing.",
+                texto: "Check the original source, date, context, and an official school or weather channel. Popularity is not proof."
+            },
+            {
+                titulo: "Decide responsibly.",
+                texto: "Use the evidence to classify the post, then choose an action that stops misinformation instead of amplifying it."
+            }
+        ];
+
+        const guiaTitulo = document.getElementById("guiaTitulo");
+        const guiaTexto = document.getElementById("guiaTexto");
+        const botonesGuia = document.querySelectorAll(".guia-paso");
+
+        function mostrarGuia(indice) {
+            guiaTitulo.textContent = instruccionesGuia[indice].titulo;
+            guiaTexto.textContent = instruccionesGuia[indice].texto;
+            botonesGuia.forEach((boton, posicion) => {
+                boton.classList.toggle("activo", posicion === indice);
+            });
+        }
+
+        botonesGuia.forEach(boton => {
+            boton.addEventListener("click", () => mostrarGuia(Number(boton.dataset.guia)));
+        });
+
+        document.querySelectorAll(".etapa[data-guia]").forEach(etapa => {
+            etapa.addEventListener("click", () => mostrarGuia(Number(etapa.dataset.guia)));
+        });
+
         const confirmarPreparacion =
             document.getElementById("confirmarPreparacion");
 

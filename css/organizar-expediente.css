@@ -730,3 +730,8 @@
                 justify-content: center;
             }
         }
+
+/* Texto de instrucciones más legible */
+.instruccion { font-size: 16px; line-height: 1.7; }
+.mensaje-milbot p { font-size: 14px; line-height: 1.65; }
+button { font-size: 14px; }

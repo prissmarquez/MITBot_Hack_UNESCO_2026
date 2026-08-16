@@ -563,6 +563,16 @@
             String(puntuacionTotal)
         );
 
+        const mejorPuntuacionAnterior = Number(
+            localStorage.getItem("milbotMission01Score") || 0
+        );
+
+        localStorage.setItem("milbotMission01Complete", "true");
+        localStorage.setItem(
+            "milbotMission01Score",
+            String(Math.max(mejorPuntuacionAnterior, puntuacionTotal))
+        );
+
         /* =========================================
            NIVEL, COLOR E INSIGNIA
         ========================================= */

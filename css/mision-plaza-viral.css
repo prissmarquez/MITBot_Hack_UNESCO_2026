@@ -987,3 +987,82 @@
                 animation-iteration-count: 1 !important;
             }
         }
+
+/* Guía interactiva de instrucciones clave */
+.guia-milbot {
+    margin: 16px 0 22px;
+    padding: 16px;
+    background: linear-gradient(145deg, rgba(84, 231, 223, 0.1), rgba(128, 108, 255, 0.08));
+    border: 1px solid rgba(84, 231, 223, 0.38);
+    border-radius: 14px;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+}
+
+.guia-cabecera {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.guia-cabecera small,
+.guia-cabecera strong {
+    display: block;
+}
+
+.guia-cabecera small {
+    margin-bottom: 3px;
+    color: var(--cyan);
+    font: 700 7px var(--fuente-tecnica);
+    letter-spacing: 0.1em;
+}
+
+.guia-cabecera strong { font-size: 13px; }
+.guia-milbot > p { min-height: 45px; margin: 12px 0; color: #dce1f5; font-size: 10px; line-height: 1.55; }
+.guia-pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+
+.guia-paso {
+    padding: 8px 5px;
+    color: var(--texto-secundario);
+    background: rgba(7, 11, 27, 0.45);
+    border: 1px solid var(--linea);
+    border-radius: 8px;
+    font: 700 8px var(--fuente-tecnica);
+    cursor: pointer;
+}
+
+.guia-paso.activo {
+    color: #10131f;
+    background: var(--verde);
+    border-color: var(--verde);
+}
+
+.detalles-caso {
+    margin-bottom: 17px;
+    padding: 11px 13px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--linea);
+    border-radius: 9px;
+}
+
+.detalles-caso summary {
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.detalles-caso .situacion { margin: 11px 0 0; }
+.etapa[data-guia] { cursor: pointer; }
+.etapa[data-guia]:hover { border-color: rgba(84, 231, 223, 0.55); transform: translateX(3px); }
+
+/* Texto principal más legible */
+.texto-publicacion { font-size: 16px; line-height: 1.7; }
+.aviso-publicacion p { font-size: 14px; line-height: 1.6; }
+.panel-mision h2 { font-size: 28px; }
+.situacion, .objetivo p { font-size: 15px; line-height: 1.7; }
+.guia-cabecera strong { font-size: 17px; }
+.guia-milbot > p { min-height: 62px; font-size: 15px; line-height: 1.65; }
+.guia-paso { font-size: 11px; }.detalles-caso summary { font-size: 13px; }
+.etapa strong { font-size: 14px; }.etapa small { font-size: 12px; }
+.habilidad { font-size: 11px; }.mensaje-milbot p { font-size: 14px; line-height: 1.65; }
+.confirmacion label { font-size: 13px; line-height: 1.55; }.boton-comenzar { font-size: 15px; }

@@ -614,3 +614,13 @@
         .resultado .intro {
                 margin: auto;
         }
+
+        /* Texto principal más legible */
+        .intro { font-size: 15px; line-height: 1.75; }
+        .milbot p { font-size: 14px; line-height: 1.65; }
+        .publicacion p { font-size: 15px; line-height: 1.7; }
+        .pregunta>strong { font-size: 17px; }
+        .opcion { padding: 16px; font-size: 14px; line-height: 1.5; }
+        .retro { font-size: 13px; line-height: 1.65; }
+        .pista strong, .fuente p { font-size: 13px; line-height: 1.6; }
+        .boton { font-size: 14px; }

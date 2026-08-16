@@ -1,36 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MILBot — Mission 02: AI Laboratory</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MILBot — Mission 02: AI Laboratory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/mision-02-ai-lab.css">
 </head>
 <body>
-  <header class="topbar"><a class="brand" href="../index.html"><span class="brand-icon">🤖</span><b>MIL<i>Bot</i></b></a><nav class="nav"><a href="infopolis.html">← Infopolis Map</a><a href="../index.html">⌂ Home</a></nav></header>
-  <main class="shell">
-    <div class="mission-head"><div><p class="eyebrow">INFOPOLIS · MISSION 02</p><h1>AI <span>Laboratory</span></h1></div><div class="score"><small>SCORE</small><b id="score">0 / 100</b></div></div>
-    <div class="progress" aria-label="Mission progress"><span id="p0" class="current"></span><span id="p1"></span><span id="p2"></span><span id="p3"></span><span id="p4"></span></div>
+    <header class="topbar">
+        <a class="brand" href="../index.html"><span class="brand-icon">⌁</span><b>MIL<i>Bot</i></b></a>
+        <nav class="nav"><a href="infopolis.html">← Infopolis Map</a><a href="../index.html">⌂ Home</a></nav>
+    </header>
 
-    <section class="panel active" data-step="0"><p class="eyebrow">CASE FILE · THE FABRICATED ANSWER</p><h2>A polished answer is not always a reliable answer.</h2><p class="lead">A student asked an AI assistant for evidence about climate-friendly transportation. The answer sounds confident and includes references—but something may be wrong.</p><div class="bot-line"><span class="bot">🤖</span><p><b>MILBot:</b> Your task is to inspect the answer, verify its support, identify bias, and choose a responsible action. Remember: AI output is a starting point, not a source by itself.</p></div><div class="actions"><button class="primary" onclick="goTo(1)">Enter the laboratory →</button></div></section>
+    <main class="shell audit-shell">
+        <div class="mission-head">
+            <div><p class="eyebrow">INFOPOLIS · MISSION 02 · AI AUDIT MODE</p><h1>AI <span>Laboratory</span></h1></div>
+            <div class="score"><small>AUDIT SCORE</small><b id="score">0 / 100</b></div>
+        </div>
 
-    <section class="panel" data-step="1"><p class="eyebrow">STAGE 1 · INSPECT THE CLAIM</p><h2>What is the answer actually claiming?</h2><div class="ai-card"><span class="label">AI-GENERATED ANSWER</span><h3>“Electric buses eliminate urban transportation emissions.”</h3><p>Electric buses produce absolutely no environmental impact and are always more sustainable than every other form of public transportation. Cities that replace all diesel buses will become carbon-neutral within five years.</p></div><div class="question"><h3>Which statement best identifies the problem?</h3><div class="options" data-answer="1"><button class="option" data-correct="false">The answer is correct because electric buses have no exhaust pipe.</button><button class="option" data-correct="true">The answer uses absolute language and ignores electricity sources, manufacturing, and the rest of the city’s emissions.</button><button class="option" data-correct="false">The only problem is that the answer is too short.</button></div><div class="feedback"></div></div><div class="actions"><button class="primary next" disabled onclick="goTo(2)">Continue →</button></div></section>
+        <div class="audit-progress" aria-label="Mission progress">
+            <span id="p0" class="current"><b>01</b>Scan</span>
+            <span id="p1"><b>02</b>Trace</span>
+            <span id="p2"><b>03</b>Balance</span>
+            <span id="p3"><b>04</b>Repair</span>
+        </div>
 
-    <section class="panel" data-step="2"><p class="eyebrow">STAGE 2 · VERIFY THE REFERENCES</p><h2>Do the citations really support the claim?</h2><div class="ai-card"><span class="label">REFERENCES PROVIDED BY THE AI</span><span class="citation">Morales, J. (2025). Zero-impact electric mobility. Global Clean Transit Journal, 18(4), 21–39.</span><span class="citation">World Sustainable Transport Agency. (2024). The Five-Year Carbon-Neutral City Framework.</span><p>A search of academic databases and official organization directories returns no record of either title or organization.</p></div><div class="question"><h3>What is the strongest conclusion?</h3><div class="options"><button class="option" data-correct="false">The citations are reliable because they look academic.</button><button class="option" data-correct="false">The citations can be used if the writing sounds reasonable.</button><button class="option" data-correct="true">The references may be fabricated and must not be presented as evidence.</button></div><div class="feedback"></div></div><div class="actions"><button class="primary next" disabled onclick="goTo(3)">Continue →</button></div></section>
+        <section class="audit-panel active" data-step="0">
+            <div class="lab-toolbar"><span class="tool-light"></span><b>CLAIM SCANNER</b><small>Select the 3 suspicious phrases</small></div>
+            <div class="audit-layout">
+                <article class="terminal-card">
+                    <span class="terminal-label">AI OUTPUT · UNVERIFIED</span>
+                    <h2>Electric buses and urban emissions</h2>
+                    <p>
+                        Electric buses
+                        <button class="hotspot" data-risk="true">eliminate all transportation emissions</button>
+                        and have
+                        <button class="hotspot" data-risk="true">absolutely no environmental impact</button>.
+                        They can improve local air quality, but the result depends on electricity generation and manufacturing.
+                        Any city that adopts them will
+                        <button class="hotspot" data-risk="true">become carbon-neutral within five years</button>.
+                    </p>
+                </article>
+                <aside class="task-card">
+                    <span class="task-number">TASK 01</span>
+                    <h3>Scan absolute claims</h3>
+                    <p>Click language that promises certainty without showing evidence.</p>
+                    <div class="scan-count"><strong id="scanCount">0 / 3</strong><span>RISKS MARKED</span></div>
+                    <button class="primary" id="scanSubmit" disabled>Run scan →</button>
+                    <div class="tool-feedback" id="scanFeedback"></div>
+                </aside>
+            </div>
+        </section>
 
-    <section class="panel" data-step="3"><p class="eyebrow">STAGE 3 · CHECK FOR BIAS</p><h2>What important context is missing?</h2><div class="ai-card"><span class="label">COMPARISON OMITTED</span><p>The response celebrates one technology but does not compare battery production, local electricity generation, vehicle occupancy, public transit access, maintenance, walking, cycling, or rail alternatives.</p></div><div class="question"><h3>Which revision would make the analysis more balanced?</h3><div class="options"><button class="option" data-correct="true">Compare life-cycle emissions and local conditions, then state the limits of the available evidence.</button><button class="option" data-correct="false">Add more positive adjectives about electric vehicles.</button><button class="option" data-correct="false">Remove all uncertainty so the recommendation sounds decisive.</button></div><div class="feedback"></div></div><div class="actions"><button class="primary next" disabled onclick="goTo(4)">Continue →</button></div></section>
+        <section class="audit-panel" data-step="1">
+            <div class="lab-toolbar"><span class="tool-light"></span><b>SOURCE TRACER</b><small>Test each reference</small></div>
+            <h2>Do these citations exist?</h2>
+            <p class="lead">Use the verification tool. A citation that looks academic is not automatically real.</p>
+            <div class="citation-grid">
+                <article class="source-file" data-source>
+                    <span>REFERENCE A</span>
+                    <h3>Morales, J. (2025)</h3>
+                    <p>“Zero-impact electric mobility.” Global Clean Transit Journal, 18(4).</p>
+                    <button class="trace-button" type="button">⌕ Verify reference</button>
+                    <div class="trace-result">NOT FOUND <small>No journal or article record</small></div>
+                </article>
+                <article class="source-file" data-source>
+                    <span>REFERENCE B</span>
+                    <h3>World Sustainable Transport Agency (2024)</h3>
+                    <p>“The Five-Year Carbon-Neutral City Framework.”</p>
+                    <button class="trace-button" type="button">⌕ Verify organization</button>
+                    <div class="trace-result">NOT FOUND <small>No official organization directory entry</small></div>
+                </article>
+            </div>
+            <div class="actions"><button class="primary" id="traceNext" disabled>Record fabricated sources →</button></div>
+        </section>
 
-    <section class="panel" data-step="4"><p class="eyebrow">STAGE 4 · ACT RESPONSIBLY</p><h2>What should the student do next?</h2><div class="bot-line"><span class="bot">🤖</span><p><b>MILBot:</b> You now know that the answer contains exaggeration, missing context, and references that cannot be found. Choose the action that protects academic integrity.</p></div><div class="question"><h3>Select the best final decision.</h3><div class="options"><button class="option" data-correct="false">Copy the answer and keep the references because the AI generated them.</button><button class="option" data-correct="true">Verify each claim with real primary sources, rewrite the conclusion, and disclose AI assistance when required.</button><button class="option" data-correct="false">Delete the references but keep every claim unchanged.</button></div><div class="feedback"></div></div><div class="actions"><button class="primary next" disabled onclick="finishMission()">Submit verdict →</button></div></section>
+        <section class="audit-panel" data-step="2">
+            <div class="lab-toolbar"><span class="tool-light"></span><b>CONTEXT BALANCER</b><small>Restore what the AI omitted</small></div>
+            <h2>Build a balanced evidence checklist.</h2>
+            <p class="lead">Select every factor that must be compared before making the sustainability claim.</p>
+            <div class="context-grid" id="contextGrid">
+                <button class="context-chip" data-correct="true">Electricity source</button>
+                <button class="context-chip" data-correct="true">Battery manufacturing</button>
+                <button class="context-chip" data-correct="true">Life-cycle emissions</button>
+                <button class="context-chip" data-correct="true">Local transit conditions</button>
+                <button class="context-chip" data-correct="false">More confident adjectives</button>
+                <button class="context-chip" data-correct="false">Number of social-media likes</button>
+            </div>
+            <div class="actions"><div class="tool-feedback" id="contextFeedback"></div><button class="primary" id="contextSubmit">Analyze selection →</button></div>
+        </section>
 
-    <section class="panel result" data-step="5"><div class="medal" id="medal">★</div><p class="eyebrow">MISSION 02 COMPLETE</p><h2 id="resultTitle">AI Evidence Analyst</h2><p class="lead" id="resultText"></p><div class="result-grid"><div class="stat"><b id="finalScore">0</b><span>POINTS</span></div><div class="stat"><b id="accuracy">0%</b><span>ACCURACY</span></div><div class="stat"><b>02</b><span>MISSION</span></div></div><div class="takeaway"><b>Key takeaway</b><p>Generative AI can produce fluent but unsupported content. Pause before trusting it, locate the original evidence, compare context, and remain responsible for the final work.</p></div><div class="actions"><button class="secondary" onclick="restart()">↻ Repeat mission</button><button class="primary" onclick="location.href='infopolis.html'">Return to Infopolis Map →</button></div></section>
-  </main>
-  <script>
-    let step=0, score=0, answered=0;
-    const panels=[...document.querySelectorAll('.panel')];
-    function goTo(n){step=n;panels.forEach(p=>p.classList.toggle('active',Number(p.dataset.step)===n));for(let i=0;i<5;i++){const el=document.getElementById('p'+i);el.className=i<n?'done':i===n?'current':''}window.scrollTo({top:0,behavior:'smooth'})}
-    document.querySelectorAll('.options').forEach(group=>{group.querySelectorAll('.option').forEach(btn=>btn.addEventListener('click',()=>{if(group.dataset.locked)return;group.dataset.locked='1';const ok=btn.dataset.correct==='true';if(ok){score+=25;answered++}group.querySelectorAll('.option').forEach(b=>{b.disabled=true;if(b.dataset.correct==='true')b.classList.add('correct')});if(!ok)btn.classList.add('wrong');const feedback=group.nextElementSibling;feedback.className='feedback show '+(ok?'good':'bad');feedback.innerHTML=ok?'<b>Correct.</b> This choice applies verification, context, and responsible use.':'<b>Not quite.</b> Review the highlighted answer: confidence and polished formatting do not replace verifiable evidence.';group.closest('.panel').querySelector('.next').disabled=false;document.getElementById('score').textContent=score+' / 100'}))});
-    function finishMission(){localStorage.setItem('milbotMission02Complete','true');localStorage.setItem('milbotMission02Score',String(score));const pct=score;document.getElementById('finalScore').textContent=score;document.getElementById('accuracy').textContent=pct+'%';document.getElementById('resultTitle').textContent=pct>=75?'AI Evidence Analyst':'AI Verification Apprentice';document.getElementById('resultText').textContent=pct>=75?'Excellent work. You questioned confidence, checked citations, restored context, and chose an academically responsible action.':'Mission completed. Repeat the case to practice recognizing fabricated sources and overconfident claims.';goTo(5);document.querySelectorAll('.progress span').forEach(x=>x.className='done')}
-    function restart(){score=0;answered=0;document.getElementById('score').textContent='0 / 100';document.querySelectorAll('.options').forEach(g=>{delete g.dataset.locked;g.querySelectorAll('.option').forEach(b=>{b.disabled=false;b.classList.remove('correct','wrong')});const f=g.nextElementSibling;f.className='feedback';f.innerHTML='';g.closest('.panel').querySelector('.next').disabled=true});goTo(0)}
-  </script>
+        <section class="audit-panel" data-step="3">
+            <div class="lab-toolbar"><span class="tool-light"></span><b>ANSWER REPAIR BENCH</b><small>Assemble a responsible workflow</small></div>
+            <h2>Put the verification workflow in order.</h2>
+            <p class="lead">Select the action cards in the order a responsible student should follow.</p>
+            <div class="workflow-bank" id="workflowBank">
+                <button class="workflow-card" data-order="2"><b>Rewrite</b><span>Replace absolutes with a limited conclusion.</span></button>
+                <button class="workflow-card" data-order="1"><b>Verify</b><span>Find real primary sources for each claim.</span></button>
+                <button class="workflow-card" data-order="3"><b>Disclose</b><span>Acknowledge AI assistance when required.</span></button>
+            </div>
+            <div class="workflow-slots" id="workflowSlots"><span>1</span><span>2</span><span>3</span></div>
+            <div class="actions"><button class="secondary" id="workflowReset">Clear order</button><button class="primary" id="workflowSubmit" disabled>Submit audit →</button></div>
+            <div class="tool-feedback" id="workflowFeedback"></div>
+        </section>
+
+        <section class="audit-panel result" data-step="4">
+            <div class="medal">✓</div>
+            <p class="eyebrow">AI AUDIT COMPLETE</p>
+            <h2 id="resultTitle">AI Evidence Auditor</h2>
+            <p class="lead" id="resultText"></p>
+            <div class="result-grid"><div class="stat"><b id="finalScore">0</b><span>POINTS</span></div><div class="stat"><b id="accuracy">0%</b><span>ACCURACY</span></div><div class="stat"><b>02</b><span>MISSION</span></div></div>
+            <div class="takeaway"><b>KEY TAKEAWAY</b><p>AI output is material to audit: scan its language, trace its sources, restore omitted context, and repair the answer before using it.</p></div>
+            <div class="actions"><button class="secondary" id="restartMission">↻ Repeat audit</button><button class="primary" onclick="location.href='infopolis.html'">Return to Infopolis →</button></div>
+        </section>
+    </main>
+
+    <script src="../js/mision-02-ai-lab.js"></script>
 </body>
 </html>
